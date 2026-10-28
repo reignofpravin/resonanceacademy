@@ -1,5 +1,2 @@
-import domReady from '@wordpress/dom-ready';
-
-domReady(() => {
-  //
-});
+// Resonance Academy block editor registry (populated in blocks tasks)
+export {};

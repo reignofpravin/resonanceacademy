@@ -1,4 +1,1 @@
-@import "tailwindcss" theme(static);
-@source "../../app/**/*.php";
-@source "../**/*.blade.php";
-@source "../**/*.js";
+/* Resonance Academy front-end entry — SCSS pipeline lands in the tokens task */
