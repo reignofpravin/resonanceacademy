@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ra/programs",
+  "title": "Resonance Programs",
+  "category": "resonance",
+  "icon": "screenoptions",
+  "description": "Course grid pulled from the Course post type.",
+  "keywords": ["courses", "programs", "grid"],
+  "textdomain": "ra-theme",
+  "supports": {
+    "anchor": true
+  },
+  "attributes": {
+    "kicker": { "type": "string", "default": "Programs" },
+    "heading": { "type": "string", "default": "Courses that move you forward." },
+    "termFilter": { "type": "integer", "default": 0 },
+    "count": { "type": "integer", "default": 6 },
+    "layout": { "type": "string", "default": "3col" }
+  }
+}

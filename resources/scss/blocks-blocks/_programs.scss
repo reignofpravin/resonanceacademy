@@ -1,0 +1,168 @@
+/* =========================================================
+   Module: m-programs — course grid with vinyl-spin hover
+   ========================================================= */
+
+.m-programs {
+  padding: var(--ra-space-section) 0;
+
+  &__header {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: var(--ra-space-gap);
+  }
+
+  &__heading {
+    margin: 0;
+    max-width: 40rem;
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__filter {
+    border: 1px solid var(--ra-line);
+    border-radius: 999px;
+    color: var(--ra-ink);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.45rem 1.1rem;
+    text-decoration: none;
+    transition: background var(--ra-dur-fast) var(--ra-ease), color var(--ra-dur-fast) var(--ra-ease);
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--ra-accent);
+      color: var(--ra-accent);
+    }
+
+    &.is-active {
+      background: var(--ra-ink);
+      border-color: var(--ra-ink);
+      color: var(--ra-canvas);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    gap: var(--ra-space-gap);
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 61.99em) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 47.99em) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    border-radius: var(--ra-radius);
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--ra-shadow);
+    scroll-behavior: smooth;
+    transform-style: preserve-3d;
+  }
+
+  &__thumb {
+    display: block;
+    max-width: 100%;
+    position: relative;
+  }
+
+  &__disc {
+    background:
+      radial-gradient(circle at 35% 35%, rgb(255 255 255 / 55%) 0 18%, transparent 19%),
+      radial-gradient(circle at 50% 50%, var(--ra-clay) 0 12%, var(--ra-ink) 12% 72%, var(--ra-clay) 72% 76%, var(--ra-ink) 76%);
+    border-radius: 50%;
+    display: none;
+    height: 2.5rem;
+    margin: 1rem 0 0 1rem;
+    position: absolute;
+    right: 1rem;
+    top: -0.75rem;
+    width: 2.5rem;
+    z-index: 2;
+  }
+
+  &__body {
+    background: var(--ra-canvas);
+    border: 1px solid var(--ra-line);
+    border-radius: var(--ra-radius);
+    display: grid;
+    gap: 0.65rem;
+    padding: 1.5rem;
+  }
+
+  &__chips {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  &__title {
+    font-size: var(--ra-fs-h3);
+    margin: 0;
+
+    a {
+      color: var(--ra-ink);
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-accent);
+      }
+    }
+  }
+
+  &__meta,
+  &__instruments {
+    color: var(--ra-clay);
+    font-size: 0.875rem;
+    margin: 0;
+
+    a {
+      color: var(--ra-clay);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--ra-accent);
+      }
+    }
+  }
+
+  &__empty {
+    border: 1px dashed var(--ra-line);
+    border-radius: var(--ra-radius);
+    display: grid;
+    gap: 1rem;
+    grid-column: 1 / -1;
+    justify-items: start;
+    padding: 3rem;
+
+    p {
+      color: var(--ra-clay);
+      margin: 0;
+    }
+  }
+}
+
+.c-chip {
+  background: var(--ra-accent);
+  border-radius: 999px;
+  color: var(--ra-canvas);
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.65rem;
+  text-transform: uppercase;
+
+  &--soft {
+    background: var(--ra-sand);
+    color: var(--ra-accent-ink);
+  }
+}
