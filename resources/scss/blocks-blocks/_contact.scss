@@ -1,0 +1,110 @@
+/* =========================================================
+   Module: m-contact — contact split panel with CF7 embed
+   ========================================================= */
+
+.m-contact {
+  background: var(--ra-sand);
+  padding: var(--ra-space-section) 0;
+
+  &__inner {
+    display: grid;
+    gap: var(--ra-space-gap);
+    grid-template-columns: 1.1fr 1fr;
+
+    @media (max-width: 61.99em) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__copy {
+    display: grid;
+    align-content: start;
+    gap: 1.5rem;
+  }
+
+  &__heading {
+    margin: 0;
+  }
+
+  &__text {
+    color: rgb(23 19 16 / 78%);
+    margin: 0;
+    max-width: 32rem;
+  }
+
+  &__form {
+    background: var(--ra-canvas);
+    border: 1px solid var(--ra-line);
+    border-radius: var(--ra-radius);
+    box-shadow: var(--ra-shadow);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  &__fallback {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  &__fallback-title {
+    font-family: var(--ra-font-display);
+    font-size: var(--ra-fs-h3);
+    font-weight: 550;
+    margin: 0;
+  }
+
+  &__fallback-text {
+    color: var(--ra-clay);
+    margin: 0;
+  }
+}
+
+/* CF7 form inside the panel — nudged to our tokens */
+.m-contact__form .wpcf7 {
+  form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .wpcf7-form-control:not([type='submit']) {
+    background: transparent;
+    border: 1px solid var(--ra-line);
+    border-radius: var(--ra-radius-sm);
+    font-family: var(--ra-font-sans);
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    width: 100%;
+
+    &:focus {
+      border-color: var(--ra-accent);
+      outline: 2px solid rgb(194 94 58 / 35%);
+      outline-offset: 1px;
+    }
+  }
+
+  .wpcf7-form .submit,
+  [type='submit'] {
+    background: var(--ra-accent);
+    border: 0;
+    border-radius: 999px;
+    color: var(--ra-canvas);
+    cursor: pointer;
+    font-family: var(--ra-font-sans);
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    transition: background var(--ra-dur-fast) var(--ra-ease);
+
+    &:hover {
+      background: var(--ra-accent-ink);
+    }
+  }
+
+  .wpcf7-not-valid-tip {
+    color: var(--ra-accent-ink);
+    font-size: 0.85rem;
+  }
+
+  .wpcf7-response-output {
+    border: 0;
+    margin: 0;
+  }
+}

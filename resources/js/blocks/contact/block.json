@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ra/contact",
+  "title": "Resonance Contact",
+  "category": "resonance",
+  "icon": "email",
+  "description": "Contact intro copy with an embedded Contact Form 7 form.",
+  "keywords": ["contact", "form", "cf7"],
+  "textdomain": "ra-theme",
+  "supports": {
+    "anchor": true
+  },
+  "attributes": {
+    "kicker": { "type": "string", "default": "Get in touch" },
+    "heading": { "type": "string", "default": "Start your lessons." },
+    "text": { "type": "string", "default": "Tell us what you'd like to play and we'll match you with the right instructor." },
+    "formId": { "type": "integer", "default": 0 }
+  }
+}
