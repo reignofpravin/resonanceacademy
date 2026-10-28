@@ -8,6 +8,13 @@ namespace App;
 
 use Illuminate\Support\Facades\Vite;
 
+use App\PostTypes\PostTypes;
+
+/**
+ * Content model: course / instructor / event post types.
+ */
+add_action('init', [PostTypes::class, 'register'], 5);
+
 /**
  * Inject styles into the block editor.
  *
