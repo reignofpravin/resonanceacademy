@@ -12,9 +12,9 @@ export default defineConfig({
   plugins: [
     laravel({
       input: [
-        'resources/css/app.css',
+        'resources/scss/main.scss',
         'resources/js/app.js',
-        'resources/css/editor.css',
+        'resources/scss/editor.scss',
         'resources/js/editor.js',
       ],
       refresh: true,
