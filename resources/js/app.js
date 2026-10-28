@@ -11,6 +11,7 @@ import * as marquee from './behaviors/marquee'
 import * as reveal from './behaviors/reveal'
 import * as scroll from './behaviors/scroll'
 import * as scroller from './behaviors/scroller'
+import * as slider from './behaviors/slider'
 import * as vinyl from './behaviors/vinyl'
 
 domReady(() => {
@@ -21,5 +22,6 @@ domReady(() => {
   marquee.init()
   vinyl.init()
   scroller.init()
+  slider.init()
   drawpath.init()
 })

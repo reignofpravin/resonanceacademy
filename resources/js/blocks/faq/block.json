@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ra/faq",
+  "title": "Resonance FAQ",
+  "category": "resonance",
+  "icon": "editor-help",
+  "description": "Editable accordion of frequently asked questions.",
+  "keywords": ["faq", "accordion", "questions"],
+  "textdomain": "ra-theme",
+  "supports": {
+    "anchor": true
+  },
+  "attributes": {
+    "kicker": { "type": "string", "default": "Good to know" },
+    "heading": { "type": "string", "default": "Questions, answered." },
+    "items": {
+      "type": "array",
+      "default": [],
+      "items": { "type": "object" }
+    }
+  }
+}
