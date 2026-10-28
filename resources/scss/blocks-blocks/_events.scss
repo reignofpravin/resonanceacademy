@@ -1,0 +1,150 @@
+/* =========================================================
+   Module: m-events — date-badge events list
+   ========================================================= */
+
+.m-events {
+  padding: var(--ra-space-section) 0;
+
+  &__header {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: var(--ra-space-gap);
+  }
+
+  &__heading {
+    margin: 0;
+    max-width: 40rem;
+  }
+
+  &__list {
+    counter-reset: event;
+    display: grid;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    align-items: center;
+    border-top: 1px solid var(--ra-line);
+    display: grid;
+    gap: var(--ra-space-gap);
+    grid-template-columns: auto 1fr auto;
+    padding: 1.75rem 0;
+
+    &:last-child {
+      border-bottom: 1px solid var(--ra-line);
+    }
+
+    @media (max-width: 61.99em) {
+      grid-template-columns: auto 1fr;
+
+      .m-events__actions {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+
+  &__badge {
+    align-items: center;
+    border-radius: var(--ra-radius-sm);
+    color: var(--ra-accent-ink);
+    display: grid;
+    gap: 0.1rem;
+    justify-items: center;
+    min-width: 4.5rem;
+    text-align: center;
+  }
+
+  &__badge-day {
+    font-family: var(--ra-font-display);
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  &__badge-month {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  &__info {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  &__chips {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  &__title {
+    font-size: var(--ra-fs-h3);
+    margin: 0;
+
+    a {
+      color: var(--ra-ink);
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-accent);
+      }
+    }
+  }
+
+  &__meta {
+    color: var(--ra-clay);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  &__more {
+    color: var(--ra-ink);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--ra-accent);
+    }
+  }
+
+  &__empty {
+    border: 1px dashed var(--ra-line);
+    border-radius: var(--ra-radius);
+    padding: 3rem;
+
+    p {
+      color: var(--ra-clay);
+      margin: 0;
+    }
+  }
+}
+
+/* Cards variant */
+.m-events__list--cards {
+  display: grid;
+  gap: var(--ra-space-gap);
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+
+  .m-events__item {
+    background: var(--ra-canvas);
+    border: 1px solid var(--ra-line);
+    border-radius: var(--ra-radius);
+    box-shadow: var(--ra-shadow);
+    display: grid;
+    height: 100%;
+
+    &:last-child {
+      border-bottom: 1px solid var(--ra-line);
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ra/events",
+  "title": "Resonance Events",
+  "category": "resonance",
+  "icon": "calendar-alt",
+  "description": "Upcoming events list with date badges.",
+  "keywords": ["events", "concerts", "masterclass"],
+  "textdomain": "ra-theme",
+  "supports": {
+    "anchor": true
+  },
+  "attributes": {
+    "kicker": { "type": "string", "default": "Calendar" },
+    "heading": { "type": "string", "default": "Play, listen, experience." },
+    "count": { "type": "integer", "default": 4 },
+    "showPastEvents": { "type": "boolean", "default": false },
+    "style": { "type": "string", "default": "rows" }
+  }
+}
