@@ -1,0 +1,183 @@
+/* =========================================================
+   Module: m-archive (head + grid) & m-single (templates)
+   ========================================================= */
+
+.m-archive-head {
+  background: var(--ra-sand);
+  padding: 4rem 0;
+
+  &__title {
+    margin: 0;
+  }
+
+  &__desc {
+    color: rgb(23 19 16 / 72%);
+    max-width: 40rem;
+    margin-top: 1rem;
+  }
+}
+
+.m-archive {
+  padding: var(--ra-space-section) 0;
+
+  &__grid {
+    display: grid;
+    gap: var(--ra-space-gap);
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  }
+
+  &__pagination {
+    margin-top: var(--ra-space-section);
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .page-numbers {
+      color: var(--ra-ink);
+      text-decoration: none;
+
+      &.current {
+        color: var(--ra-accent);
+        font-weight: 700;
+      }
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-accent);
+      }
+    }
+  }
+}
+
+.m-single {
+  &__head {
+    background: var(--ra-sand);
+    padding: 4rem 0;
+
+    .c-kicker a {
+      color: var(--ra-accent);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__standfirst {
+    color: rgb(23 19 16 / 72%);
+    font-size: 1.05rem;
+    margin: 0.75rem 0 0;
+  }
+
+  &__grid {
+    display: grid;
+    gap: var(--ra-space-gap);
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    padding: var(--ra-space-section) 0;
+
+    @media (max-width: 61.99em) {
+      grid-template-columns: 1fr;
+    }
+
+    &--instructor {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+
+  &__media {
+    border-radius: var(--ra-radius);
+    margin: 0 0 var(--ra-space-gap);
+
+    img {
+      border-radius: var(--ra-radius);
+      display: block;
+      width: 100%;
+    }
+
+    &--portrait {
+      max-width: 26rem;
+    }
+
+    &--ph {
+      align-items: center;
+      aspect-ratio: 4 / 5;
+      background: linear-gradient(135deg, var(--ra-sand), var(--ra-clay));
+      border: 1px solid var(--ra-line);
+      color: var(--ra-accent-ink);
+      display: flex;
+      font-size: 3rem;
+      justify-content: center;
+    }
+  }
+
+  &__chips {
+    margin-top: 1.25rem;
+  }
+
+  &__duration {
+    color: var(--ra-clay);
+    font-size: 0.9rem;
+    align-self: center;
+  }
+
+  &__body {
+    font-size: var(--ra-fs-body);
+    line-height: var(--ra-leading-body);
+
+    h2,
+    h3 {
+      margin: 2rem 0 0.75rem;
+    }
+
+    p {
+      margin: 0 0 1.25rem;
+      max-width: 44rem;
+    }
+  }
+
+  &__aside {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+  }
+
+  &__aside-title {
+    font-family: var(--ra-font-sans);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    margin: 1.25rem 0 0;
+    text-transform: uppercase;
+  }
+
+  &__aside-text {
+    color: rgb(23 19 16 / 78%);
+    margin: 0;
+  }
+
+  &__aside-list {
+    display: grid;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    a {
+      color: var(--ra-ink);
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-accent);
+      }
+    }
+  }
+}

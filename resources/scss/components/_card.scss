@@ -1,0 +1,101 @@
+/* =========================================================
+   Component: c-card — shared archive card for course /
+   instructor / event listings (used by archive templates only;
+   ra/* blocks keep their own markup)
+   ========================================================= */
+
+.c-card {
+  background: var(--ra-canvas);
+  border: 1px solid var(--ra-line);
+  border-radius: var(--ra-radius);
+  box-shadow: var(--ra-shadow);
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+
+  &__thumb {
+    display: block;
+    max-width: 100%;
+
+    img {
+      display: block;
+      height: auto;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    &--ph {
+      align-items: center;
+      background: linear-gradient(135deg, var(--ra-sand), var(--ra-clay));
+      color: var(--ra-accent-ink);
+      display: flex;
+      font-size: 2rem;
+      justify-content: center;
+    }
+  }
+
+  &__body {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding: 1.5rem;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  &__kicker {
+    font-size: 0.7rem;
+  }
+
+  &__title {
+    font-size: var(--ra-fs-h3);
+    margin: 0;
+
+    a {
+      color: var(--ra-ink);
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-accent);
+      }
+    }
+  }
+
+  &__excerpt {
+    color: rgb(23 19 16 / 72%);
+    margin: 0;
+  }
+
+  &__meta {
+    color: var(--ra-clay);
+    font-size: 0.9rem;
+    margin: 0;
+
+    span + span {
+      margin-left: 0.6rem;
+    }
+  }
+
+  &__actions {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  &__more {
+    color: var(--ra-ink);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--ra-accent);
+    }
+  }
+}
