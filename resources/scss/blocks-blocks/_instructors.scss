@@ -1,0 +1,140 @@
+/* =========================================================
+   Module: m-instructors — scroll-snap horizontal card scroller
+   ========================================================= */
+
+.m-instructors {
+  padding: var(--ra-space-section) 0;
+
+  &__header {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: var(--ra-space-gap);
+  }
+
+  &__heading {
+    margin: 0;
+    max-width: 40rem;
+  }
+
+  &__track {
+    display: flex;
+    gap: var(--ra-space-gap);
+    overflow-x: auto;
+    padding: 0.25rem var(--ra-container-pad);
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__card {
+    background: var(--ra-canvas);
+    border: 1px solid var(--ra-line);
+    border-radius: var(--ra-radius);
+    box-shadow: var(--ra-shadow);
+    display: grid;
+    flex: 0 0 min(22rem, 80vw);
+    grid-template-columns: 1fr;
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+
+  &__photo {
+    height: 12rem;
+    overflow: hidden;
+
+    img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &--ph {
+      align-items: center;
+      background: linear-gradient(135deg, var(--ra-sand), var(--ra-clay));
+      color: var(--ra-accent-ink);
+      display: flex;
+      font-size: 2.5rem;
+      justify-content: center;
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+
+  &__role {
+    font-size: 0.7rem;
+  }
+
+  &__name {
+    font-size: var(--ra-fs-h3);
+    margin: 0;
+
+    a {
+      color: var(--ra-ink);
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-accent);
+      }
+    }
+  }
+
+  &__instruments {
+    color: var(--ra-accent-ink);
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__excerpt {
+    color: var(--ra-clay);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  &__empty {
+    border: 1px dashed var(--ra-line);
+    border-radius: var(--ra-radius);
+    margin: 0 var(--ra-container-pad);
+    padding: 3rem;
+
+    p {
+      color: var(--ra-clay);
+      margin: 0;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    padding-top: 1.25rem;
+  }
+
+  &__arrow {
+    align-items: center;
+    background: transparent;
+    border: 1px solid var(--ra-line);
+    border-radius: 50%;
+    color: var(--ra-ink);
+    cursor: pointer;
+    display: inline-flex;
+    height: 2.75rem;
+    justify-content: center;
+    transition: background var(--ra-dur-fast) var(--ra-ease), color var(--ra-dur-fast) var(--ra-ease);
+    width: 2.75rem;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--ra-ink);
+      color: var(--ra-canvas);
+    }
+  }
+}

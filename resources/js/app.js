@@ -10,6 +10,7 @@ import * as heroWave from './behaviors/hero-wave'
 import * as marquee from './behaviors/marquee'
 import * as reveal from './behaviors/reveal'
 import * as scroll from './behaviors/scroll'
+import * as scroller from './behaviors/scroller'
 import * as vinyl from './behaviors/vinyl'
 
 domReady(() => {
@@ -19,5 +20,6 @@ domReady(() => {
   count.init()
   marquee.init()
   vinyl.init()
+  scroller.init()
   drawpath.init()
 })

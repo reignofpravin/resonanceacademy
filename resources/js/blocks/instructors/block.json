@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ra/instructors",
+  "title": "Resonance Instructors",
+  "category": "resonance",
+  "icon": "groups",
+  "description": "Horizontal scroller of instructor cards from the Instructor post type.",
+  "keywords": ["instructors", "faculty", "scroller"],
+  "textdomain": "ra-theme",
+  "supports": {
+    "anchor": true
+  },
+  "attributes": {
+    "kicker": { "type": "string", "default": "Faculty" },
+    "heading": { "type": "string", "default": "Learn from the players." },
+    "count": { "type": "integer", "default": 8 }
+  }
+}
