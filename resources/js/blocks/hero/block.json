@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ra/hero",
+  "title": "Resonance Hero",
+  "category": "resonance",
+  "icon": "megaphone",
+  "description": "Full-width editorial hero with animated canvas waves.",
+  "keywords": ["hero", "resonance"],
+  "textdomain": "ra-theme",
+  "supports": {
+    "anchor": true
+  },
+  "attributes": {
+    "kicker": { "type": "string", "default": "Resonance Academy" },
+    "heading": { "type": "string", "default": "Find your frequency." },
+    "text": { "type": "string", "default": "" },
+    "ctaLabel": { "type": "string", "default": "Enrol today" },
+    "ctaUrl": { "type": "string", "default": "#contact" },
+    "secondaryLabel": { "type": "string", "default": "" },
+    "secondaryUrl": { "type": "string", "default": "" },
+    "canvasStyle": { "type": "string", "default": "wave" }
+  }
+}
