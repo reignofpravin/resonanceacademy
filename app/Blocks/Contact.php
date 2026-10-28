@@ -37,7 +37,7 @@ final class Contact extends Block
 
         $list = array_values(array_map(static fn ($form): array => [
             'id' => $form->id(),
-            'title' => $form->get_title(),
+            'title' => $form->title(),
         ], is_array($forms) ? $forms : []));
 
         printf('<script>window.raContactForms = %s;</script>', wp_json_encode($list));

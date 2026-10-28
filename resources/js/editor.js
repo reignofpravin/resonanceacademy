@@ -23,4 +23,14 @@ const modules = import.meta.glob('./blocks/*/index.js', {
   eager: true,
 })
 
+// Each block module exports a `registerXxx()` initializer; call every
+// exported function that begins with `register` once, in stable order.
+Object.values(modules).forEach((mod) => {
+  Object.entries(mod).forEach(([name, initializer]) => {
+    if (name.startsWith('register') && typeof initializer === 'function') {
+      initializer()
+    }
+  })
+})
+
 export default modules

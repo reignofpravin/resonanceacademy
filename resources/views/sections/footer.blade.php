@@ -14,5 +14,10 @@
     <p class="m-site-footer__legal">
       &copy; {{ date_i18n('Y') }} {{ $siteName }} &middot; {{ __('All rights reserved.', 'ra-theme') }}
     </p>
+
+    <p class="m-site-footer__signoff">
+      <x-icon icon="note" />
+      <span>{{ __('Let the music move you.', 'ra-theme') }}</span>
+    </p>
   </div>
 </footer>

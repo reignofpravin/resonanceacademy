@@ -2,7 +2,8 @@
  * ra/marquee editor.
  */
 import { __ } from '@wordpress/i18n'
-import { TextControl, Button, InspectorControls, PanelBody, useBlockProps } from '@wordpress/block-editor'
+import { TextControl, Button, PanelBody } from '@wordpress/components'
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor'
 
 const Edit = ({ attributes, setAttributes }) => {
   const { items, duration } = attributes

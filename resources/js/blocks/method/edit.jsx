@@ -2,8 +2,8 @@
  * ra/method editor.
  */
 import { __ } from '@wordpress/i18n'
-import { MediaUpload, MediaUploadCheck, RichText, useBlockProps } from '@wordpress/block-editor'
-import { Button, InspectorControls, PanelBody, TextControl, TextareaControl } from '@wordpress/components'
+import { MediaUpload, MediaUploadCheck, MediaPlaceholder, InspectorControls, RichText, useBlockProps } from '@wordpress/block-editor'
+import { Button, PanelBody, TextControl, TextareaControl } from '@wordpress/components'
 
 const Edit = ({ attributes, setAttributes }) => {
   const { kicker, heading, imageId, steps } = attributes

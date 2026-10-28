@@ -5,8 +5,8 @@
  * active); falls back to an install hint when the global is absent.
  */
 import { __ } from '@wordpress/i18n'
-import { Placeholder, RichText, SelectControl, TextareaControl, TextControl, useBlockProps } from '@wordpress/block-editor'
-import { InspectorControls, PanelBody } from '@wordpress/components'
+import { RichText, useBlockProps, InspectorControls } from '@wordpress/block-editor'
+import { Placeholder, SelectControl, PanelBody, TextControl, TextareaControl } from '@wordpress/components'
 
 const Edit = ({ attributes, setAttributes }) => {
   const { kicker, heading, text, formId } = attributes

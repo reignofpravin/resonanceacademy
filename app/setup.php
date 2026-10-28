@@ -31,6 +31,18 @@ add_filter('block_editor_settings_all', function ($settings) {
 });
 
 /**
+ * Self-hosted favicon + web app icon (versioned through the Vite manifest).
+ *
+ * @return void
+ */
+add_action('wp_head', function () {
+    printf(
+        '<link rel="icon" type="image/png" href="%s" sizes="512x512">' . "\n",
+        esc_url(Vite::asset('resources/images/favicon.png')),
+    );
+});
+
+/**
  * Inject scripts into the block editor.
  *
  * @return void

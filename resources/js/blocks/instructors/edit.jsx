@@ -2,8 +2,8 @@
  * ra/instructors editor.
  */
 import { __ } from '@wordpress/i18n'
-import { RichText, Placeholder, Spinner, useBlockProps } from '@wordpress/block-editor'
-import { PanelBody, InspectorControls, RangeControl } from '@wordpress/components'
+import { RichText, InspectorControls, useBlockProps } from '@wordpress/block-editor'
+import { Placeholder, PanelBody, RangeControl, Spinner } from '@wordpress/components'
 import apiFetch from '@wordpress/api-fetch'
 import { useEffect, useState } from '@wordpress/element'
 

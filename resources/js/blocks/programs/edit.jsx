@@ -6,10 +6,8 @@ import {
   InspectorControls,
   RichText,
   useBlockProps,
-  Placeholder,
-  Spinner,
 } from '@wordpress/block-editor'
-import { PanelBody, SelectControl, RangeControl } from '@wordpress/components'
+import { PanelBody, SelectControl, RangeControl, Spinner, Placeholder } from '@wordpress/components'
 import apiFetch from '@wordpress/api-fetch'
 import { useEffect, useState } from '@wordpress/element'
 
@@ -30,7 +28,7 @@ const Edit = ({ attributes, setAttributes }) => {
   // eslint-disable-next-line jsdoc/require-jsdoc
   useEffect(() => {
     Promise.all([
-      apiFetch({ path: '/wp/v2/course-category?per_page=100' }),
+      apiFetch({ path: '/wp/v2/course_category?per_page=100' }),
       apiFetch({ path: '/wp/v2/course?per_page=100&_embed=wp:featuredmedia' }),
     ]).then(([terms, posts]) => {
       setCourseCategories(terms)

@@ -9,9 +9,9 @@
 
                 <div class="m-method__media">
                     {!! $image ?: '' !!}
-                    <svg class="m-method__clef" width="34" height="120" viewBox="0 0 34 120" fill="none" aria-hidden="true">
-                        <path d="M17 4c-7 0-11 5-11 11 0 8 7 12 7 20 0 12-11 16-11 34 0 22 14 30 18 41" stroke="var(--ra-accent)" stroke-width="2" pathLength="1" data-ra-path></path>
-                    </svg>
+                    <div class="m-method__clef" aria-hidden="true">
+                        <x-icon icon="treble" />
+                    </div>
                 </div>
             </div>
 

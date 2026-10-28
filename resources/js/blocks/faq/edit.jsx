@@ -2,7 +2,8 @@
  * ra/faq editor.
  */
 import { __ } from '@wordpress/i18n'
-import { RichText, TextControl, TextareaControl, Button, InspectorControls, PanelBody, useBlockProps } from '@wordpress/block-editor'
+import { RichText, InspectorControls, useBlockProps } from '@wordpress/block-editor'
+import { TextControl, TextareaControl, Button, PanelBody } from '@wordpress/components'
 
 const Edit = ({ attributes, setAttributes }) => {
   const { kicker, heading, items } = attributes

@@ -2,8 +2,8 @@
  * ra/events editor.
  */
 import { __ } from '@wordpress/i18n'
-import { RichText, Placeholder, Spinner, useBlockProps } from '@wordpress/block-editor'
-import { InspectorControls, PanelBody, RangeControl, SelectControl, ToggleControl } from '@wordpress/components'
+import { RichText, InspectorControls, useBlockProps } from '@wordpress/block-editor'
+import { Placeholder, PanelBody, RangeControl, SelectControl, ToggleControl, Spinner } from '@wordpress/components'
 import apiFetch from '@wordpress/api-fetch'
 import { useEffect, useState } from '@wordpress/element'
 
