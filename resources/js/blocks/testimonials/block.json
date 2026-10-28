@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ra/testimonials",
+  "title": "Resonance Testimonials",
+  "category": "resonance",
+  "icon": "format-quote",
+  "description": "Rotating slider of student and family quotes.",
+  "keywords": ["quotes", "testimonials", "slider"],
+  "textdomain": "ra-theme",
+  "supports": {
+    "anchor": true
+  },
+  "attributes": {
+    "kicker": { "type": "string", "default": "Student voices" },
+    "heading": { "type": "string", "default": "What our players say." },
+    "quotes": {
+      "type": "array",
+      "default": [],
+      "items": { "type": "object" }
+    },
+    "interval": { "type": "integer", "default": 8 }
+  }
+}
