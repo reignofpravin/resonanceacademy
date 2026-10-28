@@ -3,20 +3,20 @@
    ========================================================= */
 
 @font-face {
-  font-family: "Fraunces";
+  font-family: Fraunces;
   font-style: normal;
   font-weight: 400 700;
-  font-display: swap;
   src: url("@fonts/fraunces-var-latin.woff2") format("woff2");
+  font-display: swap;
   unicode-range: U+0000-00FF, U+2000-206F, U+2074, U+2212, U+2215;
 }
 
 @font-face {
-  font-family: "Fraunces";
+  font-family: Fraunces;
   font-style: normal;
   font-weight: 400 700;
-  font-display: swap;
   src: url("@fonts/fraunces-var-latin-ext.woff2") format("woff2");
+  font-display: swap;
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02DD, U+1E00-1EFF;
 }
 
@@ -24,8 +24,8 @@
   font-family: "Instrument Sans";
   font-style: normal;
   font-weight: 400 700;
-  font-display: swap;
   src: url("@fonts/instrument-sans-var-latin.woff2") format("woff2");
+  font-display: swap;
   unicode-range: U+0000-00FF, U+2000-206F, U+2074, U+2212, U+2215;
 }
 
@@ -33,8 +33,8 @@
   font-family: "Instrument Sans";
   font-style: normal;
   font-weight: 400 700;
-  font-display: swap;
   src: url("@fonts/instrument-sans-var-latin-ext.woff2") format("woff2");
+  font-display: swap;
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02DD, U+1E00-1EFF;
 }
 
@@ -42,7 +42,7 @@
   font-family: "Instrument Sans";
   font-style: italic;
   font-weight: 400 700;
-  font-display: swap;
   src: url("@fonts/instrument-sans-var-italic-latin.woff2") format("woff2");
+  font-display: swap;
   unicode-range: U+0000-00FF, U+2000-206F, U+2074, U+2212, U+2215;
 }

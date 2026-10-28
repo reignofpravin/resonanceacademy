@@ -11,41 +11,41 @@
     justify-content: space-between;
 
     &--band {
-      border-block: 1px solid var(--ra-line);
       padding: 2rem 0;
+      border-block: 1px solid var(--ra-line);
     }
 
     &--inline {
       padding: 0;
     }
 
-    @media (max-width: 61.99em) {
-      align-items: center;
+    @media (width <= 61.99em) {
       flex-direction: column;
+      align-items: center;
     }
   }
 
   &__item {
     text-align: center;
 
-    @media (min-width: 62em) {
+    @media (width >= 62em) {
       text-align: left;
     }
   }
 
   &__label {
-    color: var(--ra-clay);
-    font-size: 0.85rem;
-    letter-spacing: 0.06em;
     margin: 0;
+    font-size: 0.85rem;
+    color: var(--ra-clay);
+    letter-spacing: 0.06em;
   }
 
   &__value {
-    color: var(--ra-ink);
+    margin: 0.25rem 0 0;
     font-family: var(--ra-font-display);
     font-size: clamp(2.25rem, 4vw, 3.25rem);
     font-weight: 550;
     line-height: 1.05;
-    margin: 0.25rem 0 0;
+    color: var(--ra-ink);
   }
 }

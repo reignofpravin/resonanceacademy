@@ -12,32 +12,32 @@
   }
 
   &__heading {
-    margin: 0;
     max-width: 40rem;
+    margin: 0;
   }
 
   &__list {
-    counter-reset: event;
     display: grid;
     gap: 0;
-    list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    list-style: none;
+    counter-reset: event;
   }
 
   &__item {
-    align-items: center;
-    border-top: 1px solid var(--ra-line);
     display: grid;
-    gap: var(--ra-space-gap);
     grid-template-columns: auto 1fr auto;
+    gap: var(--ra-space-gap);
+    align-items: center;
     padding: 1.75rem 0;
+    border-top: 1px solid var(--ra-line);
 
     &:last-child {
       border-bottom: 1px solid var(--ra-line);
     }
 
-    @media (max-width: 61.99em) {
+    @media (width <= 61.99em) {
       grid-template-columns: auto 1fr;
 
       .m-events__actions {
@@ -47,14 +47,14 @@
   }
 
   &__badge {
-    align-items: center;
-    border-radius: var(--ra-radius-sm);
-    color: var(--ra-accent-ink);
     display: grid;
     gap: 0.1rem;
+    align-items: center;
     justify-items: center;
     min-width: 4.5rem;
+    color: var(--ra-accent-ink);
     text-align: center;
+    border-radius: var(--ra-radius-sm);
   }
 
   &__badge-day {
@@ -66,8 +66,8 @@
 
   &__badge-month {
     font-size: 0.75rem;
-    letter-spacing: 0.15em;
     text-transform: uppercase;
+    letter-spacing: 0.15em;
   }
 
   &__info {
@@ -81,8 +81,8 @@
   }
 
   &__title {
-    font-size: var(--ra-fs-h3);
     margin: 0;
+    font-size: var(--ra-fs-h3);
 
     a {
       color: var(--ra-ink);
@@ -96,9 +96,9 @@
   }
 
   &__meta {
-    color: var(--ra-clay);
-    font-size: 0.9rem;
     margin: 0;
+    font-size: 0.9rem;
+    color: var(--ra-clay);
   }
 
   &__actions {
@@ -107,8 +107,8 @@
   }
 
   &__more {
-    color: var(--ra-ink);
     font-weight: 600;
+    color: var(--ra-ink);
     text-decoration: none;
 
     &:hover,
@@ -118,13 +118,13 @@
   }
 
   &__empty {
+    padding: 3rem;
     border: 1px dashed var(--ra-line);
     border-radius: var(--ra-radius);
-    padding: 3rem;
 
     p {
-      color: var(--ra-clay);
       margin: 0;
+      color: var(--ra-clay);
     }
   }
 }
@@ -132,16 +132,16 @@
 /* Cards variant */
 .m-events__list--cards {
   display: grid;
-  gap: var(--ra-space-gap);
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: var(--ra-space-gap);
 
   .m-events__item {
+    display: grid;
+    height: 100%;
     background: var(--ra-canvas);
     border: 1px solid var(--ra-line);
     border-radius: var(--ra-radius);
     box-shadow: var(--ra-shadow);
-    display: grid;
-    height: 100%;
 
     &:last-child {
       border-bottom: 1px solid var(--ra-line);

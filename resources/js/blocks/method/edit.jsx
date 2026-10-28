@@ -2,17 +2,12 @@
  * ra/method editor.
  */
 import { __ } from '@wordpress/i18n'
-import { MediaUpload, MediaUploadCheck, MediaPlaceholder, InspectorControls, RichText, useBlockProps } from '@wordpress/block-editor'
+import { MediaUpload, MediaUploadCheck, MediaPlaceholder, InspectorControls, useBlockProps } from '@wordpress/block-editor'
 import { Button, PanelBody, TextControl, TextareaControl } from '@wordpress/components'
 
 const Edit = ({ attributes, setAttributes }) => {
   const { kicker, heading, imageId, steps } = attributes
   const blockProps = useBlockProps({ className: 'm-method' })
-
-  const image = imageId ? wp.element.createElement('img', {
-    src: wp.data.select('core').getMedia(imageId)?.source_url ?? '',
-    alt: '',
-  }) : null
 
   const updateStep = (index, patch) => {
     const next = steps.map((step, i) => (i === index ? { ...step, ...patch } : step))

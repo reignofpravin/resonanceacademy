@@ -45,5 +45,9 @@ export const init = (): void => {
 
     event.preventDefault()
     lenis.scrollTo(target as HTMLElement, { offset: -80 })
+
+    // Keyboard: hand focus to the destination (native hash navigation was
+    // suppressed above, so focus must be moved explicitly).
+    ;(target as HTMLElement).focus({ preventScroll: true })
   }, true)
 }

@@ -3,14 +3,14 @@
    ========================================================= */
 
 .c-skip-link {
-  background: var(--ra-ink);
-  border-radius: var(--ra-radius-sm);
-  color: var(--ra-canvas);
-  left: 1rem;
-  padding: 0.5rem 1rem;
   position: absolute;
   top: -100%;
+  left: 1rem;
   z-index: 100;
+  padding: 0.5rem 1rem;
+  color: var(--ra-canvas);
+  background: var(--ra-ink);
+  border-radius: var(--ra-radius-sm);
 
   &:focus {
     top: 1rem;

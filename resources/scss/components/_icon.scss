@@ -3,18 +3,18 @@
    ========================================================= */
 
 .c-icon {
-  color: var(--ra-accent);
   display: inline-block;
   vertical-align: middle;
+  color: var(--ra-accent);
 }
 
 .m-site-footer__signoff {
-  color: var(--ra-accent);
-  align-items: center;
   display: flex;
+  gap: 0.5rem;
+  align-items: center;
   font-family: var(--ra-font-display);
   font-size: 0.95rem;
-  gap: 0.5rem;
+  color: var(--ra-accent);
 
   span {
     color: var(--ra-clay);

@@ -3,18 +3,18 @@
    ========================================================= */
 
 .c-marquee {
+  position: relative;
   display: flex;
   flex-wrap: nowrap;
-  overflow: hidden;
-  position: relative;
   width: 100%;
+  overflow: hidden;
 
   &__track {
-    animation: ra-marquee-slide var(--ra-marquee-duration, 30s) linear infinite;
     display: inline-flex;
     flex-shrink: 0;
     flex-wrap: nowrap;
     white-space: nowrap;
+    animation: ra-marquee-slide var(--ra-marquee-duration, 30s) linear infinite;
     will-change: transform;
   }
 

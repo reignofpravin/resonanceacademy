@@ -25,7 +25,6 @@ const Edit = ({ attributes, setAttributes }) => {
 
   const blockProps = useBlockProps({ className: 'm-programs' })
 
-  // eslint-disable-next-line jsdoc/require-jsdoc
   useEffect(() => {
     Promise.all([
       apiFetch({ path: '/wp/v2/course_category?per_page=100' }),
@@ -35,16 +34,13 @@ const Edit = ({ attributes, setAttributes }) => {
       setCourses(posts)
       setLoading(false)
     }).catch(() => setLoading(false))
-    // eslint-disable-next-line jsdoc/require-jsdoc
   }, [])
 
-  // eslint-disable-next-line jsdoc/require-jsdoc
   const filtered = termFilter
     ? courses.filter((course) => course.course_category?.includes(termFilter))
     : courses
   const visible = filtered.slice(0, count || 6)
 
-  // eslint-disable-next-line jsdoc/require-jsdoc
   return (
     <section { ...blockProps }>
       <InspectorControls>

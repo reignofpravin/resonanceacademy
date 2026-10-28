@@ -5,10 +5,10 @@
    ========================================================= */
 
 .m-marquee {
-  background: var(--ra-accent);
-  color: var(--ra-canvas);
   padding: 1.1rem 0;
   overflow: hidden;
+  color: var(--ra-canvas);
+  background: var(--ra-accent);
 
   &__item {
     font-family: var(--ra-font-display);
@@ -20,7 +20,7 @@
 
   &__sep {
     margin: 0 1.5rem;
-    opacity: 0.7;
     white-space: nowrap;
+    opacity: 70%;
   }
 }

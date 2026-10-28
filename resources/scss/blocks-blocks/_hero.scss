@@ -3,20 +3,20 @@
    ========================================================= */
 
 .m-hero {
-  align-items: center;
+  position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   min-height: 82vh;
   padding: calc(var(--ra-space-section) * 0.75) 0 var(--ra-space-section);
-  position: relative;
   overflow: hidden;
 }
 
 .m-hero__canvas {
-  height: 100%;
-  inset: 0;
   position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
 
   &--static {
     background:
@@ -26,9 +26,9 @@
 }
 
 .m-hero__inner {
+  position: relative;
   display: grid;
   gap: var(--ra-space-gap);
-  position: relative;
 }
 
 .m-hero__copy {
@@ -46,28 +46,28 @@
 }
 
 .m-hero__lead {
+  max-width: 42rem;
+  margin: 0;
   font-size: clamp(1.125rem, 2vw, 1.5rem);
   line-height: var(--ra-leading-body);
-  margin: 0;
-  max-width: 42rem;
 }
 
 .m-hero__actions {
-  align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 0.875rem;
+  align-items: center;
 }
 
 .m-hero__scroll-cue {
-  align-items: center;
+  position: absolute;
   bottom: 1.5rem;
-  color: var(--ra-ink);
   display: inline-flex;
   flex-direction: column;
-  font-size: 0.75rem;
   gap: 0.35rem;
-  letter-spacing: 0.12em;
-  position: absolute;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--ra-ink);
   text-transform: uppercase;
+  letter-spacing: 0.12em;
 }

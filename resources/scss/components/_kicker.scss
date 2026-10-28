@@ -3,20 +3,20 @@
    ========================================================= */
 
 .c-kicker {
-  color: var(--ra-accent);
   display: inline-flex;
   align-items: center;
   font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  color: var(--ra-accent);
   text-transform: uppercase;
+  letter-spacing: 0.14em;
 
   &::before {
-    background: var(--ra-accent);
-    border-radius: 999px;
-    content: "";
+    width: 2rem;
     height: 1px;
     margin-right: 0.75rem;
-    width: 2rem;
+    content: "";
+    background: var(--ra-accent);
+    border-radius: 999px;
   }
 }

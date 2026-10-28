@@ -18,7 +18,7 @@
 
     @include('sections.header')
 
-    <main id="main-content" class="m-site-main">
+    <main id="main-content" class="m-site-main" tabindex="-1">
       @yield('content')
     </main>
 

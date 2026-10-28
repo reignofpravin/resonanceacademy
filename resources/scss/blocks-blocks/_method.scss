@@ -3,15 +3,15 @@
    ========================================================= */
 
 .m-method {
-  background: var(--ra-sand);
   padding: var(--ra-space-section) 0;
+  background: var(--ra-sand);
 
   &__inner {
     display: grid;
-    gap: var(--ra-space-gap);
     grid-template-columns: 1fr 1fr;
+    gap: var(--ra-space-gap);
 
-    @media (max-width: 61.99em) {
+    @media (width <= 61.99em) {
       grid-template-columns: 1fr;
     }
   }
@@ -19,9 +19,9 @@
   &__sticky {
     position: sticky;
     top: 6rem;
-    align-self: start;
     display: grid;
     gap: 1.5rem;
+    align-self: start;
   }
 
   &__heading {
@@ -29,12 +29,12 @@
   }
 
   &__media {
-    border-radius: var(--ra-radius);
-    overflow: hidden;
     position: relative;
-    border: 1px solid var(--ra-line);
     min-height: 14rem;
+    overflow: hidden;
     background: var(--ra-canvas);
+    border: 1px solid var(--ra-line);
+    border-radius: var(--ra-radius);
 
     img {
       display: block;
@@ -48,37 +48,37 @@
   }
 
   &__steps {
-    counter-reset: step;
     display: grid;
     gap: var(--ra-space-gap);
-    list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    list-style: none;
+    counter-reset: step;
   }
 
   &__step {
-    border-top: 1px solid rgb(23 19 16 / 15%);
     display: grid;
-    gap: 1.5rem;
     grid-template-columns: 3.5rem 1fr;
+    gap: 1.5rem;
     padding-top: 1.5rem;
+    border-top: 1px solid rgb(23 19 16 / 15%);
   }
 
   &__num {
-    color: var(--ra-accent);
     font-family: var(--ra-font-display);
     font-size: 1.75rem;
     font-weight: 600;
+    color: var(--ra-accent);
   }
 
   &__step-title {
-    font-size: var(--ra-fs-h3);
     margin: 0 0 0.5rem;
+    font-size: var(--ra-fs-h3);
   }
 
   &__step-text {
-    color: rgb(23 19 16 / 75%);
     margin: 0;
+    color: rgb(23 19 16 / 75%);
   }
 
   &__empty p {

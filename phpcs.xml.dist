@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ruleset name="Resonance Academy Theme">
+    <description>WordPress coding standards for the Resonance Academy theme (app/ + root bootstrap files only).</description>
+
+    <config name="encoding" value="utf-8"/>
+    <config name="testVersion" value="8.3-"/>
+
+    <!-- Scope: theme app layer + root bootstrap files (scaffold bulk excluded) -->
+    <file>app</file>
+    <file>index.php</file>
+    <file>functions.php</file>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/public/*</exclude-pattern>
+    <exclude-pattern>*/resources/*</exclude-pattern>
+    <exclude-pattern>*/bin/*</exclude-pattern>
+
+    <!-- Keep WP-specific quality checks (escaping, hooks, i18n, naming, security) -->
+    <rule ref="WordPress">
+        <!-- Theme code is space-indented (Sage scaffold) rather than tab-indented -->
+        <exclude name="Generic.WhiteSpace.ScopeIndent"/>
+        <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+        <!-- Anonymous hook closures & template hooks use WP-native names -->
+        <exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"/>
+        <!-- Laravel-style namespaces handle class loading; WP class filename map does not apply -->
+        <exclude name="WordPress.Files.FileName"/>
+    </rule>
+
+    <args>
+        <arg name="extensions" value="php"/>
+        <arg value="s,sp"/>
+        <arg name="parallel" value="8"/>
+    </args>
+
+    <config name="minimum_supported_wp_version" value="6.8"/>
+</ruleset>

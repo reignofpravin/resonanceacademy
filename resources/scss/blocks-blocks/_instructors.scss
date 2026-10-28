@@ -12,15 +12,15 @@
   }
 
   &__heading {
-    margin: 0;
     max-width: 40rem;
+    margin: 0;
   }
 
   &__track {
     display: flex;
     gap: var(--ra-space-gap);
-    overflow-x: auto;
     padding: 0.25rem var(--ra-container-pad);
+    overflow-x: auto;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -31,15 +31,15 @@
   }
 
   &__card {
-    background: var(--ra-canvas);
-    border: 1px solid var(--ra-line);
-    border-radius: var(--ra-radius);
-    box-shadow: var(--ra-shadow);
     display: grid;
     flex: 0 0 min(22rem, 80vw);
     grid-template-columns: 1fr;
     overflow: hidden;
     scroll-snap-align: start;
+    background: var(--ra-canvas);
+    border: 1px solid var(--ra-line);
+    border-radius: var(--ra-radius);
+    box-shadow: var(--ra-shadow);
   }
 
   &__photo {
@@ -52,12 +52,12 @@
     }
 
     &--ph {
-      align-items: center;
-      background: linear-gradient(135deg, var(--ra-sand), var(--ra-clay));
-      color: var(--ra-accent-ink);
       display: flex;
-      font-size: 2.5rem;
+      align-items: center;
       justify-content: center;
+      font-size: 2.5rem;
+      color: var(--ra-accent-ink);
+      background: linear-gradient(135deg, var(--ra-sand), var(--ra-clay));
     }
   }
 
@@ -72,8 +72,8 @@
   }
 
   &__name {
-    font-size: var(--ra-fs-h3);
     margin: 0;
+    font-size: var(--ra-fs-h3);
 
     a {
       color: var(--ra-ink);
@@ -87,27 +87,27 @@
   }
 
   &__instruments {
-    color: var(--ra-accent-ink);
+    margin: 0;
     font-size: 0.875rem;
     font-weight: 600;
-    margin: 0;
+    color: var(--ra-accent-ink);
   }
 
   &__excerpt {
-    color: var(--ra-clay);
-    font-size: 0.9rem;
     margin: 0;
+    font-size: 0.9rem;
+    color: var(--ra-clay);
   }
 
   &__empty {
+    padding: 3rem;
+    margin: 0 var(--ra-container-pad);
     border: 1px dashed var(--ra-line);
     border-radius: var(--ra-radius);
-    margin: 0 var(--ra-container-pad);
-    padding: 3rem;
 
     p {
-      color: var(--ra-clay);
       margin: 0;
+      color: var(--ra-clay);
     }
   }
 
@@ -119,22 +119,22 @@
   }
 
   &__arrow {
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: var(--ra-ink);
+    cursor: pointer;
     background: transparent;
     border: 1px solid var(--ra-line);
     border-radius: 50%;
-    color: var(--ra-ink);
-    cursor: pointer;
-    display: inline-flex;
-    height: 2.75rem;
-    justify-content: center;
     transition: background var(--ra-dur-fast) var(--ra-ease), color var(--ra-dur-fast) var(--ra-ease);
-    width: 2.75rem;
 
     &:hover,
     &:focus-visible {
-      background: var(--ra-ink);
       color: var(--ra-canvas);
+      background: var(--ra-ink);
     }
   }
 }

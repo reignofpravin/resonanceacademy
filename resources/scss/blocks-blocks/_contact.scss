@@ -3,23 +3,23 @@
    ========================================================= */
 
 .m-contact {
-  background: var(--ra-sand);
   padding: var(--ra-space-section) 0;
+  background: var(--ra-sand);
 
   &__inner {
     display: grid;
-    gap: var(--ra-space-gap);
     grid-template-columns: 1.1fr 1fr;
+    gap: var(--ra-space-gap);
 
-    @media (max-width: 61.99em) {
+    @media (width <= 61.99em) {
       grid-template-columns: 1fr;
     }
   }
 
   &__copy {
     display: grid;
-    align-content: start;
     gap: 1.5rem;
+    align-content: start;
   }
 
   &__heading {
@@ -27,17 +27,17 @@
   }
 
   &__text {
-    color: rgb(23 19 16 / 78%);
-    margin: 0;
     max-width: 32rem;
+    margin: 0;
+    color: rgb(23 19 16 / 78%);
   }
 
   &__form {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
     background: var(--ra-canvas);
     border: 1px solid var(--ra-line);
     border-radius: var(--ra-radius);
     box-shadow: var(--ra-shadow);
-    padding: clamp(1.5rem, 3vw, 2.5rem);
   }
 
   &__fallback {
@@ -46,15 +46,15 @@
   }
 
   &__fallback-title {
+    margin: 0;
     font-family: var(--ra-font-display);
     font-size: var(--ra-fs-h3);
     font-weight: 550;
-    margin: 0;
   }
 
   &__fallback-text {
-    color: var(--ra-clay);
     margin: 0;
+    color: var(--ra-clay);
   }
 }
 
@@ -66,31 +66,31 @@
   }
 
   .wpcf7-form-control:not([type='submit']) {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: var(--ra-font-sans);
     background: transparent;
     border: 1px solid var(--ra-line);
     border-radius: var(--ra-radius-sm);
-    font-family: var(--ra-font-sans);
-    max-width: 100%;
-    padding: 0.75rem 1rem;
-    width: 100%;
 
     &:focus {
-      border-color: var(--ra-accent);
       outline: 2px solid rgb(194 94 58 / 35%);
       outline-offset: 1px;
+      border-color: var(--ra-accent);
     }
   }
 
   .wpcf7-form .submit,
   [type='submit'] {
+    padding: 0.75rem 2rem;
+    font-family: var(--ra-font-sans);
+    font-weight: 600;
+    color: var(--ra-canvas);
+    cursor: pointer;
     background: var(--ra-accent);
     border: 0;
     border-radius: 999px;
-    color: var(--ra-canvas);
-    cursor: pointer;
-    font-family: var(--ra-font-sans);
-    font-weight: 600;
-    padding: 0.75rem 2rem;
     transition: background var(--ra-dur-fast) var(--ra-ease);
 
     &:hover {
@@ -99,12 +99,12 @@
   }
 
   .wpcf7-not-valid-tip {
-    color: var(--ra-accent-ink);
     font-size: 0.85rem;
+    color: var(--ra-accent-ink);
   }
 
   .wpcf7-response-output {
-    border: 0;
     margin: 0;
+    border: 0;
   }
 }

@@ -3,9 +3,9 @@
    ========================================================= */
 
 .m-testimonials {
-  background: var(--ra-ink);
-  color: var(--ra-canvas);
   padding: var(--ra-space-section) 0;
+  color: var(--ra-canvas);
+  background: var(--ra-ink);
 
   .c-kicker::before {
     background: var(--ra-accent);
@@ -18,15 +18,15 @@
   }
 
   &__heading {
-    margin: 0;
     max-width: 40rem;
+    margin: 0;
   }
 
   &__slide {
     display: grid;
     gap: 1.5rem;
-    margin: 0;
     max-width: 44rem;
+    margin: 0;
 
     &[hidden] {
       display: none;
@@ -38,48 +38,48 @@
   }
 
   &__quote {
-    color: var(--ra-canvas);
+    margin: 0;
     font-family: var(--ra-font-display);
     font-size: clamp(1.5rem, 3vw, 2.25rem);
     font-weight: 450;
     line-height: 1.25;
-    margin: 0;
+    color: var(--ra-canvas);
   }
 
   &__meta {
-    color: rgb(247 243 236 / 65%);
     font-size: 0.9rem;
+    color: rgb(247 243 236 / 65%);
   }
 
   &__name {
-    color: var(--ra-canvas);
     font-weight: 600;
+    color: var(--ra-canvas);
   }
 
   &__controls {
-    align-items: center;
     display: flex;
     gap: 1rem;
+    align-items: center;
     margin-top: var(--ra-space-gap);
   }
 
   &__arrow {
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: var(--ra-canvas);
+    cursor: pointer;
     background: transparent;
     border: 1px solid rgb(247 243 236 / 30%);
     border-radius: 50%;
-    color: var(--ra-canvas);
-    cursor: pointer;
-    display: inline-flex;
-    height: 2.75rem;
-    justify-content: center;
     transition: background var(--ra-dur-fast) var(--ra-ease), color var(--ra-dur-fast) var(--ra-ease);
-    width: 2.75rem;
 
     &:hover,
     &:focus-visible {
-      background: var(--ra-canvas);
       color: var(--ra-ink);
+      background: var(--ra-canvas);
     }
   }
 
@@ -89,18 +89,18 @@
   }
 
   &__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0;
+    cursor: pointer;
     background: rgb(247 243 236 / 25%);
     border: 0;
     border-radius: 999px;
-    cursor: pointer;
-    height: 0.5rem;
-    padding: 0;
     transition: background var(--ra-dur-fast) var(--ra-ease), width var(--ra-dur-fast) var(--ra-ease);
-    width: 0.5rem;
 
     &.is-active {
-      background: var(--ra-accent);
       width: 1.5rem;
+      background: var(--ra-accent);
     }
   }
 

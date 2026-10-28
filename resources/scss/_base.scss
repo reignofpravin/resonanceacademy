@@ -7,15 +7,15 @@ html {
 }
 
 body {
-  background-color: var(--ra-canvas);
-  color: var(--ra-ink);
   font-family: var(--ra-font-sans);
+  color: var(--ra-ink);
+  background-color: var(--ra-canvas);
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--ra-accent);
   color: var(--ra-canvas);
+  background: var(--ra-accent);
 }
 
 :focus-visible {
@@ -24,6 +24,6 @@ body {
 }
 
 img {
-  height: auto;
   max-width: 100%;
+  height: auto;
 }
