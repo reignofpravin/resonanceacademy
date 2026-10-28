@@ -1,0 +1,45 @@
+/* =========================================================
+   Resonance Academy — global design tokens
+   Defined once here; consumed everywhere via var(--ra-…)
+   ========================================================= */
+
+:root {
+  /* Colour */
+  --ra-canvas: #f7f3ec;
+  --ra-ink: #171310;
+  --ra-accent: #c25e3a;
+  --ra-accent-ink: #7c3520;
+  --ra-sand: #efe7da;
+  --ra-clay: #b9a894;
+  --ra-line: rgba(23, 19, 16, 0.12);
+
+  /* Shape & depth */
+  --ra-radius: 1.25rem;
+  --ra-radius-sm: 0.5rem;
+  --ra-shadow: 0 12px 40px rgb(23 19 16 / 8%);
+
+  /* Type */
+  --ra-font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --ra-font-sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+
+  --ra-fs-display: clamp(3rem, 8vw, 7rem);
+  --ra-fs-h2: clamp(2rem, 4.5vw, 3.5rem);
+  --ra-fs-h3: clamp(1.25rem, 2.2vw, 1.75rem);
+  --ra-fs-body: 1.0625rem;
+
+  --ra-leading-tight: 1.05;
+  --ra-leading-body: 1.65;
+
+  /* Spacing rhythm */
+  --ra-space-section: clamp(4rem, 9vw, 8rem);
+  --ra-space-gap: clamp(1.25rem, 3vw, 2.5rem);
+
+  /* Motion */
+  --ra-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ra-dur-fast: 0.25s;
+  --ra-dur-med: 0.6s;
+
+  /* Layout */
+  --ra-container: 76rem;
+  --ra-container-pad: clamp(1.25rem, 4vw, 3rem);
+}

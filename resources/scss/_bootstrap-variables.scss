@@ -1,0 +1,35 @@
+/* =========================================================
+   Resonance Academy — Bootstrap variable overrides
+   Set before functions/variables are pulled in by main.scss
+   ========================================================= */
+
+$font-sans-serif: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+$font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+
+$font-family-base: $font-sans-serif;
+$font-family-sans-serif: $font-sans-serif;
+
+$primary: #c25e3a;
+$dark: #171310;
+$body-bg: #f7f3ec;
+$body-color: #171310;
+
+$border-radius: 0.75rem;
+$border-radius-lg: 1rem;
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1216px,
+);
+
+$enable-validation-icons: false;
+$enable-negative-margins: true;
+
+$headings-font-family: $font-serif;
+$headings-font-weight: 560;
+
+$font-size-base: 1.0625rem;
+$line-height-base: 1.65;

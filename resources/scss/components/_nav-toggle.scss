@@ -1,0 +1,54 @@
+/* =========================================================
+   Component: nav toggle — checkbox-hack disclosure (mobile)
+   ========================================================= */
+
+.c-nav-toggle {
+  cursor: pointer;
+  display: none;
+
+  &__line {
+    background: var(--ra-ink);
+    border-radius: 2px;
+    display: block;
+    height: 2px;
+    transition: transform var(--ra-dur-fast) var(--ra-ease);
+    width: 1.5rem;
+  }
+
+  &__line + &__line {
+    margin-top: 5px;
+  }
+}
+
+.c-nav-toggle__checkbox {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.c-nav-toggle__checkbox:checked ~ .c-nav-toggle .c-nav-toggle__line:nth-of-type(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.c-nav-toggle__checkbox:checked ~ .c-nav-toggle .c-nav-toggle__line:nth-of-type(2) {
+  opacity: 0;
+}
+
+.c-nav-toggle__checkbox:checked ~ .c-nav-toggle .c-nav-toggle__line:nth-of-type(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 47.99em) {
+  .c-nav-toggle {
+    display: block;
+  }
+
+  .m-header__nav {
+    display: none;
+  }
+
+  .c-nav-toggle__checkbox:checked ~ .m-header__nav,
+  .c-nav-toggle__checkbox:checked ~ .m-header__nav .c-nav {
+    display: block;
+  }
+}

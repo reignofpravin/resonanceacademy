@@ -1,2 +1,3 @@
-/* Resonance Academy block-editor entry */
-.m-ra-placeholder { outline: 1px dashed rgba(23,19,16,.2); }
+/* Resonance Academy block-editor entry — tokens & fonts only (preview markup uses block SCSS on the front) */
+@import "global-vars";
+@import "fonts";

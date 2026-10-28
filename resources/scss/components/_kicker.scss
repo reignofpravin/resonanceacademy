@@ -1,0 +1,22 @@
+/* =========================================================
+   Component: kicker — small caps eyebrow label above headings
+   ========================================================= */
+
+.c-kicker {
+  color: var(--ra-accent);
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  &::before {
+    background: var(--ra-accent);
+    border-radius: 999px;
+    content: "";
+    height: 1px;
+    margin-right: 0.75rem;
+    width: 2rem;
+  }
+}

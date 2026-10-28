@@ -1,0 +1,29 @@
+/* =========================================================
+   Base — page-level defaults beyond bootstrap reboot
+   ========================================================= */
+
+html {
+  scroll-padding-top: 6rem; /* sticky header offset for #anchors */
+}
+
+body {
+  background-color: var(--ra-canvas);
+  color: var(--ra-ink);
+  font-family: var(--ra-font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--ra-accent);
+  color: var(--ra-canvas);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ra-accent);
+  outline-offset: 3px;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}

@@ -1,0 +1,33 @@
+/* =========================================================
+   Component: buttons — `--btn-*` flat pattern on top of bootstrap
+   ========================================================= */
+
+.btn {
+  /* map bootstrap buttons to our tokens */
+  &-primary {
+    --bs-btn-bg: var(--ra-accent);
+    --bs-btn-border-color: var(--ra-accent);
+    --bs-btn-color: var(--ra-canvas);
+    --bs-btn-hover-bg: var(--ra-accent-ink);
+    --bs-btn-hover-border-color: var(--ra-accent-ink);
+    --bs-btn-active-bg: var(--ra-accent-ink);
+    --bs-btn-border-radius: 999px;
+    --bs-btn-font-weight: 600;
+  }
+
+  &-outline-primary {
+    --bs-btn-color: var(--ra-ink);
+    --bs-btn-border-color: var(--ra-ink);
+    --bs-btn-hover-color: var(--ra-canvas);
+    --bs-btn-hover-bg: var(--ra-ink);
+    --bs-btn-hover-border-color: var(--ra-ink);
+    --bs-btn-active-bg: var(--ra-ink);
+    --bs-btn-active-color: var(--ra-canvas);
+    --bs-btn-border-radius: 999px;
+    --bs-btn-font-weight: 600;
+  }
+}
+
+.btn-lg {
+  border-radius: 999px;
+}
