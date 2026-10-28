@@ -108,3 +108,11 @@
     color: rgb(247 243 236 / 55%);
   }
 }
+
+.m-testimonials__avatar {
+  width: 56px;
+  height: 56px;
+  margin-block: var(--ra-space-2);
+  object-fit: cover;
+  border-radius: 50%;
+}

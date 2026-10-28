@@ -6,13 +6,13 @@
 
             <nav class="m-programs__filters" aria-label="{{ __('Program categories', 'ra-theme') }}">
                 <a href="{{ $archiveUrl }}"
-                   class="m-programs__filter {{ (request()->input('category') ? '' : 'is-active') }}">
+                   class="m-programs__filter {{ is_tax('course_category') ? '' : 'is-active' }}">
                     {{ __('All', 'ra-theme') }}
                 </a>
 
                 @foreach ($categories as $category)
-                    <a href="{{ add_query_arg('category', $category->slug, $archiveUrl) }}"
-                       class="m-programs__filter {{ (request()->input('category') === $category->slug ? 'is-active' : '') }}">
+                    <a href="{{ esc_url(get_term_link($category)) }}"
+                       class="m-programs__filter {{ is_tax('course_category', $category->term_id) ? 'is-active' : '' }}">
                         {{ $category->name }}
                     </a>
                 @endforeach

@@ -21,7 +21,7 @@ final class Events extends Block
     {
         $showPast = (bool) ($attributes['showPastEvents'] ?? false);
 
-        $query = new \WP_Query([
+        $queryArgs = [
             'post_type' => 'event',
             'post_status' => 'publish',
             'posts_per_page' => max(1, (int) ($attributes['count'] ?? 4)),
@@ -30,33 +30,47 @@ final class Events extends Block
             'meta_type' => 'DATETIME',
             'orderby' => 'meta_value',
             'order' => $showPast ? 'DESC' : 'ASC',
-        ]);
+        ];
+
+        // Filter past/future in SQL so the post cap applies to surviving rows.
+        if (! $showPast) {
+            $queryArgs['meta_query'] = [
+                [
+                    'key' => 'ra_event_datetime',
+                    'value' => current_time('Y-m-d H:00'),
+                    'compare' => '>=',
+                    'type' => 'DATETIME',
+                ],
+            ];
+        }
+
+        $query = new \WP_Query($queryArgs);
 
         $events = [];
-        $now = current_time('timestamp');
         $timezone = wp_timezone();
 
         foreach ($query->posts as $event) {
             $datetimeString = Meta::get('ra_event_datetime', $event->ID);
+            $when = $datetimeString
+                ? \DateTime::createFromFormat('Y-m-d H:i', $datetimeString, $timezone)
+                : null;
 
-            if ($datetimeString && ! $showPast) {
-                $when = \DateTime::createFromFormat('Y-m-d H:i', $datetimeString, $timezone);
-
-                if ($when instanceof \DateTime) {
-                    $when = $when->format('U');
-
-                    if ($when < $now) {
-                        continue;
-                    }
-                }
+            // Future-only: compare true epochs (format('U') is timezoned UTC;
+            // current_time('timestamp') would double-apply the UTC offset).
+            if ($when instanceof \DateTime && ! $showPast && $when->format('U') < time()) {
+                continue;
             }
+
+            $terms = get_the_terms($event->ID, 'event_type');
 
             $events[] = [
                 'id' => $event->ID,
-                'title' => get_the_title($event),
+                'title' => wp_specialchars_decode(get_the_title($event), ENT_QUOTES),
                 'url' => get_permalink($event),
-                'type' => get_the_terms($event->ID, 'event_type') !== false ? array_map(static fn ($term): string => $term->name, get_the_terms($event->ID, 'event_type') ?: []) : [],
-                'datetime' => $datetimeString,
+                'type' => is_array($terms) ? array_map(static fn ($term): string => $term->name, $terms) : [],
+                'when' => $when,
+                'timestamp' => $when instanceof \DateTime ? $when->format('U') : 0,
+                'iso' => $when instanceof \DateTime ? $when->format(DATE_W3C) : '',
                 'venue' => Meta::get('ra_event_venue', $event->ID),
                 'ticketUrl' => Meta::get('ra_event_ticket_url', $event->ID),
             ];

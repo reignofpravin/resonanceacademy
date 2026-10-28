@@ -17,7 +17,7 @@
         @endif
 
         <h2 class="c-card__title">
-            <a href="{{ get_permalink() }}">{{ get_the_title() }}</a>
+            <a href="{{ get_permalink() }}">{{ wp_specialchars_decode(get_the_title(), ENT_QUOTES) }}</a>
         </h2>
 
         @if ($instruments && ! is_wp_error($instruments))

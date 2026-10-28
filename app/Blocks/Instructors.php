@@ -31,7 +31,7 @@ final class Instructors extends Block
         foreach ($query->posts as $instructor) {
             $instructors[] = [
                 'id' => $instructor->ID,
-                'title' => get_the_title($instructor),
+                'title' => wp_specialchars_decode(get_the_title($instructor), ENT_QUOTES),
                 'url' => get_permalink($instructor),
                 'role' => Meta::get('ra_instructor_role', $instructor->ID),
                 'excerpt' => wp_strip_all_tags(get_the_excerpt($instructor)),

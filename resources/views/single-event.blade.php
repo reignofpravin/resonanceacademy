@@ -10,7 +10,7 @@
             <header class="m-single__head">
                 <div class="container">
                     <p class="c-kicker"><a href="{{ $item['relatedArchive'] }}">{{ $item['archiveLabel'] }}</a></p>
-                    <h1 class="m-single__title">{{ get_the_title() }}</h1>
+                    <h1 class="m-single__title">{{ wp_specialchars_decode(get_the_title(), ENT_QUOTES) }}</h1>
 
                     <p class="m-single__standfirst">
                         @if ($item['when'])
@@ -42,7 +42,7 @@
                     @endif
 
                     @if ($item['ticketUrl'])
-                        <a class="btn btn-primary" href="{{ $item['ticketUrl'] }}">{{ __('Get tickets', 'ra-theme') }}</a>
+                        <a class="btn btn-primary" href="{{ esc_url($item['ticketUrl']) }}">{{ __('Get tickets', 'ra-theme') }}</a>
                     @endif
                 </aside>
             </div>

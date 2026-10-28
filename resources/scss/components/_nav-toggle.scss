@@ -52,3 +52,8 @@
     display: block;
   }
 }
+
+.c-nav-toggle__checkbox:focus-visible ~ .c-nav-toggle {
+  outline: 2px solid var(--ra-accent);
+  outline-offset: 4px;
+}

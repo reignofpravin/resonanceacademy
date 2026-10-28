@@ -45,7 +45,7 @@ final class Programs extends Block
         foreach ($query->posts as $course) {
             $courses[] = [
                 'id' => $course->ID,
-                'title' => get_the_title($course),
+                'title' => wp_specialchars_decode(get_the_title($course), ENT_QUOTES),
                 'url' => get_permalink($course),
                 'level' => Meta::get('ra_course_level', $course->ID),
                 'duration' => Meta::get('ra_course_duration', $course->ID),

@@ -10,7 +10,7 @@
             <header class="m-single__head">
                 <div class="container">
                     <p class="c-kicker"><a href="{{ $item['relatedArchive'] }}">{{ $item['archiveLabel'] }}</a></p>
-                    <h1 class="m-single__title">{{ get_the_title() }}</h1>
+                    <h1 class="m-single__title">{{ wp_specialchars_decode(get_the_title(), ENT_QUOTES) }}</h1>
 
                     @if ($item['role'])
                         <p class="m-single__standfirst">{{ $item['role'] }}</p>
@@ -41,7 +41,7 @@
                         <h2 class="m-single__aside-title">{{ $item['relatedLabel'] }}</h2>
                         <ul class="m-single__aside-list">
                             @foreach ($item['related'] as $relatedId)
-                                <li><a href="{{ get_permalink($relatedId) }}">{{ get_the_title($relatedId) }}</a></li>
+                                <li><a href="{{ get_permalink($relatedId) }}">{{ wp_specialchars_decode(get_the_title($relatedId), ENT_QUOTES) }}</a></li>
                             @endforeach
                         </ul>
                     @endif

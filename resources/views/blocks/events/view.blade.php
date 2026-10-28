@@ -9,9 +9,9 @@
             @forelse ($events as $event)
                 <li class="m-events__item" data-ra-reveal>
                     <div class="m-events__badge" aria-hidden="true">
-                        @if ($event['datetime'])
-                            <span class="m-events__badge-day">{{ wp_date('j', $event['datetime']) }}</span>
-                            <span class="m-events__badge-month">{{ wp_date('M', $event['datetime']) }}</span>
+                        @if ($event['timestamp'])
+                            <span class="m-events__badge-day">{{ wp_date('j', $event['timestamp']) }}</span>
+                            <span class="m-events__badge-month">{{ wp_date('M', $event['timestamp']) }}</span>
                         @else
                             <span class="m-events__badge-month">♪</span>
                         @endif
@@ -29,8 +29,8 @@
                         </h3>
 
                         <p class="m-events__meta">
-                            @if ($event['datetime'])
-                                <time datetime="{{ $event['datetime'] }}">{{ wp_date(get_option('date_format').' · g:i a', $event['datetime']) }}</time>
+                            @if ($event['timestamp'])
+                                <time datetime="{{ $event['iso'] }}">{{ wp_date(get_option('date_format').' · g:i a', $event['timestamp']) }}</time>
                             @endif
 
                             @if ($event['venue'])
@@ -41,7 +41,7 @@
 
                     <div class="m-events__actions">
                         @if ($event['ticketUrl'])
-                            <a class="btn btn-outline-primary" href="{{ $event['ticketUrl'] }}">{{ __('Tickets', 'ra-theme') }}</a>
+                            <a class="btn btn-outline-primary" href="{{ esc_url($event['ticketUrl']) }}">{{ __('Tickets', 'ra-theme') }}</a>
                         @else
                             <a class="c-events-details m-events__more" href="{{ $event['url'] }}">{{ __('Details', 'ra-theme') }}</a>
                         @endif

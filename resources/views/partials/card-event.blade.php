@@ -16,7 +16,7 @@
         </div>
 
         <h2 class="c-card__title">
-            <a href="{{ get_permalink() }}">{{ get_the_title() }}</a>
+            <a href="{{ get_permalink() }}">{{ wp_specialchars_decode(get_the_title(), ENT_QUOTES) }}</a>
         </h2>
 
         <p class="c-card__meta">

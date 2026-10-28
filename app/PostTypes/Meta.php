@@ -35,6 +35,17 @@ final class Meta
     ];
 
     /**
+     * Extra sanitizers for keys that are not enum-guarded.
+     *
+     * @var array<string, callable(string): string>
+     */
+    private const SANITIZERS = [
+        'ra_event_ticket_url' => 'esc_url_raw',
+        'ra_event_venue' => 'sanitize_text_field',
+        'ra_instructor_role' => 'sanitize_text_field',
+    ];
+
+    /**
      * Register every meta key on init.
      */
     public static function register(): void
@@ -45,12 +56,34 @@ final class Meta
                 'single' => true,
                 'show_in_rest' => true,
                 'default' => $spec['default'],
-                'sanitize_callback' => array_key_exists($key, self::ENUMS)
-                    ? static fn (string $value): string => in_array($value, self::ENUMS[$key], true) ? $value : self::ENUMS[$key][0]
-                    : null,
+                'sanitize_callback' => static fn (string $value): string => self::sanitize($key, $value),
                 'auth_callback' => static fn (): bool => current_user_can('edit_posts'),
             ]);
         }
+    }
+
+    /**
+     * Sanitize a value per its key's schema: enums match case-insensitively
+     * and fall back to the canonical first choice, other registered keys use
+     * their dedicated sanitizer.
+     */
+    private static function sanitize(string $key, string $value): string
+    {
+        $choices = self::ENUMS[$key] ?? null;
+
+        if ($choices === null) {
+            $sanitizer = self::SANITIZERS[$key] ?? 'sanitize_text_field';
+
+            return $sanitizer($value);
+        }
+
+        foreach ($choices as $choice) {
+            if (strcasecmp($choice, trim($value)) === 0) {
+                return $choice;
+            }
+        }
+
+        return $choices[0];
     }
 
     /**

@@ -33,7 +33,18 @@ abstract class Block
      */
     public function render(array $attributes, string $content = ''): string
     {
-        return view($this->view(), $this->data($attributes, $content))->render();
+        try {
+            return view($this->view(), $this->data($attributes, $content))->render();
+        } catch (\Throwable $error) {
+            // A broken block view must never fatal the whole front end the
+            // way an absent plugin would not; log and degrade regardless.
+            error_log('ra/block render '.$this->view().': '.$error->getMessage());
+
+            return sprintf(
+                '<section class="m-ra-placeholder" data-ra-block-degraded><p>%s</p></section>',
+                esc_html__('This section is being repaired — please check back shortly.', 'ra-theme'),
+            );
+        }
     }
 
     /**

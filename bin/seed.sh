@@ -118,9 +118,24 @@ wp option update show_on_front page >/dev/null
 wp option update page_on_front "$HOME_ID" >/dev/null
 
 # ------------------------------------------------------------------ menus
-PRIM_ID="$(wp menu list --format=csv | awk -F, '$2=="Primary"{print $1}')"
-FOOT_ID="$(wp menu list --format=csv | awk -F, '$2=="Footer"{print $1}')"
-wp menu location assign "$PRIM_ID" primary_navigation >/dev/null
-wp menu location assign "$FOOT_ID" footer_navigation >/dev/null
+# Create the menus when missing (fresh DBs) so location assignment never
+# depends on state built during the theme's initial setup.
+ensure_menu() {
+  local name="$1" id
+  id="$(wp menu list --format=csv 2>/dev/null | awk -F, -v n="$name" '$2==n{print $1}')"
+  if [ -z "$id" ]; then
+    id="$(wp menu create "$name" --porcelain 2>/dev/null | grep -v '^Deprecated:')"
+  fi
+  echo "$id"
+}
+
+PRIM_ID="$(ensure_menu Primary)"
+FOOT_ID="$(ensure_menu Footer)"
+[ -n "$PRIM_ID" ] && wp menu location assign "$PRIM_ID" primary_navigation >/dev/null
+[ -n "$FOOT_ID" ] && wp menu location assign "$FOOT_ID" footer_navigation >/dev/null
+
+# ------------------------------------------------------------------ reading
+# The archive gate expects a sane page size regardless of ad-hoc QA edits.
+wp option update posts_per_page 10 >/dev/null
 
 echo "Seed complete."

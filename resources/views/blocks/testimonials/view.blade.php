@@ -1,4 +1,4 @@
-<section {!! get_block_wrapper_attributes(['class' => 'm-testimonials', 'data-ra-block' => 'testimonials', 'data-ra-slider-interval' => $interval]) !!}>
+<section {!! get_block_wrapper_attributes(['class' => 'm-testimonials', 'data-ra-block' => 'testimonials', 'data-ra-slider-interval' => $interval, 'aria-live' => 'polite']) !!}>
     <div class="container">
         <header class="m-testimonials__header">
             <p class="c-kicker" data-ra-reveal>{{ $kicker }}</p>
@@ -14,6 +14,10 @@
                 </svg>
 
                 <blockquote class="m-testimonials__quote">{{ $quote['quote'] }}</blockquote>
+
+                @if ($quote['avatar'])
+                    <img class="m-testimonials__avatar" src="{{ esc_url($quote['avatar']) }}" alt="" loading="lazy">
+                @endif
 
                 <figcaption class="m-testimonials__meta">
                     <span class="m-testimonials__name">{{ $quote['name'] }}</span>
