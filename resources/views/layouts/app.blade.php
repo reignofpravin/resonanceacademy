@@ -12,25 +12,17 @@
   <body @php(body_class())>
     @php(wp_body_open())
 
-    <div id="app">
-      <a class="sr-only focus:not-sr-only" href="#main">
-        {{ __('Skip to content', 'ra-theme') }}
-      </a>
+    <a class="c-skip-link" href="#main-content">
+      {{ __('Skip to content', 'ra-theme') }}
+    </a>
 
-      @include('sections.header')
+    @include('sections.header')
 
-      <main id="main" class="main">
-        @yield('content')
-      </main>
+    <main id="main-content" class="m-site-main">
+      @yield('content')
+    </main>
 
-      @hasSection('sidebar')
-        <aside class="sidebar">
-          @yield('sidebar')
-        </aside>
-      @endif
-
-      @include('sections.footer')
-    </div>
+    @include('sections.footer')
 
     @php(do_action('get_footer'))
     @php(wp_footer())

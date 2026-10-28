@@ -1,0 +1,151 @@
+/* =========================================================
+   Resonance Academy — main stylesheet entry
+   ITCSS layers: tokens → tools → base → components → modules
+   (populated by the tokens task; frame styles live at the end)
+   ========================================================= */
+
+/* ---- Atomic styles (bootstrap compilation lands in tokens task) ---- */
+
+/* ---- Elements: base typographic + a11y frame ---- */
+
+/* ---- Components (c-*) ---- */
+.c-skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--ra-ink, #171310);
+  color: var(--ra-canvas, #f7f3ec);
+
+  &:focus {
+    top: 1rem;
+  }
+}
+
+.c-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-family: var(--ra-font-display, Georgia, serif);
+
+  &__accent {
+    color: var(--ra-accent, #c25e3a);
+    font-size: 1.1em;
+    line-height: 1;
+  }
+
+  &__text {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* ---- Modules (m-*): site frame ---- */
+.m-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--ra-line, rgba(23, 19, 16, 0.12));
+  background: color-mix(in srgb, var(--ra-canvas, #f7f3ec) 88%, transparent);
+  backdrop-filter: blur(8px);
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4.5rem;
+  }
+
+  &__nav .c-nav {
+    display: flex;
+    gap: 1.5rem;
+
+    ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      color: var(--ra-ink, #171310);
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-accent, #c25e3a);
+      }
+    }
+  }
+}
+
+/* Mobile nav disclosure — checkbox pattern, no JS required */
+.c-nav-toggle {
+  display: none;
+  cursor: pointer;
+
+  &__line {
+    display: block;
+    width: 1.5rem;
+    height: 2px;
+    background: var(--ra-ink, #171310);
+  }
+
+  &__line + &__line {
+    margin-top: 5px;
+  }
+}
+
+.c-nav-toggle__checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 47.99em) {
+  .c-nav-toggle {
+    display: block;
+  }
+
+  .m-header__nav {
+    display: none;
+  }
+
+  .c-nav-toggle__checkbox:checked ~ .m-header__nav,
+  .c-nav-toggle__checkbox:checked ~ .m-header__nav .c-nav {
+    display: block;
+  }
+}
+
+.m-site-main {
+  min-height: 60vh;
+}
+
+.m-site-footer {
+  margin-top: 2rem;
+  padding: 3rem 0;
+  border-top: 1px solid var(--ra-line, rgba(23, 19, 16, 0.12));
+
+  &__inner {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  &__nav .c-nav--footer ul {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__legal {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--ra-clay, #b9a894);
+  }
+}
