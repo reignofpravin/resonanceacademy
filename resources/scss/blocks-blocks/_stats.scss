@@ -1,0 +1,51 @@
+/* =========================================================
+   Module: m-stats — count-up stat strip
+   ========================================================= */
+
+.m-stats {
+  padding: 0 0 var(--ra-space-section);
+
+  &__row {
+    display: flex;
+    gap: var(--ra-space-gap);
+    justify-content: space-between;
+
+    &--band {
+      border-block: 1px solid var(--ra-line);
+      padding: 2rem 0;
+    }
+
+    &--inline {
+      padding: 0;
+    }
+
+    @media (max-width: 61.99em) {
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+
+  &__item {
+    text-align: center;
+
+    @media (min-width: 62em) {
+      text-align: left;
+    }
+  }
+
+  &__label {
+    color: var(--ra-clay);
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  &__value {
+    color: var(--ra-ink);
+    font-family: var(--ra-font-display);
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    font-weight: 550;
+    line-height: 1.05;
+    margin: 0.25rem 0 0;
+  }
+}

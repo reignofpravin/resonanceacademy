@@ -1,0 +1,87 @@
+/* =========================================================
+   Module: m-method — sticky storytelling steps
+   ========================================================= */
+
+.m-method {
+  background: var(--ra-sand);
+  padding: var(--ra-space-section) 0;
+
+  &__inner {
+    display: grid;
+    gap: var(--ra-space-gap);
+    grid-template-columns: 1fr 1fr;
+
+    @media (max-width: 61.99em) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__sticky {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  &__heading {
+    margin: 0;
+  }
+
+  &__media {
+    border-radius: var(--ra-radius);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--ra-line);
+    min-height: 14rem;
+    background: var(--ra-canvas);
+
+    img {
+      display: block;
+    }
+  }
+
+  &__clef {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  &__steps {
+    counter-reset: step;
+    display: grid;
+    gap: var(--ra-space-gap);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__step {
+    border-top: 1px solid rgb(23 19 16 / 15%);
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 3.5rem 1fr;
+    padding-top: 1.5rem;
+  }
+
+  &__num {
+    color: var(--ra-accent);
+    font-family: var(--ra-font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+
+  &__step-title {
+    font-size: var(--ra-fs-h3);
+    margin: 0 0 0.5rem;
+  }
+
+  &__step-text {
+    color: rgb(23 19 16 / 75%);
+    margin: 0;
+  }
+
+  &__empty p {
+    color: var(--ra-clay);
+  }
+}

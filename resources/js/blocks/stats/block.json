@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ra/stats",
+  "title": "Resonance Stats",
+  "category": "resonance",
+  "icon": "chart-bar",
+  "description": "Count-up stat strip.",
+  "keywords": ["stats", "numbers"],
+  "textdomain": "ra-theme",
+  "supports": {
+    "anchor": true
+  },
+  "attributes": {
+    "stats": {
+      "type": "array",
+      "default": [
+        { "value": 40, "label": "Professional instructors", "suffix": "" },
+        { "value": 950, "label": "Students taught", "suffix": "+" },
+        { "value": 12, "label": "Awards, scholarships & prizes", "suffix": "" }
+      ]
+    },
+    "variant": { "type": "string", "default": "inline" }
+  }
+}

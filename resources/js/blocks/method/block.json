@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ra/method",
+  "title": "Resonance Method",
+  "category": "resonance",
+  "icon": "category",
+  "description": "Sticky media + scrolling numbered steps storytelling section.",
+  "keywords": ["method", "story"],
+  "textdomain": "ra-theme",
+  "supports": {
+    "anchor": true
+  },
+  "attributes": {
+    "kicker": { "type": "string", "default": "The Method" },
+    "heading": { "type": "string", "default": "Sound is a skill you can build." },
+    "imageId": { "type": "integer", "default": 0 },
+    "steps": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}
