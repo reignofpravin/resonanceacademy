@@ -4,7 +4,7 @@
             <div class="m-method__sticky">
                 <div class="m-method__copy">
                     <p class="c-kicker" data-ra-reveal>{{ $kicker }}</p>
-                    <h2 class="m-method__heading" data-ra-split>{!! $heading !!}</h2>
+                    <h2 class="m-method__heading" data-ra-words>{!! $heading !!}</h2>
                 </div>
 
                 <div class="m-method__media">

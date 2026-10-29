@@ -21,6 +21,10 @@ export const init = (): void => {
     duration: 1.15,
     easing: (t: number): number => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel: true,
+    // Lenis >= 1.2 defaults autoRaf to false and nothing here drives
+    // lenis.raf() — without this the smoother (and every anchor target
+    // routed through it) never actually scrolls.
+    autoRaf: true,
   })
 
   // Anchor routing through Lenis so target scrolls are eased
@@ -47,7 +51,14 @@ export const init = (): void => {
     lenis.scrollTo(target as HTMLElement, { offset: -80 })
 
     // Keyboard: hand focus to the destination (native hash navigation was
-    // suppressed above, so focus must be moved explicitly).
-    ;(target as HTMLElement).focus({ preventScroll: true })
+    // suppressed above, so focus must be moved explicitly). Sections can't
+    // receive focus natively; lend them tabindex when they lack one.
+    const targetEl = target as HTMLElement
+
+    if (! targetEl.hasAttribute('tabindex')) {
+      targetEl.setAttribute('tabindex', '-1')
+    }
+
+    targetEl.focus({ preventScroll: true })
   }, true)
 }

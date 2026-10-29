@@ -2,7 +2,7 @@
     <div class="container">
         <header class="m-programs__header">
             <p class="c-kicker" data-ra-reveal>{{ $kicker }}</p>
-            <h2 class="m-programs__heading" data-ra-split>{!! $heading !!}</h2>
+            <h2 class="m-programs__heading" data-ra-words>{!! $heading !!}</h2>
 
             <nav class="m-programs__filters" aria-label="{{ __('Program categories', 'ra-theme') }}">
                 <a href="{{ $archiveUrl }}"
@@ -19,15 +19,10 @@
             </nav>
         </header>
 
-        <div class="m-programs__grid" data-ra-block-programs>
+        <div class="m-programs__list" data-ra-block-programs>
             @forelse ($courses as $course)
-                <article class="m-programs__card" data-ra-reveal>
-                    <div class="m-programs__disc js-ra-vinyl" aria-hidden="true"></div>
-
-                    @if ($course['thumbnail'])
-                        <a class="m-programs__thumb" href="{{ $course['url'] }}"
-                           tabindex="-1" aria-hidden="true">{!! $course['thumbnail'] !!}</a>
-                    @endif
+                <article class="m-programs__row" data-ra-reveal>
+                    <span class="m-programs__num" aria-hidden="true">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
 
                     <div class="m-programs__body">
                         <div class="m-programs__chips">
@@ -45,12 +40,14 @@
                             @if ($course['duration'])
                                 <span>{{ $course['duration'] }}</span>
                             @endif
-                        </p>
 
-                        @if ($course['instruments'])
-                            <p class="m-programs__instruments">{!! $course['instruments'] !!}</p>
-                        @endif
+                            @if ($course['instruments'])
+                                <span> · {!! $course['instruments'] !!}</span>
+                            @endif
+                        </p>
                     </div>
+
+                    <span class="m-programs__go" aria-hidden="true">→</span>
                 </article>
             @empty
                 <div class="m-programs__empty" data-ra-reveal>

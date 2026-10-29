@@ -3,6 +3,8 @@
  *
  * `[data-ra-reveal]` → fade/translate on enter.
  * `[data-ra-split]`  → SplitType headline: words rise into a mask, line by line.
+ * `[data-ra-words]`  → progressive statement: each word lightens as it crosses
+ *                      the viewport (scroll-scrubbed, tern-style).
  * Final (revealed) state is the element's natural state; reduced motion and
  * JS-off degrade to content fully visible with no hidden state.
  */
@@ -49,6 +51,29 @@ export const init = (): void => {
         trigger: el,
         start: 'top 88%',
         once: true,
+      },
+    })
+  })
+
+  gsap.utils.toArray<HTMLElement>('[data-ra-words]').forEach((headline: HTMLElement) => {
+    const split = new SplitType(headline, {
+      types: 'words',
+      tagName: 'span',
+    })
+
+    // tern-style progressive statement: every word starts dim and lightens
+    // as the headline travels through the viewport — scrubbed, not once.
+    gsap.set(split.words ?? [], { opacity: 0.16 })
+
+    gsap.to(split.words ?? [], {
+      opacity: 1,
+      ease: 'none',
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: headline,
+        start: 'top 88%',
+        end: 'top 38%',
+        scrub: 0.6,
       },
     })
   })

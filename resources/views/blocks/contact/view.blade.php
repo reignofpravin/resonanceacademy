@@ -2,7 +2,7 @@
     <div class="container m-contact__inner">
         <div class="m-contact__copy">
             <p class="c-kicker" data-ra-reveal>{{ $kicker }}</p>
-            <h2 class="m-contact__heading" data-ra-split>{!! $heading !!}</h2>
+            <h2 class="m-contact__heading" data-ra-words>{!! $heading !!}</h2>
 
             @if ($text)
                 <p class="m-contact__text" data-ra-reveal>{!! $text !!}</p>

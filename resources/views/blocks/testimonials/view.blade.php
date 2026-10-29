@@ -2,7 +2,7 @@
     <div class="container">
         <header class="m-testimonials__header">
             <p class="c-kicker" data-ra-reveal>{{ $kicker }}</p>
-            <h2 class="m-testimonials__heading" data-ra-split>{!! $heading !!}</h2>
+            <h2 class="m-testimonials__heading" data-ra-words>{!! $heading !!}</h2>
         </header>
 
         @forelse ($quotes as $quote)

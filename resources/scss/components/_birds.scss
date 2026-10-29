@@ -1,0 +1,137 @@
+/* =========================================================
+   Component: c-bird — ambient birdsong layer
+   Small colorful songbirds (robin, goldfinch, bluebird)
+   cross the viewport on sine arcs. Colors live inline per
+   species; this file owns size, shadow and the wing-flap
+   mechanics (choreography in js/behaviors/birds.ts).
+   ========================================================= */
+
+.c-bird-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.c-bird {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.c-bird__svg {
+  display: block;
+  width: var(--ra-bird-size, 3rem);
+  height: auto;
+  filter: drop-shadow(0 3px 8px rgb(23 19 16 / 10%));
+}
+
+/* Silhouette songbird. Both wing blades are drawn in the raised pose (tips
+   up, slightly back) and rotate around their shoulder pivots — the near
+   blade sweeps back-down along the body for each downstroke while the far
+   blade trails with a small phase lag for depth. --ra-flap detunes the beat
+   per bird so flock-mates never flap in sync. */
+.c-bird__wing {
+  transform-origin: 74% 83%;
+  transform-box: fill-box;
+  animation: ra-wing-flap calc(0.58s * var(--ra-flap, 1)) ease-in-out infinite;
+  will-change: transform;
+}
+
+.c-bird__wing--far {
+  transform-origin: 60% 93%;
+  animation-name: ra-wing-flap-far;
+  animation-duration: calc(0.58s * var(--ra-flap, 1));
+  animation-delay: calc(-0.12s * var(--ra-flap, 1));
+}
+
+@keyframes ra-wing-flap {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  42% {
+    transform: rotate(-64deg);
+  }
+
+  70% {
+    transform: rotate(-27deg);
+  }
+}
+
+@keyframes ra-wing-flap-far {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  42% {
+    transform: rotate(-50deg);
+  }
+
+  70% {
+    transform: rotate(-21deg);
+  }
+}
+
+/* ----- sound toggles: floating (sticky) + footer inline ----- */
+
+.c-bird-sound {
+  position: fixed;
+  right: var(--ra-container-pad, 1.25rem);
+  bottom: 1.25rem;
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--ra-ink);
+  cursor: pointer;
+  background: var(--ra-canvas);
+  border: 1px solid var(--ra-line);
+  border-radius: 50%;
+  box-shadow: 0 1px 0 rgb(23 19 16 / 6%);
+  transition: background var(--ra-dur-fast, 150ms) var(--ra-ease, ease), color var(--ra-dur-fast, 150ms) var(--ra-ease, ease);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--ra-accent);
+    border-color: var(--ra-accent);
+  }
+
+  /* the slash that appears when muted */
+  &::before {
+    position: absolute;
+    width: 1.4rem;
+    height: 1.5px;
+    content: "";
+    background: currentcolor;
+    border-radius: 999px;
+    transform: rotate(-45deg) scaleX(0);
+    transition: transform var(--ra-dur-fast, 150ms) var(--ra-ease, ease);
+  }
+
+  &[data-muted="true"] {
+    color: var(--ra-clay);
+
+    &::before {
+      transform: rotate(-45deg) scaleX(1);
+    }
+  }
+
+  &--inline {
+    position: static;
+    flex-shrink: 0;
+    width: 2.1rem;
+    height: 2.1rem;
+    margin-left: 1rem;
+    font-size: 0.85rem;
+    box-shadow: none;
+  }
+}

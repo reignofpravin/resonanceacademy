@@ -2,7 +2,7 @@
     <div class="container">
         <header class="m-events__header">
             <p class="c-kicker" data-ra-reveal>{{ $kicker }}</p>
-            <h2 class="m-events__heading" data-ra-split>{!! $heading !!}</h2>
+            <h2 class="m-events__heading" data-ra-words>{!! $heading !!}</h2>
         </header>
 
         <ol class="m-events__list m-events__list--{{ $style }}">
@@ -41,9 +41,9 @@
 
                     <div class="m-events__actions">
                         @if ($event['ticketUrl'])
-                            <a class="btn btn-outline-primary" href="{{ esc_url($event['ticketUrl']) }}">{{ __('Tickets', 'ra-theme') }}</a>
+                            <a class="m-events__tickets" href="{{ esc_url($event['ticketUrl']) }}">{{ __('Tickets', 'ra-theme') }} →</a>
                         @else
-                            <a class="c-events-details m-events__more" href="{{ $event['url'] }}">{{ __('Details', 'ra-theme') }}</a>
+                            <a class="m-events__more" href="{{ $event['url'] }}">{{ __('Details', 'ra-theme') }} →</a>
                         @endif
                     </div>
                 </li>

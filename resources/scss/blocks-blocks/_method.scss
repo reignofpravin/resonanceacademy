@@ -1,14 +1,21 @@
 /* =========================================================
-   Module: m-method — sticky storytelling steps
+   Module: m-method — ink band, call-and-response
+   Sticky statement on the left, numbered movements flowing
+   past on the right. Rounded top overlaps the section above.
    ========================================================= */
 
 .m-method {
+  position: relative;
+  z-index: 1;
   padding: var(--ra-space-section) 0;
-  background: var(--ra-sand);
+  margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
+  color: var(--ra-canvas);
+  background: var(--ra-ink);
+  border-radius: 2rem 2rem 0 0;
 
   &__inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.15fr;
     gap: var(--ra-space-gap);
 
     @media (width <= 61.99em) {
@@ -18,23 +25,21 @@
 
   &__sticky {
     position: sticky;
-    top: 6rem;
+    top: 7rem;
     display: grid;
     gap: 1.5rem;
     align-self: start;
   }
 
   &__heading {
+    max-width: 26rem;
     margin: 0;
+    color: var(--ra-canvas);
   }
 
   &__media {
     position: relative;
-    min-height: 14rem;
-    overflow: hidden;
-    background: var(--ra-canvas);
-    border: 1px solid var(--ra-line);
-    border-radius: var(--ra-radius);
+    min-height: 12rem;
 
     img {
       display: block;
@@ -43,13 +48,23 @@
 
   &__clef {
     position: absolute;
-    right: 1rem;
-    bottom: 1rem;
+    top: 1.5rem;
+    right: 0;
+    width: 1.75rem;
+    opacity: 40%;
+  }
+
+  .c-kicker {
+    color: rgb(247 243 236 / 55%);
+
+    &::before {
+      background: var(--ra-accent);
+    }
   }
 
   &__steps {
     display: grid;
-    gap: var(--ra-space-gap);
+    gap: 0;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -58,30 +73,36 @@
 
   &__step {
     display: grid;
-    grid-template-columns: 3.5rem 1fr;
-    gap: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgb(23 19 16 / 15%);
+    grid-template-columns: 4.5rem 1fr;
+    gap: 1.25rem;
+    padding: 2rem 0 2rem 1.5rem;
+    border-top: 1px solid rgb(247 243 236 / 16%);
+
+    &:first-child {
+      border-top-color: var(--ra-accent);
+    }
   }
 
   &__num {
+    padding-top: 0.4rem;
     font-family: var(--ra-font-display);
-    font-size: 1.75rem;
-    font-weight: 600;
+    font-size: 1.35rem;
+    font-weight: 500;
+    line-height: 1;
     color: var(--ra-accent);
   }
 
   &__step-title {
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.4rem;
     font-size: var(--ra-fs-h3);
   }
 
   &__step-text {
     margin: 0;
-    color: rgb(23 19 16 / 75%);
+    color: rgb(247 243 236 / 72%);
   }
 
   &__empty p {
-    color: var(--ra-clay);
+    color: rgb(247 243 236 / 55%);
   }
 }

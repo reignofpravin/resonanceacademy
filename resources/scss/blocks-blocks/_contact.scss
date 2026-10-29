@@ -3,8 +3,12 @@
    ========================================================= */
 
 .m-contact {
-  padding: var(--ra-space-section) 0;
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--ra-space-section) * 1.25) 0 var(--ra-space-section);
+  margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
   background: var(--ra-sand);
+  border-radius: 2rem 2rem 0 0;
 
   &__inner {
     display: grid;
@@ -32,12 +36,9 @@
     color: rgb(23 19 16 / 78%);
   }
 
+  /* no panel chrome: the form lives directly on the band */
   &__form {
-    padding: clamp(1.5rem, 3vw, 2.5rem);
-    background: var(--ra-canvas);
-    border: 1px solid var(--ra-line);
-    border-radius: var(--ra-radius);
-    box-shadow: var(--ra-shadow);
+    padding-top: 0.5rem;
   }
 
   &__fallback {
@@ -68,16 +69,17 @@
   .wpcf7-form-control:not([type='submit']) {
     width: 100%;
     max-width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 0 0.7rem;
     font-family: var(--ra-font-sans);
     background: transparent;
-    border: 1px solid var(--ra-line);
-    border-radius: var(--ra-radius-sm);
+    border: 0;
+    border-bottom: 1px solid rgb(23 19 16 / 25%);
+    border-radius: 0;
+    transition: border-color var(--ra-dur-fast) var(--ra-ease);
 
     &:focus {
-      outline: 2px solid rgb(194 94 58 / 35%);
-      outline-offset: 1px;
-      border-color: var(--ra-accent);
+      outline: none;
+      border-bottom-color: var(--ra-accent);
     }
   }
 

@@ -26,11 +26,12 @@
             @endif
         </div>
 
-        <div class="m-hero__scroll-cue" aria-hidden="true" data-ra-reveal>
-            <span>{{ __('Scroll', 'ra-theme') }}</span>
-            <svg width="12" height="36" viewBox="0 0 12 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 0v30M1 26l5 6 5-6" stroke="currentColor" stroke-width="1.5" data-ra-path></path>
-            </svg>
-        </div>
+    </div>
+
+    <div class="m-hero__scroll-cue" aria-hidden="true" data-ra-reveal>
+        <span>{{ __('Scroll', 'ra-theme') }}</span>
+        <svg width="12" height="36" viewBox="0 0 12 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 0v30M1 26l5 6 5-6" stroke="currentColor" stroke-width="1.5" data-ra-path></path>
+        </svg>
     </div>
 </section>

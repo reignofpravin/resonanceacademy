@@ -3,9 +3,13 @@
    ========================================================= */
 
 .m-testimonials {
-  padding: var(--ra-space-section) 0;
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--ra-space-section) * 1.25) 0 var(--ra-space-section);
+  margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
   color: var(--ra-canvas);
   background: var(--ra-ink);
+  border-radius: 2rem 2rem 0 0;
 
   .c-kicker::before {
     background: var(--ra-accent);

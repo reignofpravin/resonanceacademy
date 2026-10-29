@@ -26,5 +26,6 @@ class ThemeServiceProvider extends SageServiceProvider
         parent::boot();
 
         \App\Blocks\Registrar::init();
+        \App\Customizer\HeaderFooter::init();
     }
 }

@@ -1,51 +1,58 @@
 /* =========================================================
-   Module: m-stats — count-up stat strip
+   Module: m-stats — horizontal pulse strip
+   Three beats across the page: hairline-bounded row, huge
+   serif numerals, mono labels.
    ========================================================= */
 
 .m-stats {
-  padding: 0 0 var(--ra-space-section);
+  padding: 0 0 calc(var(--ra-space-section) * 0.55);
 
   &__row {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--ra-space-gap);
-    justify-content: space-between;
+    padding: 2.75rem 0;
+    border-block: 1px solid var(--ra-line);
 
-    &--band {
+    @media (width <= 47.99em) {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
       padding: 2rem 0;
-      border-block: 1px solid var(--ra-line);
-    }
-
-    &--inline {
-      padding: 0;
-    }
-
-    @media (width <= 61.99em) {
-      flex-direction: column;
-      align-items: center;
     }
   }
 
   &__item {
-    text-align: center;
+    display: grid;
+    gap: 0.5rem;
+    align-content: end;
 
-    @media (width >= 62em) {
-      text-align: left;
+    @media (width >= 48em) {
+      padding-left: var(--ra-space-gap);
+      border-left: 1px solid var(--ra-line);
+
+      &:first-child {
+        padding-left: 0;
+        border-left: 0;
+      }
     }
   }
 
   &__label {
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
     color: var(--ra-clay);
-    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
   &__value {
-    margin: 0.25rem 0 0;
+    margin: 0;
     font-family: var(--ra-font-display);
-    font-size: clamp(2.25rem, 4vw, 3.25rem);
-    font-weight: 550;
-    line-height: 1.05;
+    font-size: clamp(3.25rem, 6vw, 5.5rem);
+    font-weight: 500;
+    line-height: 1;
     color: var(--ra-ink);
+    letter-spacing: -0.02em;
   }
 }
