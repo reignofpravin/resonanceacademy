@@ -79,9 +79,9 @@
         <span>{{ __('Let the music move you.', 'ra-theme') }}</span>
       </p>
 
-      <button type="button" class="c-bird-sound c-bird-sound--inline js-ra-sound" aria-pressed="false">
+      <!-- <button type="button" class="c-bird-sound c-bird-sound--inline js-ra-sound" aria-pressed="false">
         <span aria-hidden="true">&#9834;</span>
-      </button>
+      </button> -->
     </div>
   </div>
 </footer>
