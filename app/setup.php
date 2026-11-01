@@ -129,6 +129,21 @@ add_action('after_setup_theme', function () {
     add_theme_support('post-thumbnails');
 
     /**
+     * Enable custom logo support.
+     *
+     * The uploaded logo replaces the text wordmark in the header and footer;
+     * the site title stays as the fallback when no logo is chosen.
+     *
+     * @link https://developer.wordpress.org/themes/functionality/custom-logo/
+     */
+    add_theme_support('custom-logo', [
+        'height' => 160,
+        'width' => 480,
+        'flex-height' => true,
+        'flex-width' => true,
+    ]);
+
+    /**
      * Enable responsive embed support.
      *
      * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#responsive-embedded-content

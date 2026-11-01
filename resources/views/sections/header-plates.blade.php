@@ -1,9 +1,6 @@
 <input type="checkbox" id="nav-toggle" class="c-nav-toggle__checkbox js-ra-nav-toggle" autocomplete="off" />
 <div class="m-header__plate m-header__plate--brand">
-  <a class="c-wordmark" href="{{ home_url('/') }}">
-    <span class="c-wordmark__accent" aria-hidden="true">♪</span>
-    <span class="c-wordmark__text">{{ $siteName }}</span>
-  </a>
+  <x-logo />
 
   <label for="nav-toggle" class="m-header__toggle">
     <span class="m-header__toggle-label" aria-hidden="true"></span>

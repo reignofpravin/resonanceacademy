@@ -59,3 +59,36 @@ collect(['setup', 'filters'])
             );
         }
     });
+
+
+
+
+/**
+ * Allow SVG file uploads in WordPress Media Library.
+ */
+function custom_theme_allow_svg_uploads( $mimes ) {
+    // Only allow administrators to upload SVGs for security purposes
+    if ( current_user_can( 'administrator' ) ) {
+        $mimes['svg']  = 'image/svg+xml';
+        $mimes['svgz'] = 'image/svg+xml';
+    }
+    return $mimes;
+}
+add_filter( 'upload_mimes', 'custom_theme_allow_svg_uploads' );
+
+/**
+ * Fix the WordPress file type check for SVGs.
+ */
+function custom_theme_fix_svg_extension( $data, $file, $filename, $mimes ) {
+    $filetype = wp_check_filetype( $filename, $mimes );
+    $ext      = $filetype['ext'];
+    $type     = $filetype['type'];
+
+    if ( 'svg' === $ext ) {
+        $data['ext']  = 'svg';
+        $data['type'] = 'image/svg+xml';
+    }
+
+    return $data;
+}
+add_filter( 'wp_check_filetype_and_ext', 'custom_theme_fix_svg_extension', 10, 4 );

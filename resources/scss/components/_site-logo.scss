@@ -1,0 +1,17 @@
+/* =========================================================
+   Component: site logo — uploaded custom logo
+   ========================================================= */
+
+.c-site-logo {
+  display: inline-block;
+  line-height: 0;
+
+  /* Match the footprint of the text wordmark (site title) it replaces:
+     the wordmark renders ~14.25rem wide at 1.35rem type. */
+  &__img {
+    display: block;
+    width: min(14.25rem, 55vw);
+    max-width: 100%;
+    height: auto;
+  }
+}

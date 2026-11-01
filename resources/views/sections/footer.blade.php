@@ -9,10 +9,7 @@
 <footer class="m-site-footer">
   <div class="m-site-footer__inner container">
     <div class="m-site-footer__brand-block">
-      <a class="m-site-footer__brand c-wordmark" href="{{ home_url('/') }}">
-        <span class="c-wordmark__accent" aria-hidden="true">♪</span>
-        <span class="c-wordmark__text">{{ $siteName }}</span>
-      </a>
+      <x-logo class="m-site-footer__brand" />
 
       @if ($tagline !== '')
         <p class="m-site-footer__tagline">{{ esc_html($tagline) }}</p>
