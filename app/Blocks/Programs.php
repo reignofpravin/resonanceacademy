@@ -43,6 +43,11 @@ final class Programs extends Block
         $courses = [];
 
         foreach ($query->posts as $course) {
+            $trackTerms = get_the_terms($course->ID, 'instrument');
+            $track = ($trackTerms !== false && ! is_wp_error($trackTerms) && $trackTerms !== [])
+                ? $trackTerms[0]->slug
+                : '';
+
             $courses[] = [
                 'id' => $course->ID,
                 'title' => wp_specialchars_decode(get_the_title($course), ENT_QUOTES),
@@ -50,6 +55,7 @@ final class Programs extends Block
                 'level' => Meta::get('ra_course_level', $course->ID),
                 'duration' => Meta::get('ra_course_duration', $course->ID),
                 'format' => Meta::get('ra_course_format', $course->ID),
+                'track' => $track,
                 'instruments' => get_the_term_list($course->ID, 'instrument', '<span class="m-programs__instrument">', '</span>', ''),
                 'thumbnail' => get_the_post_thumbnail($course, 'medium_large') ?: '',
             ];

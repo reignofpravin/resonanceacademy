@@ -21,10 +21,20 @@
 
         <div class="m-programs__list" data-ra-block-programs>
             @forelse ($courses as $course)
-                <article class="m-programs__row" data-ra-reveal>
-                    <span class="m-programs__num" aria-hidden="true">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                @php($track = $course['track'] !== '' ? $course['track'] : 'method')
+                <article
+                    class="m-programs__card"
+                    data-ra-reveal
+                    data-ra-reveal-delay="{{ number_format($loop->iteration * 0.06, 2) }}"
+                    data-track="{{ $track }}"
+                >
+                    <div class="m-programs__art" aria-hidden="true">
+                        <i class="m-programs__art-waves"></i>
+                        <i class="m-programs__art-motif"></i>
+                        <i class="m-programs__art-motif m-programs__art-motif--b"></i>
+                    </div>
 
-                    <div class="m-programs__body">
+                    <div class="m-programs__card-body">
                         <div class="m-programs__chips">
                             <span class="c-chip">{{ $course['level'] }}</span>
                             @if ($course['format'] !== 'group')
@@ -45,9 +55,9 @@
                                 <span> · {!! $course['instruments'] !!}</span>
                             @endif
                         </p>
-                    </div>
 
-                    <span class="m-programs__go" aria-hidden="true">→</span>
+                        <span class="m-programs__go" aria-hidden="true">→</span>
+                    </div>
                 </article>
             @empty
                 <div class="m-programs__empty" data-ra-reveal>
@@ -56,5 +66,13 @@
                 </div>
             @endforelse
         </div>
+
+        @if ($courses !== [])
+            <div class="m-programs__foot" data-ra-reveal>
+                <a class="m-programs__all" href="{{ $archiveUrl }}">
+                    {{ __('Full course catalog', 'ra-theme') }} <span aria-hidden="true">→</span>
+                </a>
+            </div>
+        @endif
     </div>
 </section>

@@ -16,6 +16,11 @@
 @endif
 
 <div class="m-menu-overlay">
+  <label for="nav-toggle" class="m-menu-overlay__close">
+    <span aria-hidden="true">✕</span>
+    <span class="u-visually-hidden">{{ __('Close menu', 'ra-theme') }}</span>
+  </label>
+
   <div class="m-menu-overlay__card m-menu-overlay__card--explore">
     <p class="m-menu-overlay__eyebrow">{{ __('Explore', 'ra-theme') }}</p>
     <hr class="m-menu-overlay__rule" />

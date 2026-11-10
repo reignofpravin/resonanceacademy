@@ -4,12 +4,14 @@
  */
 import { domReady } from './behaviors/dom-ready'
 
+import * as birds from './behaviors/birds'
+import * as catalog from './behaviors/catalog'
 import * as count from './behaviors/count'
 import * as drawpath from './behaviors/drawpath'
-import * as birds from './behaviors/birds'
 import * as header from './behaviors/header'
 import * as heroWave from './behaviors/hero-wave'
 import * as marquee from './behaviors/marquee'
+import * as programs from './behaviors/programs'
 import * as reveal from './behaviors/reveal'
 import * as scroll from './behaviors/scroll'
 import * as scroller from './behaviors/scroller'
@@ -24,8 +26,10 @@ domReady(() => {
   heroWave.init()
   count.init()
   marquee.init()
+  programs.init()
   vinyl.init()
   scroller.init()
   slider.init()
   drawpath.init()
+  catalog.init()
 })

@@ -1,6 +1,7 @@
 /* =========================================================
-   Module: m-programs — editorial numbered course list
-   Boxless rows on hairlines; ghost numerals; quiet hover.
+   Module: m-programs — featured course grid
+   Art-panel cards: per-track generative CSS motifs, cursor
+   spotlight + tilt (programs behavior), springy hover lift.
    ========================================================= */
 
 .m-programs {
@@ -59,66 +60,235 @@
     }
   }
 
+  /* ----- card grid ----- */
+
   &__list {
     display: grid;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  &__row {
-    position: relative;
-    display: grid;
-    grid-template-columns: 4.5rem 1fr auto;
+    grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
     gap: var(--ra-space-gap);
-    align-items: baseline;
-    padding: 2rem 0;
-    border-top: 1px solid var(--ra-line);
+  }
 
-    &:last-child {
-      border-bottom: 1px solid var(--ra-line);
+  &__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--ra-canvas);
+    border: 1px solid var(--ra-line);
+    border-radius: 1.25rem;
+    box-shadow: var(--ra-shadow);
+    transform-style: preserve-3d;
+    transition: border-color var(--ra-dur-fast) var(--ra-ease), box-shadow var(--ra-dur-fast) var(--ra-ease);
+
+    /* cursor-tracking spotlight */
+    &::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background: radial-gradient(16rem at var(--mx, 50%) var(--my, 50%), rgb(194 94 58 / 12%), transparent 65%);
+      opacity: 0;
+      transition: opacity var(--ra-dur-fast) var(--ra-ease);
+      pointer-events: none;
     }
 
-    @media (width <= 47.99em) {
-      grid-template-columns: 3rem 1fr;
+    &:hover,
+    &:focus-within {
+      border-color: rgb(194 94 58 / 35%);
+      box-shadow: 0 22px 48px rgb(23 19 16 / 14%);
+
+      &::after {
+        opacity: 100%;
+      }
     }
   }
 
-  &__num {
-    font-family: var(--ra-font-display);
-    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
-    font-weight: 500;
-    line-height: 1;
-    color: var(--ra-clay);
+  &__art {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background:
+      radial-gradient(120% 140% at 85% -20%, color-mix(in srgb, var(--ra-accent) 42%, transparent), transparent 52%),
+      var(--ra-ink);
+    transition: transform 0.6s var(--ra-ease);
+  }
+
+  &__card:hover &__art {
+    transform: scale(1.06);
+  }
+
+  &__art-waves,
+  &__art-motif {
+    position: absolute;
+    inset: 0;
+    display: block;
+    backface-visibility: hidden;
+  }
+
+  /* soft sine “sound waves” overlaying every art panel */
+  &__art-waves {
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent 0 2.4rem,
+        color-mix(in srgb, var(--ra-sand) 10%, transparent) 2.4rem 2.6rem
+      ),
+      repeating-radial-gradient(
+        circle at 84% 120%,
+        transparent 0 1.4rem,
+        color-mix(in srgb, var(--ra-accent) 26%, transparent) 1.4rem 1.6rem
+      );
     opacity: 60%;
+    transform: translateZ(0);
   }
 
-  &__body {
-    display: grid;
-    gap: 0.5rem;
+  /* ----- per-track motifs (pure CSS, no images) ----- */
+
+  /* guitar: fret lines + soundhole ring */
+  .m-programs__card[data-track='guitar'] &__art-motif {
+    inset: auto 0 -22% -8%;
+    height: 80%;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent 0 2.75rem,
+        color-mix(in srgb, var(--ra-sand) 34%, transparent) 2.75rem 2.95rem
+      ),
+      radial-gradient(
+        circle at 62% 62%,
+        transparent 1.35rem,
+        color-mix(in srgb, var(--ra-sand) 55%, transparent) 1.45rem,
+        transparent 1.6rem
+      );
+  }
+
+  /* keyboard: bottom-keyboard strip */
+  .m-programs__card[data-track='keyboard'] &__art-motif {
+    inset: auto 0 12% 0;
+    height: 34%;
+    background: repeating-linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ra-sand) 78%, transparent) 0 2.4rem,
+      color-mix(in srgb, var(--ra-ink) 88%, transparent) 2.4rem 2.65rem
+    );
+    border-top: 2px solid color-mix(in srgb, var(--ra-sand) 40%, transparent);
+  }
+
+  /* keyboard second motif: floating accents */
+  .m-programs__card[data-track='keyboard'] &__art-motif--b {
+    inset: 12% 70% 62% auto;
+    width: 3rem;
+    height: 3rem;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--ra-accent) 70%, transparent) 0 28%,
+      transparent 32%
+    );
+    filter: blur(1px);
+  }
+
+  /* drums: dot grid + two toms */
+  .m-programs__card[data-track='drums'] &__art-motif {
+    background:
+      radial-gradient(circle at 24% 68%, color-mix(in srgb, var(--ra-sand) 30%, transparent) 0 16%, transparent 17%),
+      radial-gradient(
+        circle at 68% 55%,
+        transparent 2.1rem,
+        color-mix(in srgb, var(--ra-accent) 45%, transparent) 2.2rem 2.5rem,
+        transparent 2.7rem
+      );
+  }
+
+  .m-programs__card[data-track='drums'] &__art-motif--b {
+    inset: 8% 8% 62% auto;
+    background: radial-gradient(
+      circle closest-side,
+      color-mix(in srgb, var(--ra-ink) 92%, transparent) 0 30%,
+      transparent 32%
+    );
+    background-size: 1.6rem 1.6rem;
+    background-repeat: repeat;
+    opacity: 45%;
+  }
+
+  /* vocals: waveform bars rising from the baseline */
+  .m-programs__card[data-track='vocals'] &__art-motif {
+    inset: auto 6% 14% 6%;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0 0.55rem,
+      color-mix(in srgb, var(--ra-sand) 58%, transparent) 0.55rem 0.9rem
+    );
+    height: 44%;
+    -webkit-mask-image: radial-gradient(120% 130% at 50% 100%, #000 30%, transparent 78%);
+    mask-image: radial-gradient(120% 130% at 50% 100%, #000 30%, transparent 78%);
+  }
+
+  /* music theory / core: staff lines + a fifths ring */
+  .m-programs__card[data-track='music-theory'] &__art-motif,
+  .m-programs__card[data-track='method'] &__art-motif {
+    inset: 10% auto 12% 8%;
+    width: 46%;
+    background: repeating-linear-gradient(
+      180deg,
+      transparent 0 1.05rem,
+      color-mix(in srgb, var(--ra-sand) 30%, transparent) 1.05rem calc(1.05rem + 1px)
+    );
+  }
+
+  .m-programs__card[data-track='music-theory'] &__art-motif--b,
+  .m-programs__card[data-track='method'] &__art-motif--b {
+    inset: 14% 10% auto auto;
+    width: 38%;
+    aspect-ratio: 1;
+    height: auto;
+    border: 1px solid color-mix(in srgb, var(--ra-accent) 48%, transparent);
+    border-radius: 50%;
+
+    &::before {
+      position: absolute;
+      inset: 18%;
+      content: "";
+      border: 1px dashed color-mix(in srgb, var(--ra-sand) 34%, transparent);
+      border-radius: 50%;
+    }
+  }
+
+  /* ----- card body ----- */
+
+  &__card-body {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1.35rem 1.5rem 1.6rem;
   }
 
   &__chips {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.4rem;
   }
 
   &__title {
     margin: 0;
     font-size: var(--ra-fs-h3);
+    font-family: var(--ra-font-display);
+    font-weight: 500;
+    line-height: 1.25;
 
     a {
       display: inline-block;
       color: var(--ra-ink);
       text-decoration: none;
-      transition: color var(--ra-dur-fast) var(--ra-ease), transform var(--ra-dur-fast) var(--ra-ease);
-
-      &:hover,
-      &:focus-visible {
-        color: var(--ra-accent);
-        transform: translateX(0.35rem);
-      }
+      transition: color var(--ra-dur-fast) var(--ra-ease), transform 0.45s var(--ra-ease);
     }
+  }
+
+  &__card:hover &__title a,
+  &__card:focus-within &__title a {
+    color: var(--ra-accent);
+    transform: translateX(0.3rem);
   }
 
   &__meta {
@@ -129,29 +299,65 @@
     a {
       color: var(--ra-clay);
       text-decoration: none;
+    }
+  }
 
-      &:hover {
-        color: var(--ra-accent);
+  /* arrow pinned under the meta, slides in on hover */
+  &__go {
+    align-self: flex-end;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-size: 1.35rem;
+    color: var(--ra-accent);
+    opacity: 0%;
+    transform: translateX(-0.9rem);
+    transition: opacity var(--ra-dur-fast) var(--ra-ease), transform 0.45s var(--ra-ease);
+  }
+
+  &__card:hover &__go,
+  &__card:focus-within &__go {
+    opacity: 100%;
+    transform: translateX(0);
+  }
+
+  &__foot {
+    margin-top: var(--ra-space-gap);
+    text-align: center;
+  }
+
+  &__all {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.75rem 1.6rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ra-ink);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid var(--ra-line);
+    border-radius: 999px;
+    transition: color var(--ra-dur-fast) var(--ra-ease), border-color var(--ra-dur-fast) var(--ra-ease), background-color var(--ra-dur-fast) var(--ra-ease);
+
+    span {
+      transition: transform var(--ra-dur-fast) var(--ra-ease);
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--ra-canvas);
+      background: var(--ra-ink);
+      border-color: var(--ra-ink);
+
+      span {
+        transform: translateX(0.3rem);
       }
     }
   }
 
-  /* arrow that slides in on row hover */
-  &__go {
-    align-self: center;
-    font-size: 1.25rem;
-    color: var(--ra-accent);
-    opacity: 0%;
-    transform: translateX(-0.75rem);
-    transition: opacity var(--ra-dur-fast) var(--ra-ease), transform var(--ra-dur-fast) var(--ra-ease);
-  }
-
-  &__row:hover,
-  &__row:focus-within {
-    .m-programs__go {
-      opacity: 100%;
-      transform: translateX(0);
-    }
+  &__instrument {
+    color: var(--ra-clay);
   }
 
   &__empty {

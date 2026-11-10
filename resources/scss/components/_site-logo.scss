@@ -10,8 +10,9 @@
      the wordmark renders ~14.25rem wide at 1.35rem type. */
   &__img {
     display: block;
-    width: min(14.25rem, 55vw);
+    width: min(8rem, 34vw);
     max-width: 100%;
     height: auto;
+    transition: width 0.45s var(--ra-ease);
   }
 }

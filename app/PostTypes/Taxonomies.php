@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\PostTypes;
 
 /**
- * Registers the academy's taxonomies: course_category, instrument, event_type.
+ * Registers the academy's taxonomies: course_category, course_level, instrument, event_type.
  */
 final class Taxonomies
 {
     private const INSTRUMENT_SLUG = 'instrument';
     private const COURSE_CATEGORY_SLUG = 'course_category';
+    private const COURSE_LEVEL_SLUG = 'course_level';
     private const EVENT_TYPE_SLUG = 'event_type';
 
     /**
@@ -21,6 +22,11 @@ final class Taxonomies
         register_taxonomy(self::COURSE_CATEGORY_SLUG, 'course', self::args(
             __('Course Categories', 'ra-theme'),
             __('Course Category', 'ra-theme'),
+        ));
+
+        register_taxonomy(self::COURSE_LEVEL_SLUG, 'course', self::args(
+            __('Course Levels', 'ra-theme'),
+            __('Course Level', 'ra-theme'),
         ));
 
         register_taxonomy(self::INSTRUMENT_SLUG, ['course', 'instructor'], self::args(
