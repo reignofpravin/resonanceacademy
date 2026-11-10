@@ -2,6 +2,9 @@
    Typography — editorial ramp on top of bootstrap type
    ========================================================= */
 
+/* Long single words ("Programmes") must wrap rather than widen the
+   layout viewport on 280px screens. Only kicks in when a word cannot
+   fit a line, so desktop typography is untouched. */
 h1,
 .h1 {
   font-family: var(--ra-font-display);
@@ -9,6 +12,8 @@ h1,
   font-weight: 500;
   line-height: var(--ra-leading-tight);
   letter-spacing: -0.02em;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 h2,
@@ -18,6 +23,7 @@ h2,
   font-weight: 500;
   line-height: var(--ra-leading-tight);
   letter-spacing: -0.01em;
+  overflow-wrap: break-word;
 }
 
 h3,

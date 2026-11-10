@@ -51,6 +51,13 @@
     &:focus-visible {
       background: var(--ra-accent-ink);
     }
+
+    /* Ultra-narrow screens (Galaxy Fold cover, 280px): the CTA plate
+       squeezes the logo down to a 15px tap target. The menu still
+       carries "Enquire", so drop the plate and let the brand breathe. */
+    @media (width <= 19.99em) {
+      display: none;
+    }
   }
 
   &__toggle {
@@ -125,7 +132,7 @@
 
     &:hover,
     &:focus-visible {
-      color: var(--ra-accent);
+      color: var(--ra-accent-text);
       text-decoration: underline;
       text-decoration-thickness: 2px;
       text-underline-offset: 0.35em;
@@ -198,7 +205,7 @@
   &__eyebrow {
     margin: 0;
     font-size: 0.9rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
     letter-spacing: 0.1em;
   }
 
@@ -224,7 +231,7 @@
 
       &:hover,
       &:focus-visible {
-        color: var(--ra-accent);
+        color: var(--ra-accent-text);
       }
     }
   }
@@ -326,7 +333,7 @@ body:has(.c-nav-toggle__checkbox:checked) {
 
     &:hover,
     &:focus-visible {
-      color: var(--ra-accent);
+      color: var(--ra-accent-text);
     }
   }
 
@@ -342,6 +349,9 @@ body:has(.c-nav-toggle__checkbox:checked) {
   }
 
   &--footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
     font-size: 0.95rem;
   }
 }
@@ -382,7 +392,7 @@ body:has(.c-nav-toggle__checkbox:checked) {
     margin: 0.5rem 0 0;
     font-size: 0.95rem;
     line-height: var(--ra-leading-body);
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
   }
 
   &__social {
@@ -410,7 +420,7 @@ body:has(.c-nav-toggle__checkbox:checked) {
 
     &:hover,
     &:focus-visible {
-      color: var(--ra-accent);
+      color: var(--ra-accent-text);
     }
   }
 
@@ -419,7 +429,7 @@ body:has(.c-nav-toggle__checkbox:checked) {
     font-family: var(--ra-font-sans);
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
@@ -440,6 +450,9 @@ body:has(.c-nav-toggle__checkbox:checked) {
   }
 
   &__contact-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
     font-size: 0.95rem;
     color: var(--ra-ink);
     text-decoration: none;
@@ -447,13 +460,13 @@ body:has(.c-nav-toggle__checkbox:checked) {
 
     &:hover,
     &:focus-visible {
-      color: var(--ra-accent);
+      color: var(--ra-accent-text);
     }
   }
 
   &__contact-line {
     font-size: 0.95rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
   }
 
   &__bottom {
@@ -475,7 +488,7 @@ body:has(.c-nav-toggle__checkbox:checked) {
   &__legal {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
   }
 }
 

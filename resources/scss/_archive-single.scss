@@ -8,6 +8,11 @@
 
   &__title {
     margin: 0;
+
+    /* Term names ("Affiliated Degree Programmes") are long single words at
+       display size: on 280px screens step the size down so they never
+       break mid-word. Above ~420px this is identical to --ra-fs-display. */
+    font-size: clamp(2rem, 13vw, var(--ra-fs-display));
   }
 
   &__desc {
@@ -22,7 +27,7 @@
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
     gap: var(--ra-space-gap);
   }
 
@@ -41,12 +46,12 @@
 
       &.current {
         font-weight: 700;
-        color: var(--ra-accent);
+        color: var(--ra-accent-text);
       }
 
       &:hover,
       &:focus-visible {
-        color: var(--ra-accent);
+        color: var(--ra-accent-text);
       }
     }
   }
@@ -58,7 +63,7 @@
     background: var(--ra-sand);
 
     .c-kicker a {
-      color: var(--ra-accent);
+      color: var(--ra-accent-text);
       text-decoration: none;
 
       &:hover {
@@ -125,7 +130,7 @@
   &__duration {
     align-self: center;
     font-size: 0.9rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
   }
 
   &__body {
@@ -176,7 +181,7 @@
 
       &:hover,
       &:focus-visible {
-        color: var(--ra-accent);
+        color: var(--ra-accent-text);
       }
     }
   }

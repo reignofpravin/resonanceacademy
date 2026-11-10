@@ -110,7 +110,7 @@
 
       &:hover,
       &:focus-visible {
-        color: var(--ra-accent);
+        color: var(--ra-accent-text);
       }
     }
   }
@@ -118,7 +118,7 @@
   &__meta {
     margin: 0;
     font-size: 0.9rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
   }
 
   &__actions {
@@ -149,7 +149,7 @@
 
     &:hover,
     &:focus-visible {
-      color: var(--ra-accent);
+      color: var(--ra-accent-text);
 
       &::after {
         transform: scaleX(1);
@@ -162,7 +162,7 @@
 
     p {
       margin: 0;
-      color: var(--ra-clay);
+      color: var(--ra-clay-ink);
     }
   }
 }

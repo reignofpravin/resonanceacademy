@@ -5,7 +5,7 @@
 .c-icon {
   display: inline-block;
   vertical-align: middle;
-  color: var(--ra-accent);
+  color: var(--ra-accent-text);
 }
 
 .m-site-footer__signoff {
@@ -14,9 +14,9 @@
   align-items: center;
   font-family: var(--ra-font-display);
   font-size: 0.95rem;
-  color: var(--ra-accent);
+  color: var(--ra-accent-text);
 
   span {
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
   }
 }

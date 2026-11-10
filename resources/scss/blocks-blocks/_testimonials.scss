@@ -92,17 +92,28 @@
     gap: 0.5rem;
   }
 
+  /* 24px hit area with the visual dot drawn inside: the indicator stays
+     8px but the control clears WCAG 2.5.8 and touch targets. */
   &__dot {
-    width: 0.5rem;
-    height: 0.5rem;
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
     padding: 0;
     cursor: pointer;
-    background: rgb(247 243 236 / 25%);
+    background: none;
     border: 0;
-    border-radius: 999px;
-    transition: background var(--ra-dur-fast) var(--ra-ease), width var(--ra-dur-fast) var(--ra-ease);
 
-    &.is-active {
+    &::before {
+      width: 0.5rem;
+      height: 0.5rem;
+      content: "";
+      background: rgb(247 243 236 / 25%);
+      border-radius: 999px;
+      transition: background var(--ra-dur-fast) var(--ra-ease), width var(--ra-dur-fast) var(--ra-ease);
+    }
+
+    &.is-active::before {
       width: 1.5rem;
       background: var(--ra-accent);
     }

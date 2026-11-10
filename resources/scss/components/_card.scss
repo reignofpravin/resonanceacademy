@@ -61,7 +61,7 @@
 
       &:hover,
       &:focus-visible {
-        color: var(--ra-accent);
+        color: var(--ra-accent-text);
       }
     }
   }
@@ -74,7 +74,7 @@
   &__meta {
     margin: 0;
     font-size: 0.9rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
 
     span + span {
       margin-left: 0.6rem;
@@ -95,7 +95,7 @@
 
     &:hover,
     &:focus-visible {
-      color: var(--ra-accent);
+      color: var(--ra-accent-text);
     }
   }
 }

@@ -10,7 +10,7 @@
     background: var(--ra-sand);
 
     .c-kicker {
-      color: var(--ra-accent);
+      color: var(--ra-accent-text);
     }
   }
 
@@ -33,8 +33,10 @@
   /* ----- sticky filter bar ----- */
 
   &__bar {
-    position: sticky;
-    top: 4.5rem;
+    /* Phones: the wrapped filter stack is ~500px tall, so it scrolls with
+       the page rather than eating the viewport. It only pins from 48em up,
+       clearing the 111px scrolled header. */
+    position: relative;
     z-index: 20;
     display: grid;
     gap: 0.75rem;
@@ -47,7 +49,8 @@
     backdrop-filter: blur(10px);
 
     @media (width >= 48em) {
-      top: 6.25rem;
+      position: sticky;
+      top: 7.5rem;
     }
   }
 
@@ -71,7 +74,7 @@
   &__group-label {
     font-size: 0.7rem;
     font-weight: 700;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -106,7 +109,7 @@
     padding: 0.35rem 0.9rem;
     font-family: inherit;
     font-size: 0.875rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
     cursor: pointer;
     background: none;
     border: 0;
@@ -156,7 +159,7 @@
       box-shadow var(--ra-dur-fast) var(--ra-ease);
 
     &::placeholder {
-      color: var(--ra-clay);
+      color: var(--ra-clay-ink);
     }
 
     &:focus {
@@ -212,7 +215,7 @@
     }
 
     &:hover {
-      color: var(--ra-accent);
+      color: var(--ra-accent-text);
       border-color: var(--ra-accent);
     }
   }
@@ -257,7 +260,7 @@
       background-color: rgb(23 19 16 / 3%);
 
       .m-catalog__go {
-        color: var(--ra-accent);
+        color: var(--ra-accent-text);
         transform: translateX(0.35rem);
       }
     }
@@ -272,13 +275,13 @@
     font-size: clamp(1.75rem, 2.5vw, 2.5rem);
     font-weight: 500;
     line-height: 1;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
     opacity: 60%;
     transition: opacity var(--ra-dur-fast) var(--ra-ease), color var(--ra-dur-fast) var(--ra-ease);
   }
 
   &__row:hover &__num {
-    color: var(--ra-accent);
+    color: var(--ra-accent-text);
     opacity: 100%;
   }
 
@@ -301,6 +304,7 @@
 
     a {
       display: inline-block;
+      padding-block: 0.15rem;
       color: var(--ra-ink);
       text-decoration: none;
       transition: color var(--ra-dur-fast) var(--ra-ease), transform var(--ra-dur-fast) var(--ra-ease);
@@ -308,14 +312,14 @@
   }
 
   &__row:hover &__title a {
-    color: var(--ra-accent);
+    color: var(--ra-accent-text);
     transform: translateX(0.35rem);
   }
 
   &__meta {
     margin: 0;
     font-size: 0.9rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
   }
 
   &__excerpt {
@@ -327,7 +331,7 @@
 
   &__go {
     font-size: 1.25rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
     transform: translateX(0);
     transition: color var(--ra-dur-fast) var(--ra-ease), transform var(--ra-dur-fast) var(--ra-ease);
 
@@ -349,6 +353,6 @@
   &__noscript {
     margin-top: 1.5rem;
     font-size: 0.85rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
   }
 }

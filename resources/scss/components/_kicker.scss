@@ -7,7 +7,7 @@
   align-items: center;
   font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--ra-accent);
+  color: var(--ra-accent-text);
   text-transform: uppercase;
   letter-spacing: 0.14em;
 
@@ -18,5 +18,12 @@
     content: "";
     background: var(--ra-accent);
     border-radius: 999px;
+  }
+
+  /* when the kicker is a link (archive back-links), keep a 24px target */
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5rem;
   }
 }

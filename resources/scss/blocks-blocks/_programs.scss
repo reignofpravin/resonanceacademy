@@ -27,9 +27,13 @@
 
   &__filter {
     position: relative;
+    display: inline-block;
+
+    /* keeps short labels ("All") at a 24px+ touch target */
+    min-width: 1.75rem;
     padding: 0.15rem 0;
     font-size: 0.9rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
     text-decoration: none;
     transition: color var(--ra-dur-fast) var(--ra-ease);
 
@@ -64,7 +68,7 @@
 
   &__list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(18.5rem, 100%), 1fr));
     gap: var(--ra-space-gap);
   }
 
@@ -287,17 +291,17 @@
 
   &__card:hover &__title a,
   &__card:focus-within &__title a {
-    color: var(--ra-accent);
+    color: var(--ra-accent-text);
     transform: translateX(0.3rem);
   }
 
   &__meta {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
 
     a {
-      color: var(--ra-clay);
+      color: var(--ra-clay-ink);
       text-decoration: none;
     }
   }
@@ -308,7 +312,7 @@
     margin-top: auto;
     padding-top: 0.75rem;
     font-size: 1.35rem;
-    color: var(--ra-accent);
+    color: var(--ra-accent-text);
     opacity: 0%;
     transform: translateX(-0.9rem);
     transition: opacity var(--ra-dur-fast) var(--ra-ease), transform 0.45s var(--ra-ease);
@@ -357,7 +361,7 @@
   }
 
   &__instrument {
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
   }
 
   &__empty {
@@ -368,7 +372,7 @@
 
     p {
       margin: 0;
-      color: var(--ra-clay);
+      color: var(--ra-clay-ink);
     }
   }
 }

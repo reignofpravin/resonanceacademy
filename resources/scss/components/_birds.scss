@@ -101,7 +101,7 @@
 
   &:hover,
   &:focus-visible {
-    color: var(--ra-accent);
+    color: var(--ra-accent-text);
     border-color: var(--ra-accent);
   }
 
@@ -118,7 +118,7 @@
   }
 
   &[data-muted="true"] {
-    color: var(--ra-clay);
+    color: var(--ra-clay-ink);
 
     &::before {
       transform: rotate(-45deg) scaleX(1);
