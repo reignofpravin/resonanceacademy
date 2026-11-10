@@ -34,7 +34,7 @@ final class Instructors extends Block
                 'title' => wp_specialchars_decode(get_the_title($instructor), ENT_QUOTES),
                 'url' => get_permalink($instructor),
                 'role' => Meta::get('ra_instructor_role', $instructor->ID),
-                'excerpt' => wp_strip_all_tags(get_the_excerpt($instructor)),
+                'excerpt' => html_entity_decode(wp_strip_all_tags(get_the_excerpt($instructor)), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
                 'instruments' => array_map(
                     static fn ($term): string => $term->name,
                     get_the_terms($instructor->ID, 'instrument') ?: [],

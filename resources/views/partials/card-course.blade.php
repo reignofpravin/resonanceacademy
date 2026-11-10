@@ -25,7 +25,7 @@
         </h2>
 
         @if (get_the_excerpt())
-            <p class="c-card__excerpt">{{ wp_strip_all_tags(get_the_excerpt()) }}</p>
+            <p class="c-card__excerpt">{{ html_entity_decode(wp_strip_all_tags(get_the_excerpt()), ENT_QUOTES | ENT_HTML5, 'UTF-8') }}</p>
         @endif
 
         <p class="c-card__meta">

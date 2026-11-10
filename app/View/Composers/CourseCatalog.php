@@ -75,7 +75,9 @@ final class CourseCatalog
                 }
             }
 
-            $excerpt = wp_strip_all_tags(get_the_excerpt($course));
+            // Excerpts in the DB may hold HTML entities (e.g. &mdash;); Blade
+            // escapes them again, so decode before the view prints the text.
+            $excerpt = html_entity_decode(wp_strip_all_tags(get_the_excerpt($course)), ENT_QUOTES | ENT_HTML5, 'UTF-8');
             $title = wp_specialchars_decode(get_the_title($course), ENT_QUOTES);
             $trackNames = implode(', ', array_column($facets['track'], 'name'));
             $format = \App\PostTypes\Meta::get('ra_course_format', $id);
