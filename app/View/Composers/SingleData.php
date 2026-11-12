@@ -45,21 +45,6 @@ final class SingleData
                 $data['relatedArchive'] = get_post_type_archive_link('instructor');
                 $data['archiveLabel'] = __('Faculty', 'ra-theme');
                 break;
-
-            case 'event':
-                $data['types'] = self::termNames($postId, 'event_type');
-                $data['venue'] = Meta::get('ra_event_venue', $postId);
-                $data['ticketUrl'] = Meta::get('ra_event_ticket_url', $postId);
-
-                $raw = Meta::get('ra_event_datetime', $postId);
-                $when = $raw !== '' ? \DateTime::createFromFormat('Y-m-d H:i', $raw, wp_timezone()) : false;
-                $data['when'] = $when instanceof \DateTime ? $when : null;
-                $data['whenFormatted'] = $when instanceof \DateTime
-                    ? wp_date(get_option('date_format') . ' · g:i a', $when->format('U'))
-                    : '';
-                $data['relatedArchive'] = get_post_type_archive_link('event');
-                $data['archiveLabel'] = __('Calendar', 'ra-theme');
-                break;
         }
 
         return $data;

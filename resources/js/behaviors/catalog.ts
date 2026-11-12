@@ -1,20 +1,16 @@
 /**
  * Course catalog — instant filtering for `[data-ra-catalog]`.
  *
- * A shared ink pill glides between the active chip in each facet group
- * (measured once per state change, animated on an expo.out spring). Rows
- * leaving the filter dissolve with a blur + lift; returning rows reveal
- * with a clip-path wipe and rise. Rows below the fold reveal themselves
- * as they scroll into view, so the long list animates the whole way down.
+ * A single pinned toolbar carries the search field, the facet disclosure and
+ * the result count; the facets themselves live in one wrapping line that the
+ * disclosure reveals (and which stays open without JS). Rows leaving the
+ * filter fade out, returning rows fade back in; the list is otherwise static.
  * State mirrors into the query string (shareable, bookmarkable) and is
  * re-applied from the URL on load. Reduced motion degrades to show/hide.
  */
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import { isReducedMotion } from './raf'
-
-gsap.registerPlugin(ScrollTrigger)
 
 type FacetKey = 'track' | 'level' | 'path'
 type State = Record<FacetKey, string> & { q: string }
@@ -69,41 +65,15 @@ const testRow = (row: HTMLElement, state: State): boolean => {
   return true
 }
 
-/** Re-clamp the ghost numerals 01… on the currently visible rows. */
-const renumber = (rows: NodeListOf<HTMLElement>, skip: Iterable<HTMLElement> = []): void => {
-  const excluded = new Set(skip)
-  let index = 0
-
-  rows.forEach((row) => {
-    if (row.style.display === 'none' || excluded.has(row)) {
-      return
-    }
-
-    index += 1
-    row.querySelector<HTMLElement>('.m-catalog__num')?.replaceChildren(String(index).padStart(2, '0'))
+/** Filter results fade in; nothing animates on scroll. */
+const fadeIn = (rows: HTMLElement[]): void => {
+  gsap.fromTo(rows, { autoAlpha: 0 }, {
+    autoAlpha: 1,
+    duration: 0.24,
+    ease: 'power2.out',
+    overwrite: 'auto',
+    onComplete: () => gsap.set(rows, { clearProps: 'opacity,visibility' }),
   })
-}
-
-/** One clip-wipe reveal, shared by scroll entrances and filter returns. */
-const wipeIn = (rows: HTMLElement[], delay = 0): void => {
-  gsap.fromTo(
-    rows,
-    { autoAlpha: 0, y: 26, clipPath: 'inset(0% 0% 100% 0%)' },
-    {
-      autoAlpha: 1,
-      y: 0,
-      clipPath: 'inset(0% 0% 0% 0%)',
-      duration: 0.65,
-      delay,
-      ease: 'expo.out',
-      stagger: 0.05,
-      overwrite: 'auto',
-      onComplete: () => {
-        gsap.set(rows, { clearProps: 'clipPath,transform,visibility,filter' })
-        ScrollTrigger.refresh()
-      },
-    },
-  )
 }
 
 export const init = (): void => {
@@ -120,6 +90,9 @@ const setup = (root: HTMLElement): void => {
   const clear = root.querySelector<HTMLButtonElement>('.js-catalog-clear')
   const countNode = root.querySelector<HTMLElement>('[data-ra-catalog-count]')
   const empty = root.querySelector<HTMLElement>('[data-ra-empty]')
+  const bar = root.querySelector<HTMLElement>('[data-ra-catalog-bar]')
+  const toggle = root.querySelector<HTMLButtonElement>('.js-catalog-toggle')
+  const badge = root.querySelector<HTMLElement>('.js-catalog-filter-count')
 
   if (! rows.length || ! list) {
     return
@@ -128,51 +101,7 @@ const setup = (root: HTMLElement): void => {
   const state = readState()
   const reduced = isReducedMotion()
 
-  // --- Gliding pill, one per facet group ----------------------------------
-
-  const groups: Array<{ key: FacetKey; options: HTMLElement; glide: HTMLElement }> = []
-
-  root.querySelectorAll<HTMLElement>('.m-catalog__options').forEach((options) => {
-    const chip = options.querySelector<HTMLElement>('[data-ra-filter]')
-
-    if (! chip?.dataset.raFilter) {
-      return
-    }
-
-    const glide = document.createElement('span')
-    glide.className = 'm-catalog__glide'
-    options.prepend(glide)
-
-    groups.push({ key: chip.dataset.raFilter as FacetKey, options, glide })
-  })
-
-  const poseGlide = (key: FacetKey, animate: boolean): void => {
-    const group = groups.find((candidate) => candidate.key === key)
-
-    if (! group) {
-      return
-    }
-
-    const active = group.options.querySelector<HTMLElement>('.m-catalog__chip.is-active')
-
-    if (! active) {
-      gsap.to(group.glide, { opacity: 0, duration: animate ? 0.2 : 0 })
-
-      return
-    }
-
-    gsap.to(group.glide, {
-      x: active.offsetLeft,
-      y: active.offsetTop,
-      width: active.offsetWidth,
-      height: active.offsetHeight,
-      opacity: 1,
-      duration: animate ? 0.5 : 0,
-      ease: 'expo.out',
-    })
-  }
-
-  const setTabs = (key: FacetKey, activeValue: string, animate = true): void => {
+  const setTabs = (key: FacetKey, activeValue: string): void => {
     chips.forEach((chip) => {
       if (chip.dataset.raFilter !== key) {
         return
@@ -182,13 +111,55 @@ const setup = (root: HTMLElement): void => {
       chip.classList.toggle('is-active', isActive)
       chip.setAttribute('aria-pressed', isActive ? 'true' : 'false')
     })
-
-    poseGlide(key, animate)
   }
 
-  if (! reduced) {
-    window.addEventListener('resize', () => {
-      FACETS.forEach((key) => poseGlide(key, false))
+  // --- Collapsible facet panel --------------------------------------------
+
+  const activeFacets = (): number => FACETS.filter((key) => state[key] !== ALL).length
+
+  const setPanel = (open: boolean): void => {
+    if (! bar) {
+      return
+    }
+
+    bar.classList.toggle('is-filters-open', open)
+    toggle?.setAttribute('aria-expanded', open ? 'true' : 'false')
+  }
+
+  const syncBadge = (): void => {
+    const count = activeFacets()
+
+    if (! badge) {
+      return
+    }
+
+    badge.textContent = String(count)
+    badge.hidden = count === 0
+  }
+
+  const syncClear = (): void => {
+    if (! clear) {
+      return
+    }
+
+    const dirty = FACETS.some((key) => state[key] !== ALL) || state.q.trim() !== ''
+    clear.dataset.raActive = dirty ? 'true' : 'false'
+  }
+
+  if (bar) {
+    bar.dataset.raFilters = 'ready'
+  }
+
+  toggle?.addEventListener('click', () => {
+    setPanel(! bar?.classList.contains('is-filters-open'))
+  })
+
+  if (bar && toggle) {
+    bar.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && bar.classList.contains('is-filters-open')) {
+        setPanel(false)
+        toggle.focus()
+      }
     })
   }
 
@@ -213,14 +184,10 @@ const setup = (root: HTMLElement): void => {
       if (animate) {
         gsap.to(row, {
           autoAlpha: 0,
-          y: -12,
-          scale: 0.985,
-          filter: 'blur(6px)',
-          duration: 0.28,
-          ease: 'power2.in',
+          duration: 0.18,
+          ease: 'power1.out',
           onComplete: () => {
             row.style.display = 'none'
-            gsap.set(row, { y: 0, scale: 1, filter: 'none' })
           },
         })
       } else {
@@ -229,28 +196,25 @@ const setup = (root: HTMLElement): void => {
     })
 
     staying.forEach((row) => {
-      const wasHidden = row.style.display === 'none'
+      const wasHidden = row.style.display === 'none' || row.style.visibility === 'hidden'
 
       row.style.display = ''
-      row.dataset.raRevealed = '1'
 
       if (! wasHidden) {
-        if (animate) {
-          gsap.set(row, { clearProps: 'filter' })
-        }
-
         return
       }
 
       entering.push(row)
     })
 
-    renumber(rows, leaving)
+    // Every surviving row has just had its tween killed, so any inline
+    // opacity/visibility from a half-finished fade must go. Without this,
+    // `apply({ animate: false })` (Clear) would restore `display` on rows the
+    // previous fade-out left at autoAlpha 0 and strand them invisible.
+    gsap.set(staying, { clearProps: 'opacity,visibility' })
 
     if (animate && entering.length > 0) {
-      wipeIn(entering)
-    } else {
-      ScrollTrigger.refresh()
+      fadeIn(entering)
     }
 
     if (countNode) {
@@ -269,61 +233,40 @@ const setup = (root: HTMLElement): void => {
       empty.hidden = staying.length > 0
     }
 
-    if (clear) {
-      const dirty = FACETS.some((key) => state[key] !== ALL) || state.q.trim() !== ''
-      clear.dataset.raActive = dirty ? 'true' : 'false'
-    }
-
+    syncClear()
+    syncBadge()
     writeState(state)
   }
 
   // --- Initial state (from the query string) ----------------------------
 
-  FACETS.forEach((key) => setTabs(key, state[key], false))
+  FACETS.forEach((key) => setTabs(key, state[key]))
 
   if (search) {
     search.value = state.q
   }
 
-  // Collapse non-matching rows before the scroll reveal so a deep link
-  // (?track=guitar) opens on its subset alone.
+  // A shared link with facets selected opens the panel so the choice is
+  // visible rather than hidden behind the toggle.
+  if (activeFacets() > 0) {
+    setPanel(true)
+  }
+
+  syncBadge()
+  syncClear()
+
+  // Collapse non-matching rows before paint so a deep link (?track=guitar)
+  // opens on its subset alone.
   if (FACETS.some((key) => state[key] !== ALL) || state.q !== '') {
     rows.forEach((row) => {
       if (! testRow(row, state)) {
         row.style.display = 'none'
-      } else {
-        row.dataset.raRevealed = '1'
       }
     })
   }
 
   if (countNode) {
     countNode.replaceChildren(String(Array.from(rows).filter((row) => row.style.display !== 'none').length))
-  }
-
-  // --- Scroll entrances: each row wipe-reveals as it enters --------------
-
-  if (! reduced) {
-    const rowObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (! entry.isIntersecting) {
-          return
-        }
-
-        const row = entry.target as HTMLElement
-        rowObserver.unobserve(row)
-
-        if (row.dataset.raRevealed === '1' || row.style.display === 'none') {
-          return
-        }
-
-        row.dataset.raRevealed = '1'
-        gsap.killTweensOf(row)
-        wipeIn([row])
-      })
-    }, { threshold: 0.06, rootMargin: '0px 0px 0px 0px' })
-
-    rows.forEach((row) => rowObserver.observe(row))
   }
 
   // --- Interactions -------------------------------------------------------
@@ -361,7 +304,7 @@ const setup = (root: HTMLElement): void => {
     clear.addEventListener('click', () => {
       FACETS.forEach((key) => {
         state[key] = ALL
-        setTabs(key, ALL, false)
+        setTabs(key, ALL)
       })
 
       state.q = ''

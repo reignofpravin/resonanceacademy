@@ -19,9 +19,6 @@ final class Meta
         'ra_course_duration' => ['postType' => 'course', 'type' => 'string', 'default' => ''],
         'ra_course_format' => ['postType' => 'course', 'type' => 'string', 'default' => 'group'],
         'ra_instructor_role' => ['postType' => 'instructor', 'type' => 'string', 'default' => ''],
-        'ra_event_datetime' => ['postType' => 'event', 'type' => 'string', 'default' => ''],
-        'ra_event_venue' => ['postType' => 'event', 'type' => 'string', 'default' => ''],
-        'ra_event_ticket_url' => ['postType' => 'event', 'type' => 'string', 'default' => ''],
     ];
 
     /**
@@ -40,8 +37,6 @@ final class Meta
      * @var array<string, callable(string): string>
      */
     private const SANITIZERS = [
-        'ra_event_ticket_url' => 'esc_url_raw',
-        'ra_event_venue' => 'sanitize_text_field',
         'ra_instructor_role' => 'sanitize_text_field',
     ];
 

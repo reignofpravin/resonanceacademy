@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Vite;
 use App\PostTypes\PostTypes;
 
 /**
- * Content model: course / instructor / event post types.
+ * Content model: course / instructor post types.
  */
 add_action('init', [PostTypes::class, 'register'], 5);
 

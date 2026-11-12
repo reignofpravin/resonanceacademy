@@ -73,23 +73,6 @@ for row in "${instructor_rows[@]}"; do
   for i in $(tr ',' '\n' <<<"$instrs"); do wp post term set "$id" instrument "$i" >/dev/null; done
 done
 
-# ----------------------------------------------------------------- events
-# (The past masterclass seeded during Task 11 verification is left in place.)
-future_dates=(
-  "$(date -v+20d +%Y-%m-%d) 19:30|Autumn Recital Season Opening|concert|Resonance Hall|https://resonance-academy.local/tickets/"
-  "$(date -v+34d +%Y-%m-%d) 18:00|Cello & Strings Ensemble Night|concert|Resonance Hall|https://resonance-academy.local/tickets/"
-  "$(date -v+48d +%Y-%m-%d) 14:00|Open Masterclass: Breath & Voice|masterclass|Studio B|"
-  "$(date -v+62d +%Y-%m-%d) 17:30|Foundation Group Showcase|showcase|Resonance Hall|"
-)
-for row in "${future_dates[@]}"; do
-  IFS='|' read -r when title vtype venue tickets <<<"$row"
-  id="$(ensure_post event "$title")"
-  set_meta "$id" ra_event_datetime "$when"
-  set_meta "$id" ra_event_venue "$venue"
-  if [ -n "$tickets" ]; then set_meta "$id" ra_event_ticket_url "$tickets"; fi
-  wp post term set "$id" event_type "$vtype" >/dev/null
-done
-
 # -------------------------------------------------------------------- cf7
 FORM_ID="$(wp post list --post_type=wpcf7_contact_form --format=ids | head -1)"
 if [ -n "$FORM_ID" ]; then
@@ -108,7 +91,6 @@ WP_BLOCKS='<!-- wp:ra/hero /-->
 <!-- wp:ra/method /-->
 <!-- wp:ra/instructors /-->
 <!-- wp:ra/marquee /-->
-<!-- wp:ra/events /-->
 <!-- wp:ra/testimonials /-->
 <!-- wp:ra/faq /-->
 <!-- wp:ra/contact /-->'

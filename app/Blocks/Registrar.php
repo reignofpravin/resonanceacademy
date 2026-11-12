@@ -20,7 +20,6 @@ final class Registrar
             'hero' => Hero::class,
             'programs' => Programs::class,
             'instructors' => Instructors::class,
-            'events' => Events::class,
             'method' => Method::class,
             'stats' => Stats::class,
             'testimonials' => Testimonials::class,

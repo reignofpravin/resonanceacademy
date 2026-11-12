@@ -3,10 +3,31 @@
    footer grid, main, nav lists
    ========================================================= */
 
+:root {
+  /* Height of the header once `.is-scrolled` shrinks the logo (1rem inner
+     padding + plate padding + 4.75rem logo), minus 2px so pinned bars tuck
+     under it with no seam. Mirrors `.m-header__inner` below. */
+  --ra-header-collapsed: 6.5625rem;
+
+  @media (width >= 48em) {
+    --ra-header-collapsed: 6.8125rem;
+  }
+}
+
 .m-header {
   position: sticky;
   top: 0;
   z-index: 50;
+  transition:
+    background-color var(--ra-dur-fast) var(--ra-ease),
+    box-shadow var(--ra-dur-fast) var(--ra-ease);
+
+  /* Scrolled: an opaque band, so page content never shows through the gaps
+     between the floating plates on its way up. */
+  &.is-scrolled {
+    background: var(--ra-canvas);
+    box-shadow: 0 1px 0 var(--ra-line);
+  }
 
   &__inner {
     display: flex;
@@ -144,7 +165,6 @@
   position: fixed;
   inset: 0;
   z-index: 60;
-  animation: ra-menu-backdrop-in 0.35s var(--ra-ease) both;
 
   /* cards */
   display: none;
@@ -155,6 +175,7 @@
   padding: calc(var(--ra-header-height, 6rem) + 3rem) var(--ra-container-pad, 1.25rem) 3rem;
   background: color-mix(in srgb, var(--ra-ink) 78%, transparent);
   backdrop-filter: blur(6px);
+  animation: ra-menu-backdrop-in 0.35s var(--ra-ease) both;
 
   @media (width <= 47.99em) {
     grid-template-columns: minmax(0, 1fr);

@@ -1,21 +1,18 @@
 @extends('layouts.app')
 
 @php
-    // Generic archive shell: post-type archives (course/instructor/event),
-    // taxonomy archives (course_category, instrument, event_type) and the
-    // blog index all resolve here through Sage's fallback chain.
+    // Generic archive shell: post-type archives (course/instructor),
+    // taxonomy archives (course_category, instrument) and the blog index all
+    // resolve here through Sage's fallback chain.
     $postType = get_query_var('post_type');
 
     if (is_tax('instrument') || is_tax('course_category')) {
         $postType = 'course';
-    } elseif (is_tax('event_type')) {
-        $postType = 'event';
     }
 
     $identity = match ($postType) {
         'course' => __('Programs', 'ra-theme'),
         'instructor' => __('Faculty', 'ra-theme'),
-        'event' => __('Calendar', 'ra-theme'),
         default => __('Journal', 'ra-theme'),
     };
 

@@ -1,7 +1,8 @@
 /* =========================================================
    Module: m-catalog — full course catalog with live filters
-   Hairline rows on the canvas; sticky glass filter bar; ghost
-   numerals reindex as filters narrow the list.
+   Sand masthead, one opaque pinned toolbar, plain two-column
+   list. Filters fold into the toolbar; nothing floats over the
+   course content.
    ========================================================= */
 
 .m-catalog {
@@ -20,8 +21,8 @@
     font-size: var(--ra-fs-display);
     font-weight: 500;
     line-height: var(--ra-leading-tight);
-    letter-spacing: -0.02em;
     color: var(--ra-ink);
+    letter-spacing: -0.02em;
   }
 
   &__standfirst {
@@ -30,130 +31,137 @@
     color: rgb(23 19 16 / 72%);
   }
 
-  /* ----- sticky filter bar ----- */
+  /* ----- ticker under the standfirst ----- */
 
-  &__bar {
-    /* Phones: the wrapped filter stack is ~500px tall, so it scrolls with
-       the page rather than eating the viewport. It only pins from 48em up,
-       clearing the 111px scrolled header. */
-    position: relative;
-    z-index: 20;
-    display: grid;
-    gap: 0.75rem;
-    padding: 1rem 1.25rem;
-    margin: calc(var(--ra-space-gap) * -0.5) 0 0;
-    background: rgb(247 243 236 / 88%);
-    border: 1px solid var(--ra-line);
-    border-radius: var(--ra-radius);
-    box-shadow: var(--ra-shadow);
-    backdrop-filter: blur(10px);
+  &__ticker {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-top: 0.9rem;
+    margin-top: 2.25rem;
+    overflow: hidden;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    border-top: 1px solid var(--ra-line);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 
-    @media (width >= 48em) {
-      position: sticky;
-      top: 7.5rem;
+    &:hover .m-catalog__ticker-track {
+      animation-play-state: paused;
     }
   }
 
-  &__groups {
+  &__ticker-track {
+    display: inline-flex;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    animation: ra-marquee-slide var(--ra-marquee-duration, 38s) linear infinite;
+    will-change: transform;
+  }
+
+  /* ----- pinned filter band -----
+     Full-bleed and opaque, sitting flush under the collapsed header
+     (`--ra-header-collapsed`, set in the frame) so course rows cannot show
+     through the gaps between the floating header plates. It stays in normal
+     flow, so opening the facets pushes the list down instead of covering it. */
+
+  &__bar {
+    position: sticky;
+    top: var(--ra-header-collapsed, 6.5625rem);
+    z-index: 30;
+    background: var(--ra-canvas);
+    border-bottom: 1px solid var(--ra-line);
+  }
+
+  &__bar-inner {
+    padding-block: 0.7rem;
+  }
+
+  &__toolbar {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem 2rem;
+    gap: 0.6rem 0.75rem;
     align-items: center;
   }
 
-  &__group {
-    display: flex;
-    gap: 1.25rem;
-    align-items: baseline;
-
-    &--search {
-      margin-left: auto;
-    }
-  }
-
-  &__group-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--ra-clay-ink);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  &__options {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.15rem;
-    padding: 0.25rem;
-    background: rgb(23 19 16 / 5%);
-    border-radius: 999px;
-  }
-
-  /* ink pill gliding behind the active chip (posed by the catalog behavior) */
-  &__glide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    width: 0;
-    height: 0;
-    background: var(--ra-ink);
-    border-radius: 999px;
-    opacity: 0%;
-    will-change: transform, width, height;
-  }
-
-  &__chip {
-    position: relative;
-    z-index: 1;
-    padding: 0.35rem 0.9rem;
+  /* disclosure — hidden without JS, where the panel simply stays open */
+  &__toggle {
+    display: none;
+    flex: 0 0 auto;
+    gap: 0.45rem;
+    align-items: center;
+    min-height: 2.375rem;
+    padding: 0.4rem 0.9rem;
     font-family: inherit;
     font-size: 0.875rem;
-    color: var(--ra-clay-ink);
+    font-weight: 600;
+    color: var(--ra-ink);
+    letter-spacing: 0.01em;
     cursor: pointer;
-    background: none;
-    border: 0;
+    background: var(--ra-canvas);
+    border: 1px solid var(--ra-line);
     border-radius: 999px;
-    transition: color var(--ra-dur-fast) var(--ra-ease), transform var(--ra-dur-fast) var(--ra-ease);
+    transition:
+      color var(--ra-dur-fast) var(--ra-ease),
+      border-color var(--ra-dur-fast) var(--ra-ease);
 
-    &:hover,
-    &:focus-visible {
-      color: var(--ra-ink);
+    .m-catalog__bar[data-ra-filters='ready'] & {
+      display: inline-flex;
     }
 
-    /* click feedback: quick press-in */
-    &:active {
-      transform: scale(0.93);
+    &:hover {
+      border-color: var(--ra-ink);
     }
 
     &:focus-visible {
       outline: 2px solid var(--ra-accent);
       outline-offset: 2px;
     }
+  }
 
-    &.is-active {
-      color: var(--ra-canvas);
+  &__toggle-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.2rem;
+    height: 1.2rem;
+    padding: 0 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--ra-canvas);
+    background: var(--ra-accent-ink);
+    border-radius: 999px;
+
+    &[hidden] {
+      display: none;
     }
   }
 
-  &__chip-count {
-    margin-left: 0.35rem;
-    font-size: 0.7rem;
-    opacity: 70%;
+  &__toggle-icon {
+    width: 0.7rem;
+    height: auto;
+    transition: transform var(--ra-dur) var(--ra-ease);
+  }
+
+  .is-filters-open &__toggle-icon {
+    transform: rotate(180deg);
   }
 
   &__search {
-    min-width: 0;
-    width: 11.5rem;
-    padding: 0.5rem 1.1rem;
+    flex: 1 1 8rem;
+    min-width: 7rem;
+    max-width: 22rem;
+    min-height: 2.375rem;
+    padding: 0.4rem 0.9rem;
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     color: var(--ra-ink);
-    background: rgb(23 19 16 / 5%);
+    background: rgb(23 19 16 / 4%);
     border: 1px solid transparent;
     border-radius: 999px;
     transition:
-      width 0.45s var(--ra-ease),
       background-color var(--ra-dur-fast) var(--ra-ease),
       border-color var(--ra-dur-fast) var(--ra-ease),
       box-shadow var(--ra-dur-fast) var(--ra-ease);
@@ -163,54 +171,54 @@
     }
 
     &:focus {
-      width: 16rem;
-      border-color: var(--ra-line);
-      background: var(--ra-canvas);
-      box-shadow: 0 0 0 3px rgb(194 94 58 / 14%);
       outline: none;
+      background: var(--ra-canvas);
+      border-color: var(--ra-line);
+      box-shadow: 0 0 0 3px rgb(194 94 58 / 14%);
     }
   }
 
   &__status {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid var(--ra-line);
+    margin-inline-start: auto;
   }
 
   &__count {
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 0.8125rem;
     color: rgb(23 19 16 / 62%);
+    white-space: nowrap;
 
     strong {
       display: inline-block;
-      color: var(--ra-accent-ink);
       font-variant-numeric: tabular-nums;
+      color: var(--ra-accent-ink);
     }
   }
 
   &__clear {
-    padding: 0.3rem 0.9rem;
+    display: none;
+    padding: 0.25rem 0.6rem;
     font-family: inherit;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: rgb(23 19 16 / 55%);
     cursor: pointer;
     background: none;
     border: 1px solid transparent;
     border-radius: 999px;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: opacity var(--ra-dur-fast) var(--ra-ease), transform var(--ra-dur-fast) var(--ra-ease), color var(--ra-dur-fast) var(--ra-ease), border-color var(--ra-dur-fast) var(--ra-ease);
+    transition:
+      color var(--ra-dur-fast) var(--ra-ease),
+      border-color var(--ra-dur-fast) var(--ra-ease);
 
+    /* `display`, not opacity: an invisible-but-present button would eat
+       enough of the toolbar to wrap the count onto its own line on phones. */
     &[data-ra-active='true'] {
-      opacity: 1;
-      transform: translateY(0);
+      display: block;
     }
 
     &:focus-visible {
-      opacity: 1;
       border-color: var(--ra-line);
     }
 
@@ -220,130 +228,148 @@
     }
   }
 
-  /* ----- course rows ----- */
+  /* ----- facets: one wrapping line, opened from the toolbar ----- */
 
-  &__list {
-    margin-top: var(--ra-space-gap);
-  }
-
-  &__row {
-    position: relative;
-    display: grid;
-    grid-template-columns: 4.5rem 1fr auto;
-    gap: var(--ra-space-gap);
-    align-items: baseline;
-    padding: 2rem 0.5rem;
-    border-top: 1px solid var(--ra-line);
-    transition: background-color var(--ra-dur-fast) var(--ra-ease);
-
-    /* accent ink wash sweeping in from the left on hover */
-    &::after {
-      position: absolute;
-      inset: 0;
-      content: "";
-      background: linear-gradient(90deg, rgb(194 94 58 / 9%), transparent 48%);
-      opacity: 0%;
-      transition: opacity var(--ra-dur-fast) var(--ra-ease);
-      pointer-events: none;
-    }
-
-    &:hover::after,
-    &:focus-within::after {
-      opacity: 100%;
-    }
-
-    &:last-child {
-      border-bottom: 1px solid var(--ra-line);
-    }
-
-    &:hover {
-      background-color: rgb(23 19 16 / 3%);
-
-      .m-catalog__go {
-        color: var(--ra-accent-text);
-        transform: translateX(0.35rem);
-      }
-    }
-
-    @media (width <= 61.99em) {
-      grid-template-columns: 3rem 1fr;
-    }
-  }
-
-  &__num {
-    font-family: var(--ra-font-display);
-    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
-    font-weight: 500;
-    line-height: 1;
-    color: var(--ra-clay-ink);
-    opacity: 60%;
-    transition: opacity var(--ra-dur-fast) var(--ra-ease), color var(--ra-dur-fast) var(--ra-ease);
-  }
-
-  &__row:hover &__num {
-    color: var(--ra-accent-text);
-    opacity: 100%;
-  }
-
-  &__body {
-    display: grid;
-    gap: 0.45rem;
-  }
-
-  &__chips {
+  &__groups {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-  }
+    gap: 0.55rem 1.6rem;
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+    border-top: 1px solid var(--ra-line);
 
-  &__title {
-    margin: 0;
-    font-size: var(--ra-fs-h3);
-    font-family: var(--ra-font-display);
-    font-weight: 500;
-
-    a {
-      display: inline-block;
-      padding-block: 0.15rem;
-      color: var(--ra-ink);
-      text-decoration: none;
-      transition: color var(--ra-dur-fast) var(--ra-ease), transform var(--ra-dur-fast) var(--ra-ease);
-    }
-  }
-
-  &__row:hover &__title a {
-    color: var(--ra-accent-text);
-    transform: translateX(0.35rem);
-  }
-
-  &__meta {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--ra-clay-ink);
-  }
-
-  &__excerpt {
-    max-width: 46rem;
-    margin: 0.15rem 0 0;
-    font-size: 0.95rem;
-    color: rgb(23 19 16 / 68%);
-  }
-
-  &__go {
-    font-size: 1.25rem;
-    color: var(--ra-clay-ink);
-    transform: translateX(0);
-    transition: color var(--ra-dur-fast) var(--ra-ease), transform var(--ra-dur-fast) var(--ra-ease);
-
-    @media (width <= 61.99em) {
+    /* Progressive enhancement: without JS nothing collapses the panel. */
+    .m-catalog__bar[data-ra-filters='ready']:not(.is-filters-open) & {
       display: none;
     }
   }
 
+  &__group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.65rem;
+    align-items: center;
+  }
+
+  &__group-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+
+  &__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  &__chip {
+    display: inline-flex;
+    gap: 0.32rem;
+    align-items: baseline;
+    min-height: 2rem;
+    padding: 0.3rem 0.7rem;
+    font-family: inherit;
+    font-size: 0.8125rem;
+    color: var(--ra-ink);
+    cursor: pointer;
+    background: rgb(23 19 16 / 4%);
+    border: 0;
+    border-radius: 999px;
+    transition:
+      color var(--ra-dur-fast) var(--ra-ease),
+      background-color var(--ra-dur-fast) var(--ra-ease);
+
+    &:hover {
+      background: rgb(23 19 16 / 9%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ra-accent);
+      outline-offset: 2px;
+    }
+
+    &.is-active {
+      color: var(--ra-canvas);
+      background: var(--ra-ink);
+    }
+  }
+
+  &__chip-count {
+    font-size: 0.68rem;
+    font-variant-numeric: tabular-nums;
+    opacity: 70%;
+  }
+
+  /* ----- course list ----- */
+
+  &__list {
+    display: grid;
+    margin-top: 2.25rem;
+
+    @media (width >= 62em) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(2rem, 4vw, 4rem);
+    }
+  }
+
+  &__row {
+    padding: 1.6rem 0;
+    border-top: 1px solid var(--ra-line);
+
+    @media (width >= 62em) {
+      padding-block: 1.75rem;
+    }
+  }
+
+  &__meta {
+    margin: 0 0 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  &__row-title {
+    margin: 0;
+    font-family: var(--ra-font-display);
+    font-size: var(--ra-fs-h3);
+    font-weight: 500;
+    line-height: var(--ra-leading-tight);
+
+    a {
+      display: inline-block;
+      padding-block: 0.1rem;
+      color: var(--ra-ink);
+      text-decoration: none;
+      transition: color var(--ra-dur-fast) var(--ra-ease);
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: var(--ra-accent-text);
+    }
+  }
+
+  &__excerpt {
+    display: -webkit-box;
+    max-width: 34rem;
+    margin: 0.5rem 0 0;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-size: 0.9rem;
+    color: rgb(23 19 16 / 66%);
+    -webkit-box-orient: vertical;
+  }
+
   &__empty {
     padding: 3.5rem 0;
-    border-top: 1px solid var(--ra-line);
     color: rgb(23 19 16 / 60%);
+    border-top: 1px solid var(--ra-line);
 
     p {
       margin: 0;

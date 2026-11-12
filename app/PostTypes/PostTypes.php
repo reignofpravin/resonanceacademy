@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\PostTypes;
 
 /**
- * Registers the course, instructor and event post types.
+ * Registers the course and instructor post types.
  */
 final class PostTypes
 {
@@ -17,7 +17,6 @@ final class PostTypes
     public const MAPPING = [
         'course' => [Course::class, 'register'],
         'instructor' => [Instructor::class, 'register'],
-        'event' => [Event::class, 'register'],
     ];
 
     /**

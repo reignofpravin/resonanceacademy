@@ -25,6 +25,25 @@ export const init = (): void => {
   update()
   window.addEventListener('scroll', update, { passive: true })
 
+  // Pinned content bars tuck under the header using its measured height. The
+  // nominal rem offset is right most of the time, but around 320px the two
+  // floating plates squeeze the logo, leaving the collapsed header ~20px
+  // shorter and a visible gap above the bar. ResizeObserver keeps the two in
+  // step through that squeeze, the logo transition and viewport resizes.
+  const syncOffset = (): void => {
+    const height = header.getBoundingClientRect().height
+
+    document.documentElement.style.setProperty('--ra-header-collapsed', `${Math.max(0, height - 2)}px`)
+  }
+
+  syncOffset()
+
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(syncOffset).observe(header)
+  } else {
+    window.addEventListener('resize', syncOffset)
+  }
+
   if (! checkbox) {
     return
   }
