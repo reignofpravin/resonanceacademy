@@ -2,7 +2,7 @@
     <div class="container">
         <header class="m-programs__header">
             <p class="c-kicker" data-ra-reveal>{{ $kicker }}</p>
-            <h2 class="m-programs__heading" data-ra-words>{!! $heading !!}</h2>
+            <h2 class="m-programs__heading" data-ra-reveal>{!! $heading !!}</h2>
 
             <nav class="m-programs__filters" aria-label="{{ __('Program categories', 'ra-theme') }}">
                 <a href="{{ $archiveUrl }}"

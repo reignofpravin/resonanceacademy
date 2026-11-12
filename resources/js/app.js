@@ -4,7 +4,7 @@
  */
 import { domReady } from './behaviors/dom-ready'
 
-import * as birds from './behaviors/birds'
+import * as anchors from './behaviors/anchors'
 import * as catalog from './behaviors/catalog'
 import * as count from './behaviors/count'
 import * as drawpath from './behaviors/drawpath'
@@ -13,21 +13,17 @@ import * as heroWave from './behaviors/hero-wave'
 import * as marquee from './behaviors/marquee'
 import * as programs from './behaviors/programs'
 import * as reveal from './behaviors/reveal'
-import * as scroll from './behaviors/scroll'
 import * as scroller from './behaviors/scroller'
 import * as slider from './behaviors/slider'
-import * as vinyl from './behaviors/vinyl'
 
 domReady(() => {
-  scroll.init()
+  anchors.init()
   reveal.init()
-  birds.init()
   header.init()
   heroWave.init()
   count.init()
   marquee.init()
   programs.init()
-  vinyl.init()
   scroller.init()
   slider.init()
   drawpath.init()

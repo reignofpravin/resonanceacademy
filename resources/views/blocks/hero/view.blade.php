@@ -7,7 +7,7 @@
         <div class="m-hero__copy">
             <p class="c-kicker m-hero__kicker" data-ra-reveal>{{ $kicker }}</p>
 
-            <h1 class="m-hero__heading" data-ra-split>{!! $heading !!}</h1>
+            <h1 class="m-hero__heading" data-ra-reveal>{!! $heading !!}</h1>
 
             @if ($text)
                 <p class="m-hero__lead" data-ra-reveal>{!! $text !!}</p>

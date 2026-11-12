@@ -32,6 +32,7 @@
 
 /* ---- 3. Base ---- */
 @import "motion-a11y";
+@import "transitions";
 @import "base";
 @import "typography";
 @import "archive-single";
@@ -43,7 +44,6 @@
 @import "components/site-logo";
 @import "components/kicker";
 @import "components/nav-toggle";
-@import "components/birds";
 @import "components/skip-link";
 @import "components/card";
 @import "components/icon";

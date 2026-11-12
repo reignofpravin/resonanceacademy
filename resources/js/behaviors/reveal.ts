@@ -1,105 +1,82 @@
 /**
- * Scroll reveals.
+ * Scroll reveals — one quiet entrance for `[data-ra-reveal]`.
  *
- * `[data-ra-reveal]` → fade/translate on enter.
- * `[data-ra-split]`  → SplitType headline: words rise into a mask, line by line.
- * `[data-ra-words]`  → progressive statement: each word lightens as it crosses
- *                      the viewport (scroll-scrubbed, tern-style).
- * Final (revealed) state is the element's natural state; reduced motion and
- * JS-off degrade to content fully visible with no hidden state.
+ * The element fades and lifts 14px, once, on a 420ms ease-out. The hidden
+ * state lives in CSS gated on `html.has-js`, set before first paint by an
+ * inline snippet, so there is no visible-then-hidden flash; without JS (or if
+ * this module never runs) the content is simply visible.
+ *
+ * A single rAF-throttled scroll sweep reveals anything at or above the fold
+ * rather than an IntersectionObserver: a jump (anchor link, restored scroll
+ * position, Ctrl+End) skips sections without ever intersecting them, and an
+ * observer would leave that content invisible for good.
  */
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Lenis from 'lenis'
-import SplitType from 'split-type'
-
-import { getLenis } from './scroll'
 import { isReducedMotion } from './raf'
 
-gsap.registerPlugin(ScrollTrigger)
-
-const setupScrollTriggerSync = (lenis: Lenis | null): void => {
-  if (! lenis) {
-    ScrollTrigger.refresh()
-    return
-  }
-
-  lenis.on('scroll', ScrollTrigger.update)
-}
+const REVEALED = 'is-revealed'
+const FOLD = 0.95
 
 export const init = (): void => {
-  if (isReducedMotion()) {
+  const root = document.documentElement
+  const els = Array.from(document.querySelectorAll<HTMLElement>('[data-ra-reveal]'))
+
+  if (els.length === 0) {
     return
   }
 
-  const lenis = getLenis()
-  setupScrollTriggerSync(lenis)
+  // Safety valve: the inline snippet drops `has-js` if the bundle is slow,
+  // in which case the content is already visible and must stay that way.
+  if (! root.classList.contains('has-js') || isReducedMotion()) {
+    els.forEach((el) => el.classList.add(REVEALED))
+    return
+  }
 
-  gsap.utils.toArray<HTMLElement>('[data-ra-reveal]').forEach((el) => {
+  root.dataset.raRevealReady = '1'
+
+  els.forEach((el) => {
     const delay = parseFloat(el.dataset.raRevealDelay ?? '0')
 
-    gsap.fromTo(el, {
-      autoAlpha: 0,
-      y: 32,
-    }, {
-      autoAlpha: 1,
-      y: 0,
-      duration: 0.9,
-      delay,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 88%',
-        once: true,
-      },
-    })
+    if (delay > 0) {
+      el.style.setProperty('--ra-reveal-delay', `${delay}s`)
+    }
   })
 
-  gsap.utils.toArray<HTMLElement>('[data-ra-words]').forEach((headline: HTMLElement) => {
-    const split = new SplitType(headline, {
-      types: 'words',
-      tagName: 'span',
+  const pending = new Set(els)
+  let queued = false
+
+  const sweep = (): void => {
+    queued = false
+
+    const fold = window.innerHeight * FOLD
+
+    pending.forEach((el) => {
+      if (el.getBoundingClientRect().top >= fold) {
+        return
+      }
+
+      pending.delete(el)
+      el.classList.add(REVEALED)
     })
 
-    // tern-style progressive statement: every word starts dim and lightens
-    // as the headline travels through the viewport — scrubbed, not once.
-    gsap.set(split.words ?? [], { opacity: 0.16 })
+    if (pending.size === 0) {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }
 
-    gsap.to(split.words ?? [], {
-      opacity: 1,
-      ease: 'none',
-      stagger: 0.1,
-      scrollTrigger: {
-        trigger: headline,
-        start: 'top 88%',
-        end: 'top 38%',
-        scrub: 0.6,
-      },
-    })
-  })
+  function onScroll(): void {
+    if (queued) {
+      return
+    }
 
-  gsap.utils.toArray<HTMLElement>('[data-ra-split]').forEach((headline: HTMLElement) => {
-    const split = new SplitType(headline, {
-      types: 'lines,words',
-      tagName: 'span',
-    })
+    queued = true
+    requestAnimationFrame(sweep)
+  }
 
-    const lines = split.lines ?? []
-    const words = split.words ?? []
+  window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('resize', onScroll, { passive: true })
 
-    gsap.set(lines, { overflow: 'hidden' })
-    gsap.set(words, { yPercent: 115 })
-
-    gsap.to(words, {
-      yPercent: 0,
-      duration: 0.85,
-      ease: 'power4.out',
-      stagger: 0.02,
-      scrollTrigger: {
-        trigger: headline,
-        start: 'top 85%',
-        once: true,
-      },
-    })
-  })
+  // Above-the-fold content reveals on the next frame instead of waiting for
+  // a scroll event that may never come.
+  requestAnimationFrame(sweep)
 }

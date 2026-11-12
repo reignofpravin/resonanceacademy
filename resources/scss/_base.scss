@@ -3,7 +3,11 @@
    ========================================================= */
 
 html {
-  scroll-padding-top: 6rem; /* sticky header offset for #anchors */
+  scroll-padding-top: 7.5rem; /* sticky header offset for #anchors and :target */
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
