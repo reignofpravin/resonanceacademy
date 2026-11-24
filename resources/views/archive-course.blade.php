@@ -11,6 +11,25 @@
     <section class="m-catalog" data-ra-catalog>
         <div class="m-catalog__head">
             <div class="container">
+                <svg class="m-catalog__head-wave" viewBox="0 0 260 140" aria-hidden="true" focusable="false">
+                    <g fill="currentColor">
+                        <rect x="6" y="114" width="10" height="26" rx="5" opacity="0.5" />
+                        <rect x="24" y="92" width="10" height="48" rx="5" opacity="0.5" />
+                        <rect x="42" y="104" width="10" height="36" rx="5" opacity="0.5" />
+                        <rect x="60" y="70" width="10" height="70" rx="5" opacity="0.5" />
+                        <rect x="78" y="88" width="10" height="52" rx="5" opacity="0.5" />
+                        <rect x="96" y="48" width="10" height="92" rx="5" opacity="0.5" />
+                        <rect x="114" y="74" width="10" height="66" rx="5" opacity="0.5" />
+                        <rect x="132" y="24" width="10" height="116" rx="5" opacity="0.7" />
+                        <rect x="150" y="60" width="10" height="80" rx="5" opacity="0.5" />
+                        <rect x="168" y="8" width="10" height="132" rx="5" opacity="0.95" />
+                        <rect x="186" y="44" width="10" height="96" rx="5" opacity="0.5" />
+                        <rect x="204" y="82" width="10" height="58" rx="5" opacity="0.5" />
+                        <rect x="222" y="56" width="10" height="84" rx="5" opacity="0.5" />
+                        <rect x="240" y="102" width="10" height="38" rx="5" opacity="0.5" />
+                    </g>
+                </svg>
+
                 <p class="c-kicker" data-ra-reveal>{{ __('All courses', 'ra-theme') }}</p>
                 <h1 class="m-catalog__title" data-ra-reveal>{{ __('Find your track.', 'ra-theme') }}</h1>
                 <p class="m-catalog__standfirst" data-ra-reveal data-ra-reveal-delay="0.15">
@@ -101,42 +120,60 @@
         <div class="container">
             <div class="m-catalog__list" data-ra-catalog-list>
                 @foreach ($catalog['rows'] as $row)
+                    @php
+                        $artTrack = trim(explode(',', $row['track'])[0] ?? '') ?: 'general';
+                        $firstTrack = $row['trackNames'] ? trim(explode(', ', $row['trackNames'])[0]) : '';
+                    @endphp
                     <article
-                        class="m-catalog__row"
+                        class="m-catalog__card"
                         data-ra-row
                         data-track="{{ $row['track'] }}"
                         data-level="{{ $row['level'] }}"
                         data-path="{{ $row['path'] }}"
                         data-search="{{ $row['search'] }}"
+                        data-art="{{ $artTrack }}"
                         @if (!empty($row['levelName']))
                             data-level-name="{{ $row['levelName'] }}"
                         @endif
                     >
-                        <p class="m-catalog__meta">
-                            @if ($row['levelName'])
-                                <span>{{ $row['levelName'] }}</span>
+                        <a class="m-catalog__card-media" href="{{ $row['url'] }}" tabindex="-1" aria-hidden="true">
+                            <span class="m-catalog__card-art"></span>
+
+                            @if ($firstTrack)
+                                <span class="m-catalog__card-track">{{ $firstTrack }}</span>
+                            @endif
+                        </a>
+
+                        <div class="m-catalog__card-body">
+                            <p class="m-catalog__meta">
+                                @if ($row['levelName'])
+                                    <span>{{ $row['levelName'] }}</span>
+                                @endif
+
+                                @if ($row['duration'])
+                                    <span>{{ $row['duration'] }}</span>
+                                @endif
+
+                                @if ($row['format'] !== 'group')
+                                    <span>{{ ucfirst($row['format']) }}</span>
+                                @endif
+                            </p>
+
+                            <h2 class="m-catalog__card-title">
+                                <a href="{{ $row['url'] }}">{{ $row['title'] }}</a>
+                            </h2>
+
+                            @if ($row['excerpt'])
+                                <p class="m-catalog__card-excerpt">{{ $row['excerpt'] }}</p>
                             @endif
 
-                            @if ($row['duration'])
-                                <span> · {{ $row['duration'] }}</span>
-                            @endif
-
-                            @if ($row['trackNames'])
-                                <span> · {{ explode(', ', $row['trackNames'])[0] }}</span>
-                            @endif
-
-                            @if ($row['format'] !== 'group')
-                                <span> · {{ ucfirst($row['format']) }}</span>
-                            @endif
-                        </p>
-
-                        <h2 class="m-catalog__row-title">
-                            <a href="{{ $row['url'] }}">{{ $row['title'] }}</a>
-                        </h2>
-
-                        @if ($row['excerpt'])
-                            <p class="m-catalog__excerpt">{{ $row['excerpt'] }}</p>
-                        @endif
+                            <a class="m-catalog__card-cta" href="{{ $row['url'] }}" tabindex="-1" aria-hidden="true">
+                                {{ __('View course', 'ra-theme') }}
+                                <svg viewBox="0 0 14 10" aria-hidden="true" focusable="false">
+                                    <path d="M1 5h11M8.5 1.5 12 5 8.5 8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
                     </article>
                 @endforeach
             </div>

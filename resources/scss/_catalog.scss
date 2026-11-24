@@ -1,17 +1,35 @@
 /* =========================================================
    Module: m-catalog — full course catalog with live filters
-   Sand masthead, one opaque pinned toolbar, plain two-column
-   list. Filters fold into the toolbar; nothing floats over the
+   Sand masthead with a ghost equaliser, one opaque pinned
+   toolbar, artwork-headed course cards in a two-up grid.
+   Filters fold into the toolbar; nothing floats over the
    course content.
    ========================================================= */
 
 .m-catalog {
   &__head {
+    position: relative;
     padding: 4rem 0 3rem;
     background: var(--ra-sand);
 
     .c-kicker {
       color: var(--ra-accent-text);
+    }
+  }
+
+  /* ghost equaliser bleeding from the right edge of the masthead */
+  &__head-wave {
+    position: absolute;
+    top: 50%;
+    right: clamp(1rem, 4vw, 3.5rem);
+    width: min(38%, 24rem);
+    color: var(--ra-accent);
+    pointer-events: none;
+    opacity: 16%;
+    transform: translateY(-50%);
+
+    @media (width < 56em) {
+      display: none;
     }
   }
 
@@ -28,7 +46,7 @@
   &__standfirst {
     max-width: 40rem;
     margin: 1rem 0 0;
-    color: rgb(244 231 206 / 72%);
+    color: rgb(244 241 234 / 72%);
   }
 
   /* ----- ticker under the standfirst ----- */
@@ -159,7 +177,7 @@
     font-family: inherit;
     font-size: 0.875rem;
     color: var(--ra-ink);
-    background: rgb(244 231 206 / 4%);
+    background: rgb(244 241 234 / 4%);
     border: 1px solid transparent;
     border-radius: 999px;
     transition:
@@ -175,7 +193,7 @@
       outline: none;
       background: var(--ra-canvas);
       border-color: var(--ra-line);
-      box-shadow: 0 0 0 3px rgb(214 166 60 / 14%);
+      box-shadow: 0 0 0 3px rgb(255 90 78 / 14%);
     }
   }
 
@@ -189,13 +207,13 @@
   &__count {
     margin: 0;
     font-size: 0.8125rem;
-    color: rgb(244 231 206 / 62%);
+    color: rgb(244 241 234 / 62%);
     white-space: nowrap;
 
     strong {
       display: inline-block;
       font-variant-numeric: tabular-nums;
-      color: var(--ra-accent-ink);
+      color: var(--ra-accent-text);
     }
   }
 
@@ -204,7 +222,7 @@
     padding: 0.25rem 0.6rem;
     font-family: inherit;
     font-size: 0.78rem;
-    color: rgb(244 231 206 / 55%);
+    color: rgb(244 241 234 / 55%);
     cursor: pointer;
     background: none;
     border: 1px solid transparent;
@@ -309,37 +327,140 @@
     opacity: 70%;
   }
 
-  /* ----- course list ----- */
+  /* ----- course cards ----- */
 
   &__list {
     display: grid;
+    gap: var(--ra-space-gap);
+    padding-bottom: 1rem;
     margin-top: 2.25rem;
 
     @media (width >= 62em) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: clamp(2rem, 4vw, 4rem);
+      column-gap: clamp(1.5rem, 3vw, 2.5rem);
     }
   }
 
-  &__row {
-    padding: 1.6rem 0;
-    border-top: 1px solid var(--ra-line);
+  &__card {
+    --art: var(--ra-accent);
 
-    @media (width >= 62em) {
-      padding-block: 1.75rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--ra-panel);
+    border: 1px solid var(--ra-line);
+    border-radius: var(--ra-radius);
+    transition:
+      transform 0.45s var(--ra-ease),
+      border-color 0.45s var(--ra-ease),
+      box-shadow 0.45s var(--ra-ease);
+
+    /* coral top-edge that wakes on hover, tinted per track */
+    &::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 2px;
+      content: "";
+      background: var(--art);
+      opacity: 0%;
+      transition: opacity 0.4s var(--ra-ease);
     }
+
+    &:hover {
+      border-color: var(--ra-line-strong);
+      box-shadow: 0 20px 50px rgb(0 0 0 / 35%);
+      transform: translateY(-4px);
+
+      &::after {
+        opacity: 90%;
+      }
+
+      .m-catalog__card-art {
+        transform: scale(1.05);
+      }
+    }
+
+    &[data-art="drums"] {
+      --art: #6cc4ff;
+    }
+
+    &[data-art="vocals"] {
+      --art: #e278d6;
+    }
+
+    &[data-art="keyboard"] {
+      --art: #7d93f5;
+    }
+
+    &[data-art="music-theory"] {
+      --art: #ffb36b;
+    }
+  }
+
+  &__card-media {
+    position: relative;
+    display: block;
+    height: 8.5rem;
+    overflow: hidden;
+  }
+
+  /* generated artwork — glow + diagonal hairlines over a track-tinted panel,
+     the deck sleeve language at card scale (no photography) */
+  &__card-art {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(130% 150% at 10% 115%, color-mix(in oklab, var(--art) 42%, transparent), transparent 62%),
+      repeating-linear-gradient(115deg, rgb(244 241 234 / 7%) 0 1px, transparent 1px 9px),
+      linear-gradient(160deg, color-mix(in oklab, var(--art) 16%, var(--ra-panel)), var(--ra-panel) 70%);
+    transition: transform 0.8s var(--ra-ease-soft);
+  }
+
+  &__card-track {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 1rem;
+    padding: 0.25rem 0.6rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    color: var(--ra-cream);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    background: rgb(20 27 45 / 55%);
+    border: 1px solid var(--ra-line);
+    border-radius: 999px;
+  }
+
+  &__card-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1.25rem 1.4rem 1.5rem;
   }
 
   &__meta {
-    margin: 0 0 0.35rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0 0 0.7rem;
     font-family: var(--ra-font-mono);
     font-size: 0.5625rem;
     color: var(--ra-clay-ink);
     text-transform: uppercase;
     letter-spacing: 0.12em;
+
+    span {
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--ra-line);
+      border-radius: 999px;
+    }
   }
 
-  &__row-title {
+  &__card-title {
     margin: 0;
     font-family: var(--ra-font-lead);
     font-size: clamp(1.15rem, 2vw, 1.4rem);
@@ -361,21 +482,50 @@
     }
   }
 
-  &__excerpt {
+  &__card-excerpt {
     display: -webkit-box;
+    flex: 1 1 auto;
     max-width: 34rem;
     margin: 0.5rem 0 0;
     overflow: hidden;
     -webkit-line-clamp: 2;
     line-clamp: 2;
     font-size: 0.9rem;
-    color: rgb(244 231 206 / 66%);
+    color: rgb(244 241 234 / 68%);
     -webkit-box-orient: vertical;
+  }
+
+  &__card-cta {
+    display: inline-flex;
+    gap: 0.45rem;
+    align-items: center;
+    align-self: flex-start;
+    margin-top: 1.1rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.625rem;
+    color: var(--ra-accent-text);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+
+    svg {
+      width: 0.9rem;
+      transition: transform 0.3s var(--ra-ease);
+    }
+
+    .m-catalog__card:hover & svg {
+      transform: translateX(4px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ra-accent);
+      outline-offset: 2px;
+    }
   }
 
   &__empty {
     padding: 3.5rem 0;
-    color: rgb(244 231 206 / 60%);
+    color: rgb(244 241 234 / 60%);
     border-top: 1px solid var(--ra-line);
 
     p {
