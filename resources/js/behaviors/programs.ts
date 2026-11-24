@@ -87,6 +87,9 @@ const initDeck = (stage: HTMLElement): void => {
   let height = 0
   let sparks: Spark[] = []
   let wheelSnap = 0
+  let paintClock = 0
+  let lastPaint = 0
+  let scrollHold = 0
 
   const wake = (): void => {
     wakeAt = performance.now() + WAKE * 1000
@@ -317,6 +320,12 @@ const initDeck = (stage: HTMLElement): void => {
     }
   })
 
+  /* Non-passive, but the handler is a two-multiply guard that returns for
+     every vertical gesture before touching anything, and the paint loop was
+     made cheap enough to keep the main thread idle during scrolling — a
+     busy main thread is what made non-passive wheel events stick. The
+     preventDefault on the horizontal branch is deliberate: it is what stops
+     a trackpad history-swipe from navigating the browser away. */
   stage.addEventListener('wheel', (event) => {
     const ax = Math.abs(event.deltaX)
     const ay = Math.abs(event.deltaY)
@@ -428,6 +437,38 @@ const initDeck = (stage: HTMLElement): void => {
     seed()
   }
 
+  /* Flare glows are one of three soft discs, pre-rendered once per colour
+     and blitted with globalAlpha — creating a radial gradient per flare
+     per frame kept the main thread hot while the user was trying to scroll. */
+  const sprites = new Map<string, HTMLCanvasElement>()
+
+  const glowSprite = (colour: string): HTMLCanvasElement => {
+    let sprite = sprites.get(colour)
+
+    if (! sprite) {
+      const radius = 32
+
+      sprite = document.createElement('canvas')
+      sprite.width = radius * 2
+      sprite.height = radius * 2
+
+      const sctx = sprite.getContext('2d')
+
+      if (sctx) {
+        const glow = sctx.createRadialGradient(radius, radius, 0, radius, radius, radius)
+
+        glow.addColorStop(0, `rgba(${colour}, 0.5)`)
+        glow.addColorStop(1, `rgba(${colour}, 0)`)
+        sctx.fillStyle = glow
+        sctx.fillRect(0, 0, radius * 2, radius * 2)
+      }
+
+      sprites.set(colour, sprite)
+    }
+
+    return sprite
+  }
+
   const paint = (drift: number): void => {
     if (! ctx) {
       return
@@ -453,14 +494,11 @@ const initDeck = (stage: HTMLElement): void => {
       const alpha = spark.alpha * twinkle
 
       if (spark.flare) {
-        const glow = ctx.createRadialGradient(spark.x, y, 0, spark.x, y, spark.r * 8)
+        const reach = spark.r * 8
 
-        glow.addColorStop(0, `rgba(${spark.colour}, ${(alpha * 0.5).toFixed(3)})`)
-        glow.addColorStop(1, `rgba(${spark.colour}, 0)`)
-        ctx.fillStyle = glow
-        ctx.beginPath()
-        ctx.arc(spark.x, y, spark.r * 8, 0, Math.PI * 2)
-        ctx.fill()
+        ctx.globalAlpha = alpha
+        ctx.drawImage(glowSprite(spark.colour), spark.x - reach, y - reach, reach * 2, reach * 2)
+        ctx.globalAlpha = 1
       }
 
       ctx.fillStyle = `rgba(${spark.colour}, ${alpha.toFixed(3)})`
@@ -482,7 +520,9 @@ const initDeck = (stage: HTMLElement): void => {
     elapsed += dt
 
     if (! dragging) {
-      if (! hovered && performance.now() > wakeAt) {
+      // the turntable waits out active page scrolling: a flip landing under
+      // a scrolling finger is a surprise, and the spring is a frame cost
+      if (! hovered && performance.now() > wakeAt && performance.now() > scrollHold) {
         auto -= dt
 
         if (auto <= 0) {
@@ -514,7 +554,17 @@ const initDeck = (stage: HTMLElement): void => {
 
     layout()
     setCenter(clamp(Math.round(pos)))
-    paint(pos - was)
+
+    /* Idle sparks twinkle at half rate; anything in motion paints full. The
+       page scrolling is the user's priority — the canvas steps back for it. */
+    const idle = ! dragging && speed < 0.02 && surge < 0.03
+
+    paintClock += dt
+
+    if (! idle || paintClock - lastPaint >= 0.033) {
+      paint(pos - was)
+      lastPaint = paintClock
+    }
   }
 
   /* ---------- stage tilt ---------- */
@@ -561,6 +611,10 @@ const initDeck = (stage: HTMLElement): void => {
     measure()
     resizeCanvas()
     layout()
+  }, { passive: true })
+
+  window.addEventListener('scroll', () => {
+    scrollHold = performance.now() + 260
   }, { passive: true })
 
   if ('IntersectionObserver' in window) {

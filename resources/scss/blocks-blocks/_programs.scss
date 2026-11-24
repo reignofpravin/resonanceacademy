@@ -210,6 +210,7 @@
     flex: 0 0 auto;
     width: clamp(17.5rem, 78vw, 20.5rem);
     overflow: hidden;
+    cursor: pointer;
 
     /* Near-opaque panel, not frosted glass: a backdrop-blur on every sleeve
        re-samples the live stage (canvas and all) on every scroll frame. At
