@@ -19,14 +19,21 @@
 
   &__track {
     /* First card lines up with the container above it; the strip still bleeds
-       to the right edge. scroll-padding keeps snapping on that same line. */
+       to the right edge. scroll-padding keeps snapping on that same line.
+       The bottom padding is load-bearing: the even-card stagger and the
+       reveal's 26px rise push cards past the padding box, which — since
+       overflow-x: auto forces overflow-y to auto too — hands the strip 26px
+       of real vertical scroll capacity while its cards are mid-reveal. A
+       wheel over the strip then scrolls the strip instead of chaining to the
+       page: the felt "scroll gets stuck at the faculty section". */
     --ra-track-pad: max(var(--ra-container-pad), calc((100vw - var(--ra-container)) / 2));
 
     display: flex;
     gap: var(--ra-space-gap);
-    padding: 0.25rem var(--ra-track-pad);
+    padding: 0.25rem var(--ra-track-pad) 3rem;
     overflow-x: auto;
     scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
     scroll-snap-type: x proximity;
     scroll-padding-inline: var(--ra-track-pad);
     scrollbar-width: none;
