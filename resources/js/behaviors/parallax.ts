@@ -88,20 +88,25 @@ export const init = (): void => {
         continue
       }
 
-      let tx = px * layer.depth * POINTER_X * 2
-      let ty = py * layer.depth * POINTER_Y * 2
-
-      if (layer.rate > 0) {
-        // Centre of the layer measured from the centre of the viewport,
-        // so the drift sign flips as the element passes through.
-        ty += -((rect.top + rect.height / 2 - window.innerHeight / 2) * layer.rate)
-      }
+      // The pointer drift eases toward its target; the scroll sink does not.
+      // A lerped scroll term trails the page by a dozen frames and reads as
+      // lag on every parallax layer at once — the opposite of depth.
+      const tx = px * layer.depth * POINTER_X * 2
+      const ty = py * layer.depth * POINTER_Y * 2
 
       layer.x += (tx - layer.x) * ease
       layer.y += (ty - layer.y) * ease
 
+      let dy = layer.y
+
+      if (layer.rate > 0) {
+        // Centre of the layer measured from the centre of the viewport,
+        // so the drift sign flips as the element passes through.
+        dy += -((rect.top + rect.height / 2 - window.innerHeight / 2) * layer.rate)
+      }
+
       layer.el.style.setProperty('--ra-dx', `${layer.x.toFixed(2)}px`)
-      layer.el.style.setProperty('--ra-dy', `${layer.y.toFixed(2)}px`)
+      layer.el.style.setProperty('--ra-dy', `${dy.toFixed(2)}px`)
     }
   })
 }
