@@ -33,12 +33,12 @@
   /* Shape & depth */
   --ra-radius: 1.25rem;
   --ra-radius-sm: 0.5rem;
-  --ra-radius-deck: 1.75rem; /* frosted deck cards: the reel's softer corner */
+  --ra-radius-deck: 1.125rem; /* deck sleeves: soft depth-shadow corners, no frame */
   --ra-shadow: 0 24px 80px rgb(0 0 0 / 55%);
 
   /* Type */
   --ra-font-display: "Fraunces", georgia, "Times New Roman", serif;
-  --ra-font-lead: "Anton", "Instrument Sans", "Arial Narrow", arial, sans-serif;
+  --ra-font-lead: "Outfit", "Instrument Sans", "Helvetica Neue", arial, sans-serif;
   --ra-font-sans: "Instrument Sans", "Helvetica Neue", arial, sans-serif;
   --ra-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", menlo, consolas, monospace;
 
@@ -57,6 +57,8 @@
 
   /* Motion */
   --ra-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ra-ease-expo: cubic-bezier(0.16, 1, 0.3, 1); /* the cinematic settle — reveals, magnetics, pins */
+  --ra-ease-soft: cubic-bezier(0.33, 1, 0.68, 1); /* gentler sibling for long drifts */
   --ra-dur-fast: 0.25s;
   --ra-dur-med: 0.6s;
 

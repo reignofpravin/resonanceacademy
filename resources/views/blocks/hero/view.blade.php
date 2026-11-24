@@ -1,10 +1,10 @@
 <section {!! get_block_wrapper_attributes(['class' => 'm-stage', 'data-ra-stage' => '']) !!}>
-    <div class="m-stage__glow" aria-hidden="true"></div>
-    <div class="m-stage__grooves" aria-hidden="true"></div>
+    <div class="m-stage__glow" data-ra-depth="1.6" data-ra-parallax="0.10" aria-hidden="true"></div>
+    <div class="m-stage__grooves" data-ra-depth="0.8" aria-hidden="true"></div>
 
     <div class="m-stage__inner container">
         <canvas class="m-stage__ribbons" data-ra-ribbons aria-hidden="true"></canvas>
-        <canvas class="m-stage__dust" data-ra-dust aria-hidden="true"></canvas>
+        <canvas class="m-stage__dust" data-ra-dust data-ra-depth="1.8" aria-hidden="true"></canvas>
 
         <div class="m-stage__head">
             <p class="m-stage__kicker">

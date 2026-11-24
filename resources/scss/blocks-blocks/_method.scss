@@ -1,5 +1,5 @@
 /* =========================================================
-   Module: m-method — three movements on a raised panel
+   Module: m-method — three movements on the open stage.
    Sticky statement left, numbered movements flowing right.
    ========================================================= */
 
@@ -8,9 +8,7 @@
   z-index: 1;
   padding: var(--ra-space-section) 0;
   margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
-  background: var(--ra-panel);
   border-top: 1px solid var(--ra-line);
-  border-radius: 2rem 2rem 0 0;
 
   &__inner {
     display: grid;
@@ -52,6 +50,7 @@
     width: 2.5rem;
     color: var(--ra-accent);
     opacity: 30%;
+    transform: translate3d(var(--ra-dx, 0), var(--ra-dy, 0), 0);
 
     .c-icon {
       display: block;

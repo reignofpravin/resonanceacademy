@@ -11,11 +11,14 @@ import * as cursor from './behaviors/cursor'
 import * as drawpath from './behaviors/drawpath'
 import * as header from './behaviors/header'
 import * as heroWave from './behaviors/hero-wave'
+import * as magnetic from './behaviors/magnetic'
 import * as marquee from './behaviors/marquee'
+import * as parallax from './behaviors/parallax'
 import * as programs from './behaviors/programs'
 import * as dust from './behaviors/dust'
 import * as ribbons from './behaviors/ribbons'
 import * as reveal from './behaviors/reveal'
+import * as scramble from './behaviors/scramble'
 import * as scroller from './behaviors/scroller'
 import * as slider from './behaviors/slider'
 import * as stage from './behaviors/stage'
@@ -33,6 +36,9 @@ domReady(() => {
   count.init()
   marquee.init()
   programs.init()
+  parallax.init()
+  magnetic.init()
+  scramble.init()
   scroller.init()
   slider.init()
   drawpath.init()

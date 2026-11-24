@@ -20,12 +20,13 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02DD, U+1E00-1EFF;
 }
 
-/* The marquee face: one heavy condensed weight, set in caps like the reference reels. */
+/* The headline face: Outfit, a clean geometric sans with room to breathe.
+   Display lines set sentence-case in real weights — never poster-bricks. */
 @font-face {
-  font-family: Anton;
+  font-family: Outfit;
   font-style: normal;
-  font-weight: 400;
-  src: url("@fonts/anton-latin.woff2") format("woff2");
+  font-weight: 300 700;
+  src: url("@fonts/outfit-var-latin.woff2") format("woff2");
   font-display: swap;
   unicode-range: U+0000-00FF, U+2000-206F, U+2074, U+2212, U+2215;
 }

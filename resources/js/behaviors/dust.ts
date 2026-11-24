@@ -45,6 +45,17 @@ export const init = (): void => {
   let motes: Mote[] = []
   let elapsed = 0
   let stop: (() => void) | null = null
+  let surge = 0
+  let lastY = window.scrollY
+
+  // Page-scroll speed leaks into the field: fling the page and the dust
+  // streamers streak, then settle back to the spotlight haze.
+  if (! reduced) {
+    window.addEventListener('scroll', () => {
+      surge = Math.min(1.4, surge + Math.abs(window.scrollY - lastY) / 900)
+      lastY = window.scrollY
+    }, { passive: true })
+  }
 
   const centre = (): [number, number] => [
     width >= 768 ? width * 0.72 : width * 0.5,
@@ -97,7 +108,9 @@ export const init = (): void => {
     ctx.clearRect(0, 0, width, height)
 
     const settle = Math.pow(0.16, dt) // bloom decays fast, then drifts
-    const drift = 7 // px per second once settled
+    const drift = 7 * (1 + surge * 5) // px per second once settled
+
+    surge = surge > 0.002 ? surge * Math.max(0, 1 - dt * 2.4) : 0 // fling decays back to haze
 
     for (const mote of motes) {
       // Ease the opening impulse back toward the slow drift.
@@ -128,7 +141,7 @@ export const init = (): void => {
       }
 
       const twinkle = 0.72 + Math.sin(now * 1.1 + mote.phase) * 0.28
-      const alpha = mote.alpha * twinkle
+      const alpha = Math.min(1, mote.alpha * twinkle * (1 + surge * 0.3))
       const colour = mote.brass ? BRASS : CREAM
 
       if (mote.flare) {

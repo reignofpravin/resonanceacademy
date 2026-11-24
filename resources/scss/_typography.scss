@@ -1,6 +1,7 @@
 /* =========================================================
-   Typography — marquee ramp on top of bootstrap type
-   Display lines set in Anton, uppercase, like the reference deck.
+   Typography — Outfit headline ramp on top of bootstrap type.
+   Display lines set sentence-case in Outfit; the technical voice
+   (mono micro-caps) belongs to the labels, never the headlines.
    ========================================================= */
 
 /* Long single words ("Programmes") must wrap rather than widen the
@@ -10,10 +11,9 @@ h1,
 .h1 {
   font-family: var(--ra-font-lead);
   font-size: var(--ra-fs-display);
-  font-weight: 400; /* Anton is single-weight; anything else synthesises faux-bold */
-  line-height: 0.94;
-  text-transform: uppercase;
-  letter-spacing: 0.005em;
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
   hyphens: auto;
   overflow-wrap: break-word;
 }
@@ -22,10 +22,9 @@ h2,
 .h2 {
   font-family: var(--ra-font-lead);
   font-size: var(--ra-fs-h2);
-  font-weight: 400;
-  line-height: 0.98;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
   overflow-wrap: break-word;
 }
 
@@ -33,10 +32,9 @@ h3,
 .h3 {
   font-family: var(--ra-font-lead);
   font-size: var(--ra-fs-h3);
-  font-weight: 400;
-  line-height: 1.1;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  font-weight: 550;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
 .lead,

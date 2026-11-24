@@ -15,8 +15,12 @@
  * the plain scrollable row the stylesheet lays out by default.
  */
 import gsap from 'gsap'
+import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import { isReducedMotion, onFrame } from './raf'
+
+gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin)
 
 const BRASS = '214, 166, 60'
 const CYAN = '108, 196, 255'
@@ -83,6 +87,7 @@ const initDeck = (stage: HTMLElement): void => {
   let height = 0
   let sparks: Spark[] = []
   let wheelSnap = 0
+  let scrubbing = false
 
   const wake = (): void => {
     wakeAt = performance.now() + WAKE * 1000
@@ -95,6 +100,26 @@ const initDeck = (stage: HTMLElement): void => {
 
   const clamp = (v: number): number => Math.min(n - 1, Math.max(0, v))
   const clampSoft = (v: number): number => Math.min(n - 1 + SOFT, Math.max(-SOFT, v))
+
+  /* The counter decodes into place — the reel's digit flicker. */
+  const showCount = (text: string): void => {
+    if (! counter) {
+      return
+    }
+
+    if (counter.textContent === text) {
+      return
+    }
+
+    gsap.to(counter, {
+      duration: 0.45,
+      overwrite: 'auto',
+      scrambleText: { text, chars: '0123456789', speed: 0.4 },
+      onComplete: () => {
+        counter.textContent = text
+      },
+    })
+  }
 
   const measure = (): void => {
     const gap = parseFloat(getComputedStyle(rail).columnGap || '0') || 20
@@ -121,7 +146,7 @@ const initDeck = (stage: HTMLElement): void => {
     cards.forEach((card, ci) => card.classList.toggle('is-center', ci === i))
 
     if (counter) {
-      counter.textContent = pad(i)
+      showCount(pad(i))
     }
 
     if (side) {
@@ -403,7 +428,7 @@ const initDeck = (stage: HTMLElement): void => {
     elapsed += dt
 
     if (! dragging) {
-      if (! hovered && performance.now() > wakeAt) {
+      if (! hovered && ! scrubbing && performance.now() > wakeAt) {
         auto -= dt
 
         if (auto <= 0) {
@@ -423,7 +448,7 @@ const initDeck = (stage: HTMLElement): void => {
 
     const was = pos
 
-    pos += (target - pos) * Math.min(1, dt * SPRING)
+    pos += (target - pos) * Math.min(1, dt * (scrubbing ? SPRING * 2.4 : SPRING))
 
     if (Math.abs(target - pos) < 0.0015) {
       pos = target
@@ -471,6 +496,31 @@ const initDeck = (stage: HTMLElement): void => {
   layout()
   setCenter(0, true)
   onFrame(frame)
+
+  /* ---------- scroll scrub: the shelf plays itself down the page ----------
+     On wide screens scrolling is the needle: progress through the section's
+     pass across the viewport walks the deck card by card. No pin — the
+     section is taller than most viewports and its transport must stay in
+     reach — and drag, transport and keys still work: the next scroll tick
+     simply takes the wheel back, which is what a scroll-driven deck does. */
+  if (window.matchMedia('(min-width: 48em)').matches) {
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 72%',
+      end: 'bottom 28%',
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        scrubbing = true
+        target = clamp(self.progress * (n - 1))
+      },
+      onLeave: () => {
+        scrubbing = false
+      },
+      onLeaveBack: () => {
+        scrubbing = false
+      },
+    })
+  }
 
   window.addEventListener('resize', () => {
     measure()

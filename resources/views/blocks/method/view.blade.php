@@ -9,7 +9,7 @@
 
                 <div class="m-method__media">
                     {!! $image ?: '' !!}
-                    <div class="m-method__clef" aria-hidden="true">
+                    <div class="m-method__clef" data-ra-parallax="0.08" aria-hidden="true">
                         <x-icon icon="treble" />
                     </div>
                 </div>

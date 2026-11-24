@@ -5,7 +5,7 @@
    ========================================================= */
 
 .m-contact {
-  --ra-canvas: var(--ra-panel);
+  --ra-canvas: var(--ra-night);
 
   position: relative;
   z-index: 1;
@@ -13,10 +13,8 @@
   margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
   color: var(--ra-ink);
   background:
-    radial-gradient(60% 46% at 78% 0%, var(--ra-cloud), transparent 72%),
-    var(--ra-panel);
+    radial-gradient(60% 46% at 78% 0%, var(--ra-cloud), transparent 72%);
   border-top: 1px solid var(--ra-glass-line);
-  border-radius: 2rem 2rem 0 0;
 
   &__inner {
     display: grid;
@@ -144,15 +142,14 @@
   .wpcf7-form-control:not([type='submit']) {
     width: 100%;
     max-width: 100%;
-    padding: 0.8rem 1rem;
+    padding: 0.7rem 0.1rem;
     font-family: var(--ra-font-sans);
     color: var(--ra-ink);
-    background: var(--ra-glass);
-    border: 1px solid var(--ra-glass-line);
-    border-radius: 0.75rem;
-    transition:
-      border-color var(--ra-dur-fast) var(--ra-ease),
-      background-color var(--ra-dur-fast) var(--ra-ease);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--ra-line);
+    border-radius: 0;
+    transition: border-color var(--ra-dur-fast) var(--ra-ease);
 
     &::placeholder {
       color: rgb(244 231 206 / 40%);
@@ -160,8 +157,8 @@
 
     &:focus {
       outline: none;
-      background: var(--ra-glass-strong);
-      border-color: var(--ra-ring);
+      background: transparent;
+      border-bottom-color: var(--ra-accent);
     }
   }
 

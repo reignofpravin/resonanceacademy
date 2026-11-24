@@ -41,6 +41,37 @@ export const init = (): void => {
     }
   })
 
+  /* Groups rise one after another: reveal siblings under one parent get a
+     small index stagger, so card grids and step lists read as a lineup. */
+  const groups = new Map<HTMLElement, HTMLElement[]>()
+
+  els.forEach((el) => {
+    const parent = el.parentElement
+
+    if (! parent) {
+      return
+    }
+
+    const list = groups.get(parent) ?? []
+
+    list.push(el)
+    groups.set(parent, list)
+  })
+
+  groups.forEach((list) => {
+    if (list.length < 2) {
+      return
+    }
+
+    list.forEach((el, index) => {
+      if (parseFloat(el.dataset.raRevealDelay ?? '0') > 0) {
+        return
+      }
+
+      el.style.setProperty('--ra-reveal-delay', `${(index * 0.07).toFixed(2)}s`)
+    })
+  })
+
   const pending = new Set(els)
   let queued = false
 

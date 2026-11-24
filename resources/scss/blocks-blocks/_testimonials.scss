@@ -7,9 +7,8 @@
   z-index: 1;
   padding: calc(var(--ra-space-section) * 1.25) 0 var(--ra-space-section);
   margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
-  background: var(--ra-panel);
+  background: none;
   border-top: 1px solid var(--ra-line);
-  border-radius: 2rem 2rem 0 0;
 
   &__header {
     display: grid;

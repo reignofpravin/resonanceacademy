@@ -11,21 +11,13 @@
   background: var(--ra-night);
   isolation: isolate;
 
-  /* A framed stage at desktop widths: the hero reads as a card floating on
-     the page, the way the reference shots inset their hero panel. */
-  --ra-stage-inset: clamp(0.75rem, 1.4vw, 1.5rem);
-
+  /* An open stage: no frame, no inset card. The section is the page —
+     atmosphere comes from the glows, separation from the marquee below. */
   @media (width >= 48em) {
-    min-height: calc(100svh - 6rem - var(--ra-stage-inset) - 2.25rem);
-    margin: var(--ra-stage-inset) var(--ra-stage-inset) 0;
+    min-height: calc(100svh - 6rem - 2.25rem);
     background:
       radial-gradient(ellipse 90% 70% at 60% 0%, rgb(28 52 100 / 34%) 0%, transparent 60%),
       var(--ra-night);
-    border: 1px solid var(--ra-line);
-    border-radius: clamp(1rem, 1.8vw, 1.75rem);
-    box-shadow:
-      0 40px 120px rgb(0 0 0 / 55%),
-      inset 0 1px 0 rgb(244 231 206 / 6%);
   }
 
   /* ----- light ----- */
@@ -39,6 +31,9 @@
       radial-gradient(ellipse 40% 38% at 68% 44%, rgb(214 166 60 / 18%), transparent 70%),
       radial-gradient(ellipse 34% 34% at 30% 60%, rgb(56 108 190 / 16%), transparent 72%),
       radial-gradient(ellipse 70% 60% at 50% 0%, rgb(244 231 206 / 6%), transparent 70%);
+
+    /* parallax.ts depth — written as custom properties so paint stays still. */
+    transform: translate3d(var(--ra-dx, 0), var(--ra-dy, 0), 0);
   }
 
   /* ----- record grooves behind the medallion ----- */
@@ -58,7 +53,7 @@
     border-radius: 50%;
     opacity: 55%;
     mask-image: radial-gradient(circle at 50% 50%, #000 38%, transparent 72%);
-    transform: translateY(-50%);
+    transform: translate3d(var(--ra-dx, 0), calc(-50% + var(--ra-dy, 0px)), 0);
   }
 
   /* ----- layout ----- */
@@ -301,6 +296,7 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
+    transform: translate3d(var(--ra-dx, 0), var(--ra-dy, 0), 0);
   }
 
   /* Metallic figure-8 hairlines behind everything (ribbons.ts). */

@@ -40,18 +40,17 @@
     display: grid;
     flex: 0 0 min(21rem, 78vw);
     grid-template-columns: 1fr;
-    padding: 0.8rem;
     scroll-snap-align: start;
-    background: var(--ra-glass);
-    border: 1px solid var(--ra-glass-line);
-    border-radius: var(--ra-radius-deck);
-    backdrop-filter: blur(16px);
-    transition: border-color var(--ra-dur-fast) var(--ra-ease);
+
+    /* Editorial rhythm: every other portrait sits a little lower, so the
+       strip reads as a staggered lineup rather than a row of boxes.
+       Margin, not transform — the reveal transform owns that property. */
+    &:nth-child(even) {
+      margin-top: 1.75rem;
+    }
 
     &:hover,
     &:focus-within {
-      border-color: var(--ra-ring);
-
       .m-instructors__photo img {
         transform: scale(1.04);
       }
@@ -63,6 +62,7 @@
     height: 15rem;
     overflow: hidden;
     border-radius: 1.1rem;
+    box-shadow: 0 18px 50px rgb(0 0 0 / 45%);
 
     img {
       height: 100%;
@@ -117,9 +117,8 @@
     margin: 0;
     font-family: var(--ra-font-lead);
     font-size: 1.4rem;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
 
     a {
       color: var(--ra-ink);

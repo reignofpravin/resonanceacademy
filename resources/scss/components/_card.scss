@@ -8,26 +8,33 @@
   display: grid;
   grid-template-columns: 1fr;
   overflow: hidden;
-  background: var(--ra-glass-strong);
-  border: 1px solid var(--ra-glass-line);
+  background: none;
+  border: 0;
   border-radius: var(--ra-radius-deck);
-  backdrop-filter: blur(16px);
-  transition: border-color var(--ra-dur-fast) var(--ra-ease);
+  transition: transform var(--ra-dur-med) var(--ra-ease-expo);
 
   &:hover,
   &:focus-within {
-    border-color: var(--ra-ring);
+    transform: translateY(-0.35rem);
+
+    .c-card__thumb img {
+      transform: scale(1.03);
+    }
   }
 
   &__thumb {
     display: block;
     max-width: 100%;
+    overflow: hidden;
+    border-radius: var(--ra-radius-deck);
+    box-shadow: 0 18px 50px rgb(0 0 0 / 45%);
 
     img {
       display: block;
       width: 100%;
       height: auto;
       object-fit: cover;
+      transition: transform var(--ra-dur-med) var(--ra-ease-expo);
     }
 
     /* No portrait: a monogram plate instead of a stock gradient — the
@@ -68,7 +75,7 @@
     display: grid;
     gap: 0.6rem;
     align-content: start;
-    padding: 1.5rem;
+    padding: 1.1rem 0.25rem 0.4rem;
   }
 
   &__chips {
@@ -85,10 +92,9 @@
     margin: 0;
     font-family: var(--ra-font-lead);
     font-size: clamp(1.15rem, 2vw, 1.4rem);
-    font-weight: 400;
-    line-height: 1.05;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+    font-weight: 550;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
 
     a {
       color: var(--ra-cream);

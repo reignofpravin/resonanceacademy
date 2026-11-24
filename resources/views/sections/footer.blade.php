@@ -66,7 +66,7 @@
       </div>
     @endif
 
-    <p class="m-site-footer__colophon" aria-hidden="true">Resonance</p>
+    <p class="m-site-footer__colophon" data-ra-parallax="0.05" aria-hidden="true">Resonance</p>
 
     <div class="m-site-footer__bottom">
       <p class="m-site-footer__legal">

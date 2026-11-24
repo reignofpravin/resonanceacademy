@@ -610,6 +610,7 @@ body:has(.c-nav-toggle__checkbox:checked) {
     letter-spacing: -0.03em;
     white-space: nowrap;
     user-select: none;
+    transform: translate3d(var(--ra-dx, 0), var(--ra-dy, 0), 0);
     -webkit-text-stroke: 1px rgb(244 231 206 / 26%);
   }
 }
