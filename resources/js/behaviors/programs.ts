@@ -2,12 +2,12 @@
  * Programme deck — "Now Playing".
  *
  * With JS the section becomes a 3D band of sleeves: a float `pos` springs
- * toward `target`, and every card's offset, depth, turn, scale, opacity and
- * blur are plain CSS variables set from its distance to the centre. Drag
+ * toward `target`, and every card's offset, depth, turn, scale and opacity
+ * are plain CSS variables set from its distance to the centre. Drag
  * (or a horizontal wheel, arrow keys, the transport, the instrument index)
- * scrubs the deck; the centred card's vinyl slides out and spins, the gold
+ * walks the deck; the centred card's vinyl slides out and spins, the gold
  * strings thrum once on every snap, and the spectrum canvas — stage-light
- * sparks in brass, cyan and a little magenta — surges with scrub velocity.
+ * sparks in brass, cyan and a little magenta — surges with fling velocity.
  * Idle for a while and the turntable keeps playing on its own, ping-ponging
  * along the shelf.
  *
@@ -16,13 +16,12 @@
  */
 import gsap from 'gsap'
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import { isReducedMotion, onFrame } from './raf'
 
-gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin)
+gsap.registerPlugin(ScrambleTextPlugin)
 
-const BRASS = '214, 166, 60'
+const BRASS = '255, 90, 78'
 const CYAN = '108, 196, 255'
 const MAGENTA = '226, 120, 214'
 
@@ -33,6 +32,7 @@ const AUTOPLAY = 4.5 // seconds a track holds before the deck flips it
 const WAKE = 8 // seconds a manual nudge silences the turntable
 const SOFT = 0.35 // how far past the ends a drag may stretch
 const FLING = 0.22 // seconds of release velocity kept for the snap
+const DRAG_SLOP = 10 // px of pointer travel a click may contain and still click
 
 type Spark = {
   x: number
@@ -87,7 +87,6 @@ const initDeck = (stage: HTMLElement): void => {
   let height = 0
   let sparks: Spark[] = []
   let wheelSnap = 0
-  let scrubbing = false
 
   const wake = (): void => {
     wakeAt = performance.now() + WAKE * 1000
@@ -179,7 +178,6 @@ const initDeck = (stage: HTMLElement): void => {
       style.setProperty('--ry', `${((-Math.max(-2.6, Math.min(2.6, d)) / 2.6) * MAX_ANGLE).toFixed(2)}deg`)
       style.setProperty('--sc', (1 / (1 + ad * 0.22)).toFixed(3))
       style.setProperty('--op', Math.max(0.1, 1 - ad * 0.32).toFixed(3))
-      style.setProperty('--bl', ad < 0.6 ? '0px' : `${Math.min(2.6, (ad - 0.5) * 1.1).toFixed(2)}px`)
       style.zIndex = String(100 - Math.round(ad * 10))
     })
 
@@ -196,7 +194,7 @@ const initDeck = (stage: HTMLElement): void => {
     const now = performance.now()
     const dx = event.clientX - dragX
 
-    if (Math.abs(dx) > 6) {
+    if (Math.abs(dx) > DRAG_SLOP) {
       movedFar = true
       suppressClick = true
     }
@@ -233,6 +231,13 @@ const initDeck = (stage: HTMLElement): void => {
     }
   }
 
+  // A card is one big stretched link; without this, a few px of drift after
+  // mousedown starts Chrome's native link drag, which cancels the pointer
+  // sequence and eats the click — the deck's own drag owns pointer travel.
+  stage.addEventListener('dragstart', (event) => {
+    event.preventDefault()
+  })
+
   stage.addEventListener('pointerdown', (event) => {
     if (event.button !== 0) {
       return
@@ -259,18 +264,67 @@ const initDeck = (stage: HTMLElement): void => {
       return
     }
 
-    const card = (event.target as HTMLElement).closest<HTMLElement>('[data-ra-card]')
+    if ((event.target as HTMLElement).closest('a')) {
+      return // text links navigate on their own
+    }
+
+    /* The centred sleeve is the active track: clicking its face — art,
+       chips, the vinyl peeking past its edge — opens the course. The disc
+       paints as part of the centred card's stack, so where it overlaps a
+       neighbour, resolve by depth instead of target: skip the disc and the
+       sleeve the pointer is really on wins. */
+    let card: HTMLElement | null = null
+
+    for (const el of document.elementsFromPoint(event.clientX, event.clientY)) {
+      if (el.closest('.m-programs__vinyl')) {
+        continue
+      }
+
+      card = el.closest<HTMLElement>('[data-ra-card]')
+
+      if (card) {
+        break
+      }
+    }
+
     const i = card ? cards.indexOf(card) : -1
 
-    if (i >= 0 && i !== center) {
+    if (i < 0) {
+      // disc floating over bare rail still counts as the centred sleeve's
+      if ((event.target as HTMLElement).closest('.m-programs__vinyl')) {
+        const href = cards[center]?.querySelector<HTMLAnchorElement>('a')?.href
+
+        if (href) {
+          window.location.assign(href)
+        }
+      }
+
+      return
+    }
+
+    if (i !== center) {
       event.preventDefault() // side sleeves get centred, not clicked through
       target = i
       wake()
+
+      return
+    }
+
+    const href = card.querySelector<HTMLAnchorElement>('a')?.href
+
+    if (href) {
+      window.location.assign(href)
     }
   })
 
   stage.addEventListener('wheel', (event) => {
-    if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) {
+    const ax = Math.abs(event.deltaX)
+    const ay = Math.abs(event.deltaY)
+
+    // Only a clearly horizontal gesture belongs to the deck. Trackpads
+    // leak a little sideways into every vertical flick, so anything shy
+    // of a 1.5× horizontal majority is left to the page.
+    if (ax <= ay * 1.5) {
       return // vertical scroll always belongs to the page
     }
 
@@ -428,7 +482,7 @@ const initDeck = (stage: HTMLElement): void => {
     elapsed += dt
 
     if (! dragging) {
-      if (! hovered && ! scrubbing && performance.now() > wakeAt) {
+      if (! hovered && performance.now() > wakeAt) {
         auto -= dt
 
         if (auto <= 0) {
@@ -448,7 +502,7 @@ const initDeck = (stage: HTMLElement): void => {
 
     const was = pos
 
-    pos += (target - pos) * Math.min(1, dt * (scrubbing ? SPRING * 2.4 : SPRING))
+    pos += (target - pos) * Math.min(1, dt * SPRING)
 
     if (Math.abs(target - pos) < 0.0015) {
       pos = target
@@ -497,30 +551,11 @@ const initDeck = (stage: HTMLElement): void => {
   setCenter(0, true)
   onFrame(frame)
 
-  /* ---------- scroll scrub: the shelf plays itself down the page ----------
-     On wide screens scrolling is the needle: progress through the section's
-     pass across the viewport walks the deck card by card. No pin — the
-     section is taller than most viewports and its transport must stay in
-     reach — and drag, transport and keys still work: the next scroll tick
-     simply takes the wheel back, which is what a scroll-driven deck does. */
-  if (window.matchMedia('(min-width: 48em)').matches) {
-    ScrollTrigger.create({
-      trigger: section,
-      start: 'top 72%',
-      end: 'bottom 28%',
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        scrubbing = true
-        target = clamp(self.progress * (n - 1))
-      },
-      onLeave: () => {
-        scrubbing = false
-      },
-      onLeaveBack: () => {
-        scrubbing = false
-      },
-    })
-  }
+  /* ---------- the deck answers to hands, not to the wheel ----------
+     Vertical scroll always belongs to the page: nothing here scrubs the
+     shelf from the scrollbar. Drag, a clearly horizontal swipe, the
+     transport, the keys and the idle turntable are the only ways a
+     sleeve comes forward. */
 
   window.addEventListener('resize', () => {
     measure()
