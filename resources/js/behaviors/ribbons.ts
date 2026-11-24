@@ -9,7 +9,7 @@
  */
 import { isReducedMotion, onFrame } from './raf'
 
-const GOLD = '214, 166, 60'
+const GOLD = '255, 90, 78'
 
 type Ribbon = {
   a: number

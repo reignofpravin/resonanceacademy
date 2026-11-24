@@ -21,8 +21,8 @@ type Mote = {
   flare: boolean
 }
 
-const BRASS = '214, 166, 60'
-const CREAM = '244, 231, 206'
+const BRASS = '255, 90, 78'
+const CREAM = '244, 241, 234'
 
 export const init = (): void => {
   const canvas = document.querySelector<HTMLCanvasElement>('[data-ra-dust]')

@@ -89,7 +89,7 @@
     line-height: 1;
     color: transparent;
     letter-spacing: -0.02em;
-    -webkit-text-stroke: 1px rgb(244 231 206 / 32%);
+    -webkit-text-stroke: 1px rgb(244 241 234 / 32%);
     transition: color var(--ra-dur-med) var(--ra-ease);
   }
 
@@ -105,7 +105,7 @@
 
   &__step-text {
     margin: 0;
-    color: rgb(244 231 206 / 70%);
+    color: rgb(244 241 234 / 70%);
   }
 
   &__empty p {

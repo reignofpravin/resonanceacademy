@@ -48,7 +48,7 @@
       font-family: var(--ra-font-display);
       font-size: clamp(4.5rem, 7vw, 7rem);
       line-height: 1;
-      color: rgb(244 231 206 / 12%);
+      color: rgb(244 241 234 / 12%);
       background:
         radial-gradient(circle at 50% 118%, var(--ra-glow), transparent 62%),
         var(--ra-panel);
@@ -63,7 +63,7 @@
         height: 2rem;
         font-family: var(--ra-font-sans);
         font-size: 0.7rem;
-        color: var(--ra-accent-ink);
+        color: var(--ra-accent-text);
         content: "♪";
         border: 1px solid var(--ra-line);
         border-radius: 50%;
@@ -109,7 +109,7 @@
 
   &__excerpt {
     margin: 0;
-    color: rgb(244 231 206 / 72%);
+    color: rgb(244 241 234 / 72%);
   }
 
   &__meta {
@@ -152,13 +152,13 @@
   color: var(--ra-accent-text);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  background: rgb(214 166 60 / 8%);
+  background: rgb(255 90 78 / 8%);
   border: 1px solid var(--ra-ring);
   border-radius: 999px;
 
   &--soft {
     color: var(--ra-clay-ink);
-    background: rgb(244 231 206 / 5%);
+    background: rgb(244 241 234 / 5%);
     border-color: var(--ra-glass-line);
   }
 }

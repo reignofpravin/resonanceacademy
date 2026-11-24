@@ -76,7 +76,7 @@
       font-family: var(--ra-font-display);
       font-size: clamp(4.5rem, 8vw, 6.5rem);
       line-height: 1;
-      color: rgb(244 231 206 / 12%);
+      color: rgb(244 241 234 / 12%);
       background:
         radial-gradient(circle at 50% 120%, var(--ra-glow), transparent 62%),
         var(--ra-panel);
@@ -93,7 +93,7 @@
       height: 2rem;
       font-family: var(--ra-font-sans);
       font-size: 0.7rem;
-      color: var(--ra-accent-ink);
+      color: var(--ra-accent-text);
       content: "♪";
       border: 1px solid var(--ra-line);
       border-radius: 50%;

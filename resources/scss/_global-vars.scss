@@ -1,33 +1,34 @@
 /* =========================================================
    Resonance Academy — global design tokens
-   "After Hours, on ink": blue-black stage, cream type, brass light, frosted glass.
+   "After Hours, on navy": ink-navy stage, pearl type, electric-coral
+   light, frosted glass. Palette: Tidewell trio — #141B2D · #F4F1EA · #FF5A4E.
    ========================================================= */
 
 :root {
-  /* Colour — the house lights are down over a cold ink stage */
-  --ra-night: #050910;
+  /* Colour — house lights down over an ink-navy stage */
+  --ra-night: #141b2d;
   --ra-canvas: var(--ra-night);
-  --ra-panel: #0b1220;
+  --ra-panel: #1b2438;
   --ra-sand: var(--ra-panel); /* legacy alias: alternate bands become panels */
-  --ra-ink: #f4e7ce;
-  --ra-cream: #f4e7ce;
-  --ra-accent: #d6a63c;
-  --ra-accent-ink: #b8892a;
-  --ra-accent-text: #e7c266;
-  --ra-ember: #c25e3a;
-  --ra-clay: #8a7457;
-  --ra-clay-ink: #b7a78e; /* muted cream, 4.6:1 on night */
-  --ra-line: rgb(244 231 206 / 14%);
-  --ra-line-strong: rgb(244 231 206 / 28%);
-  --ra-glow: rgb(214 166 60 / 16%);
+  --ra-ink: #f4f1ea;
+  --ra-cream: #f4f1ea;
+  --ra-accent: #ff5a4e;
+  --ra-accent-ink: #e8483c;
+  --ra-accent-text: #ff8578;
+  --ra-ember: #d24a3d;
+  --ra-clay: #7d8496;
+  --ra-clay-ink: #9aa3b8; /* muted smoke, 6:1 on night */
+  --ra-line: rgb(244 241 234 / 14%);
+  --ra-line-strong: rgb(244 241 234 / 28%);
+  --ra-glow: rgb(255 90 78 / 16%);
 
   /* Glass & atmosphere — the frosted cards and the darkened corners */
   --ra-glass: rgb(210 226 255 / 5%);
   --ra-glass-strong: rgb(210 226 255 / 9%);
   --ra-glass-line: rgb(210 226 255 / 14%);
-  --ra-veil: rgb(5 9 16 / 92%); /* scrolled-header band, matched to night */
-  --ra-vignette: rgb(1 4 9 / 62%);
-  --ra-ring: rgb(214 166 60 / 30%);
+  --ra-veil: rgb(20 27 45 / 92%); /* scrolled-header band, matched to night */
+  --ra-vignette: rgb(8 11 20 / 62%);
+  --ra-ring: rgb(255 90 78 / 30%);
   --ra-cloud: rgb(56 108 190 / 14%); /* cold ink-cloud glow behind sections */
 
   /* Shape & depth */

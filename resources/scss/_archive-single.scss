@@ -18,7 +18,7 @@
   &__desc {
     max-width: 40rem;
     margin-top: 1rem;
-    color: rgb(244 231 206 / 72%);
+    color: rgb(244 241 234 / 72%);
   }
 }
 
@@ -79,7 +79,7 @@
   &__standfirst {
     margin: 0.75rem 0 0;
     font-size: 1.05rem;
-    color: rgb(244 231 206 / 72%);
+    color: rgb(244 241 234 / 72%);
   }
 
   &__grid {
@@ -118,7 +118,7 @@
       aspect-ratio: 4 / 5;
       font-family: var(--ra-font-display);
       font-size: 3rem;
-      color: rgb(244 231 206 / 14%);
+      color: rgb(244 241 234 / 14%);
       background:
         radial-gradient(circle at 50% 118%, var(--ra-glow), transparent 62%),
         linear-gradient(var(--ra-panel), var(--ra-night));
@@ -169,7 +169,7 @@
 
   &__aside-text {
     margin: 0;
-    color: rgb(244 231 206 / 78%);
+    color: rgb(244 241 234 / 78%);
   }
 
   &__aside-list {

@@ -14,7 +14,7 @@ let visibleCanvases: HTMLCanvasElement[] = []
 const paint = (ctx: Ctx, w: number, h: number, t: number, mode: string): void => {
   ctx.clearRect(0, 0, w, h)
 
-  const accent = getComputedStyle(document.documentElement).getPropertyValue('--ra-accent') || '#d6a63c'
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--ra-accent') || '#ff5a4e'
 
   ctx.globalAlpha = 0.35
   ctx.strokeStyle = accent

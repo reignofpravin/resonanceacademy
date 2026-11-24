@@ -28,9 +28,9 @@
     height: 120%;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 40% 38% at 68% 44%, rgb(214 166 60 / 18%), transparent 70%),
+      radial-gradient(ellipse 40% 38% at 68% 44%, rgb(255 90 78 / 18%), transparent 70%),
       radial-gradient(ellipse 34% 34% at 30% 60%, rgb(56 108 190 / 16%), transparent 72%),
-      radial-gradient(ellipse 70% 60% at 50% 0%, rgb(244 231 206 / 6%), transparent 70%);
+      radial-gradient(ellipse 70% 60% at 50% 0%, rgb(244 241 234 / 6%), transparent 70%);
 
     /* parallax.ts depth — written as custom properties so paint stays still. */
     transform: translate3d(var(--ra-dx, 0), var(--ra-dy, 0), 0);
@@ -47,7 +47,7 @@
     pointer-events: none;
     background: repeating-radial-gradient(
       circle at 50% 50%,
-      rgb(244 231 206 / 7%) 0 1px,
+      rgb(244 241 234 / 7%) 0 1px,
       transparent 1px 14px
     );
     border-radius: 50%;
@@ -135,7 +135,7 @@
     height: 0.4rem;
     background: var(--ra-accent);
     border-radius: 50%;
-    box-shadow: 0 0 0 4px rgb(214 166 60 / 18%);
+    box-shadow: 0 0 0 4px rgb(255 90 78 / 18%);
   }
 
   &__chapter em {
@@ -185,7 +185,7 @@
 
   &__object::after {
     inset: -2.4rem;
-    border: 1px solid rgb(214 166 60 / 10%);
+    border: 1px solid rgb(255 90 78 / 10%);
   }
 
   &__object {
@@ -235,7 +235,7 @@
   }
 
   &__stamp-ring {
-    stroke: rgb(244 231 206 / 30%);
+    stroke: rgb(244 241 234 / 30%);
     stroke-width: 1;
   }
 
@@ -277,7 +277,7 @@
     margin: 0;
     font-size: 1rem;
     line-height: 1.6;
-    color: rgb(244 231 206 / 72%);
+    color: rgb(244 241 234 / 72%);
   }
 
   &__actions {
@@ -330,7 +330,7 @@
       inset: 0 auto auto;
       width: 1px;
       height: 55%;
-      background: linear-gradient(rgb(214 166 60 / 0%), var(--ra-accent));
+      background: linear-gradient(rgb(255 90 78 / 0%), var(--ra-accent));
       animation: ra-cue-fall 2.4s var(--ra-ease) infinite;
     }
   }
