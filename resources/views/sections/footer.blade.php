@@ -66,6 +66,8 @@
       </div>
     @endif
 
+    <p class="m-site-footer__colophon" aria-hidden="true">Resonance</p>
+
     <div class="m-site-footer__bottom">
       <p class="m-site-footer__legal">
         &copy; {{ date_i18n('Y') }} {{ $siteName }} &middot; {{ __('All rights reserved.', 'ra-theme') }}
@@ -76,9 +78,6 @@
         <span>{{ __('Let the music move you.', 'ra-theme') }}</span>
       </p>
 
-      <!-- <button type="button" class="c-bird-sound c-bird-sound--inline js-ra-sound" aria-pressed="false">
-        <span aria-hidden="true">&#9834;</span>
-      </button> -->
     </div>
   </div>
 </footer>

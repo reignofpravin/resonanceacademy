@@ -1,5 +1,5 @@
 /* =========================================================
-   Module: m-testimonials — rotating quote slider
+   Module: m-testimonials — oversized quote on a raised panel
    ========================================================= */
 
 .m-testimonials {
@@ -7,13 +7,9 @@
   z-index: 1;
   padding: calc(var(--ra-space-section) * 1.25) 0 var(--ra-space-section);
   margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
-  color: var(--ra-canvas);
-  background: var(--ra-ink);
+  background: var(--ra-panel);
+  border-top: 1px solid var(--ra-line);
   border-radius: 2rem 2rem 0 0;
-
-  .c-kicker::before {
-    background: var(--ra-accent);
-  }
 
   &__header {
     display: grid;
@@ -29,7 +25,7 @@
   &__slide {
     display: grid;
     gap: 1.5rem;
-    max-width: 44rem;
+    max-width: 48rem;
     margin: 0;
 
     &[hidden] {
@@ -44,20 +40,37 @@
   &__quote {
     margin: 0;
     font-family: var(--ra-font-display);
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    font-weight: 450;
-    line-height: 1.25;
-    color: var(--ra-canvas);
+    font-size: clamp(1.65rem, 3.4vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.22;
+    color: var(--ra-cream);
+    letter-spacing: -0.015em;
   }
 
   &__meta {
-    font-size: 0.9rem;
-    color: rgb(247 243 236 / 65%);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: baseline;
+    margin: 0;
+    font-size: 0.6875rem;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
   }
 
   &__name {
     font-weight: 600;
-    color: var(--ra-canvas);
+    color: var(--ra-accent-text);
+  }
+
+  &__avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+    object-fit: cover;
+    border: 1px solid var(--ra-line-strong);
+    border-radius: 50%;
+    filter: grayscale(1) contrast(1.1);
   }
 
   &__controls {
@@ -73,61 +86,46 @@
     justify-content: center;
     width: 2.75rem;
     height: 2.75rem;
-    color: var(--ra-canvas);
+    color: var(--ra-cream);
     cursor: pointer;
     background: transparent;
-    border: 1px solid rgb(247 243 236 / 30%);
+    border: 1px solid var(--ra-line-strong);
     border-radius: 50%;
-    transition: background var(--ra-dur-fast) var(--ra-ease), color var(--ra-dur-fast) var(--ra-ease);
+    transition:
+      color var(--ra-dur-fast) var(--ra-ease),
+      background-color var(--ra-dur-fast) var(--ra-ease),
+      border-color var(--ra-dur-fast) var(--ra-ease);
 
     &:hover,
     &:focus-visible {
-      color: var(--ra-ink);
-      background: var(--ra-canvas);
+      color: var(--ra-night);
+      background: var(--ra-accent);
+      border-color: var(--ra-accent);
     }
   }
 
   &__dots {
     display: flex;
     gap: 0.5rem;
+    align-items: center;
   }
 
-  /* 24px hit area with the visual dot drawn inside: the indicator stays
-     8px but the control clears WCAG 2.5.8 and touch targets. */
   &__dot {
-    display: grid;
-    place-items: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
     padding: 0;
     cursor: pointer;
-    background: none;
+    background: rgb(244 231 206 / 25%);
     border: 0;
+    border-radius: 50%;
+    transition: background-color var(--ra-dur-fast) var(--ra-ease);
 
-    &::before {
-      width: 0.5rem;
-      height: 0.5rem;
-      content: "";
-      background: rgb(247 243 236 / 25%);
-      border-radius: 999px;
-      transition: background var(--ra-dur-fast) var(--ra-ease), width var(--ra-dur-fast) var(--ra-ease);
-    }
-
-    &.is-active::before {
-      width: 1.5rem;
+    &.is-active {
       background: var(--ra-accent);
     }
   }
 
   &__empty p {
-    color: rgb(247 243 236 / 55%);
+    color: var(--ra-clay-ink);
   }
-}
-
-.m-testimonials__avatar {
-  width: 56px;
-  height: 56px;
-  margin-block: var(--ra-space-2);
-  object-fit: cover;
-  border-radius: 50%;
 }

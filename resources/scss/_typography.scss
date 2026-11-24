@@ -1,5 +1,6 @@
 /* =========================================================
-   Typography — editorial ramp on top of bootstrap type
+   Typography — marquee ramp on top of bootstrap type
+   Display lines set in Anton, uppercase, like the reference deck.
    ========================================================= */
 
 /* Long single words ("Programmes") must wrap rather than widen the
@@ -7,31 +8,35 @@
    fit a line, so desktop typography is untouched. */
 h1,
 .h1 {
-  font-family: var(--ra-font-display);
+  font-family: var(--ra-font-lead);
   font-size: var(--ra-fs-display);
-  font-weight: 500;
-  line-height: var(--ra-leading-tight);
-  letter-spacing: -0.02em;
-  overflow-wrap: break-word;
+  font-weight: 400; /* Anton is single-weight; anything else synthesises faux-bold */
+  line-height: 0.94;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
   hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 h2,
 .h2 {
-  font-family: var(--ra-font-display);
+  font-family: var(--ra-font-lead);
   font-size: var(--ra-fs-h2);
-  font-weight: 500;
-  line-height: var(--ra-leading-tight);
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  line-height: 0.98;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
   overflow-wrap: break-word;
 }
 
 h3,
 .h3 {
-  font-family: var(--ra-font-display);
+  font-family: var(--ra-font-lead);
   font-size: var(--ra-fs-h3);
-  font-weight: 550;
-  line-height: 1.2;
+  font-weight: 400;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .lead,

@@ -1,18 +1,59 @@
 /* =========================================================
-   Component: site logo — uploaded custom logo
+   Component: site logo — chrome emblem + typed lockup
    ========================================================= */
 
-.c-site-logo {
-  display: inline-block;
-  line-height: 0;
+.c-logo {
+  display: inline-flex;
+  gap: 0.65rem;
+  align-items: center;
+  color: var(--ra-cream);
+  text-decoration: none;
 
-  /* Match the footprint of the text wordmark (site title) it replaces:
-     the wordmark renders ~14.25rem wide at 1.35rem type. */
-  &__img {
+  &:hover,
+  &:focus-visible {
+    color: var(--ra-cream);
+  }
+
+  &__mark {
     display: block;
-    width: min(8rem, 34vw);
-    max-width: 100%;
+    width: 2.6rem;
     height: auto;
     transition: width 0.45s var(--ra-ease);
+  }
+
+  &__lockup {
+    display: grid;
+    gap: 0.1rem;
+    line-height: 1;
+  }
+
+  &__name {
+    font-family: var(--ra-font-display);
+    font-size: 1.18rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  &__sub {
+    font-size: 0.5rem;
+    font-weight: 600;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.26em;
+  }
+
+  @media (width <= 29.99em) {
+    &__mark {
+      width: 2.1rem;
+    }
+
+    &__name {
+      font-size: 1rem;
+    }
+
+    &__sub {
+      font-size: 0.4375rem;
+      letter-spacing: 0.18em;
+    }
   }
 }

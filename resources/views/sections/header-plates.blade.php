@@ -9,8 +9,20 @@
   </label>
 </div>
 
+@if (has_nav_menu('primary_navigation'))
+  <nav class="m-header__nav" aria-label="{{ wp_get_nav_menu_name('primary_navigation') }}">
+    {!! wp_nav_menu([
+      'theme_location' => 'primary_navigation',
+      'menu_class' => 'm-header__nav-list',
+      'container' => false,
+      'depth' => 1,
+      'echo' => false,
+    ]) !!}
+  </nav>
+@endif
+
 @php($ctaText = trim(\App\Customizer\HeaderFooter::value('ra_cta_text')))
-@php($ctaUrl = trim(\App\Customizer\HeaderFooter::value('ra_cta_url')))
+@php($ctaUrl = \App\Customizer\HeaderFooter::link('ra_cta_url'))
 @if ($ctaText !== '' && $ctaUrl !== '')
   <a class="m-header__plate m-header__plate--cta" href="{{ esc_url($ctaUrl) }}">{{ esc_html($ctaText) }}</a>
 @endif

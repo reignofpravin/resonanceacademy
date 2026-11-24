@@ -8,7 +8,9 @@
             {!! get_the_post_thumbnail(get_the_ID(), 'medium') !!}
         </a>
     @else
-        <div class="c-card__thumb c-card__thumb--ph" aria-hidden="true"><span>♪</span></div>
+        <div class="c-card__thumb c-card__thumb--ph" aria-hidden="true">
+            <span>{{ Str::substr(wp_specialchars_decode(get_the_title(), ENT_QUOTES), 0, 1) }}</span>
+        </div>
     @endif
 
     <div class="c-card__body">

@@ -1,19 +1,15 @@
 @props(['class' => ''])
 
 @php
-    $logoId = (int) get_theme_mod('custom_logo');
     $siteName = get_bloginfo('name', 'display');
-    $logoAlt = $logoId ? trim((string) get_post_meta($logoId, '_wp_attachment_image_alt', true)) : '';
-    $logoAlt = $logoAlt !== '' ? $logoAlt : $siteName;
+    $mark = Vite::asset('resources/images/emblem.png');
 @endphp
 
-@if ($logoId)
-    <a class="c-site-logo {{ $class }}" href="{{ home_url('/') }}">
-        {!! wp_get_attachment_image($logoId, 'medium', false, ['class' => 'c-site-logo__img', 'alt' => $logoAlt]) !!}
-    </a>
-@else
-    <a class="c-wordmark {{ $class }}" href="{{ home_url('/') }}">
-        <span class="c-wordmark__accent" aria-hidden="true">♪</span>
-        <span class="c-wordmark__text">{{ $siteName }}</span>
-    </a>
-@endif
+<a class="c-logo {{ $class }}" href="{{ home_url('/') }}" aria-label="{{ $siteName }} — {{ __('home', 'ra-theme') }}">
+    <img class="c-logo__mark" src="{{ $mark }}" alt="" width="256" height="256" decoding="async">
+
+    <span class="c-logo__lockup">
+        <span class="c-logo__name">Resonance</span>
+        <span class="c-logo__sub">{{ __('Music Academy', 'ra-theme') }}</span>
+    </span>
+</a>

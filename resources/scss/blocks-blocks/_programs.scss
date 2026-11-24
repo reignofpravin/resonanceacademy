@@ -1,395 +1,639 @@
 /* =========================================================
-   Module: m-programs — featured course grid
-   Art-panel cards: per-track generative CSS motifs, cursor
-   spotlight + tilt (programs behavior), springy hover lift.
+   Module: m-programs — "Now Playing" course deck
+   Without JS the rail is a plain scrollable row; with JS
+   (programs.ts) the section gains .is-orbit and the cards
+   fly on a 3D band like sleeves on a stage: the centred
+   card faces you and its vinyl slides out, a spectrum of
+   stage-light sparks surges as you scrub, and two gold
+   strings thrum on every snap.
    ========================================================= */
 
 .m-programs {
-  padding: var(--ra-space-section) 0;
+  --ra-card-w: clamp(15.5rem, 64vw, 21rem);
 
-  &__header {
+  position: relative;
+  padding: var(--ra-space-section) 0 calc(var(--ra-space-section) * 0.6);
+  overflow-x: clip;
+
+  /* Cold ink cloud drifting behind the deck, like the reels' backlights. */
+  &::before {
+    position: absolute;
+    top: 12%;
+    right: -6%;
+    width: 46rem;
+    height: 30rem;
+    pointer-events: none;
+    content: "";
+    background: radial-gradient(closest-side, var(--ra-cloud), transparent 78%);
+    filter: blur(30px);
+  }
+
+  &__head {
+    position: relative;
     display: grid;
-    gap: 1.25rem;
-    margin-bottom: var(--ra-space-gap);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--ra-line);
+  }
+
+  &__head-copy {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+
+  &__eyebrow {
+    display: inline-flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    margin: 0;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+  }
+
+  &__eyebrow-num {
+    font-family: var(--ra-font-display);
+    font-size: 1rem;
+    color: var(--ra-accent);
+    letter-spacing: 0;
   }
 
   &__heading {
-    max-width: 40rem;
+    max-width: 22ch;
     margin: 0;
+    font-size: var(--ra-fs-h2);
   }
 
-  /* text-style filters: no pills, active gets the accent dot */
+  &__count {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    margin: 0;
+    font-family: var(--ra-font-mono);
+    font-size: 0.625rem;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  &__count-num {
+    font-family: var(--ra-font-lead);
+    font-size: 2.75rem;
+    line-height: 1;
+    color: var(--ra-cream);
+    letter-spacing: 0.02em;
+  }
+
+  /* ----- filters: frosted chips (links to the archives) ----- */
   &__filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem 1.5rem;
+    gap: 0.45rem;
+    margin-top: 1.5rem;
   }
 
   &__filter {
-    position: relative;
-    display: inline-block;
-
-    /* keeps short labels ("All") at a 24px+ touch target */
-    min-width: 1.75rem;
-    padding: 0.15rem 0;
-    font-size: 0.9rem;
+    padding: 0.45rem 0.95rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.5625rem;
+    font-weight: 500;
     color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
     text-decoration: none;
-    transition: color var(--ra-dur-fast) var(--ra-ease);
-
-    &::before {
-      position: absolute;
-      top: 50%;
-      left: -0.9rem;
-      width: 0.375rem;
-      height: 0.375rem;
-      content: "";
-      background: var(--ra-accent);
-      border-radius: 50%;
-      transform: translateY(-50%) scale(0);
-      transition: transform var(--ra-dur-fast) var(--ra-ease);
-    }
+    background: var(--ra-glass);
+    border: 1px solid var(--ra-glass-line);
+    border-radius: 999px;
+    transition:
+      color var(--ra-dur-fast) var(--ra-ease),
+      background-color var(--ra-dur-fast) var(--ra-ease),
+      border-color var(--ra-dur-fast) var(--ra-ease);
 
     &:hover,
     &:focus-visible {
-      color: var(--ra-ink);
+      color: var(--ra-cream);
+      background: var(--ra-glass-strong);
     }
 
     &.is-active {
-      color: var(--ra-ink);
-
-      &::before {
-        transform: translateY(-50%) scale(1);
-      }
+      color: var(--ra-accent-text);
+      background: var(--ra-glass-strong);
+      border-color: var(--ra-ring);
     }
   }
 
-  /* ----- card grid ----- */
+  /* ----- instrument index: the mono rail of the reel's side list ----- */
+  &__index {
+    display: none;
+    flex-wrap: wrap;
+    gap: 0.2rem 1.6rem;
+    padding: 0;
+    margin: 0.9rem 0 0;
+  }
 
-  &__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(18.5rem, 100%), 1fr));
-    gap: var(--ra-space-gap);
+  &__idx {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    padding: 0.35rem 0.1rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    transition: color var(--ra-dur-fast) var(--ra-ease);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--ra-cream);
+    }
+
+    &.is-active {
+      color: var(--ra-accent-text);
+    }
+  }
+
+  &__idx-arrow {
+    opacity: 50%;
+    transition: opacity var(--ra-dur-fast) var(--ra-ease);
+  }
+
+  &__idx:hover .m-programs__idx-arrow,
+  &__idx.is-active .m-programs__idx-arrow {
+    opacity: 100%;
+  }
+
+  /* ----- the stage: plain container in row mode, 3D proscenium in orbit ----- */
+  &__stage {
+    position: relative;
+    padding: 0;
+  }
+
+  /* ----- the rail: a scrollable row until JS puts it in orbit ----- */
+  &__rail {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.5rem 0.25rem 2.25rem;
+    margin: 0 -0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__card {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    flex: 0 0 auto;
+    width: clamp(17.5rem, 78vw, 20.5rem);
     overflow: hidden;
-    background: var(--ra-canvas);
-    border: 1px solid var(--ra-line);
-    border-radius: 1.25rem;
-    box-shadow: var(--ra-shadow);
-    transform-style: preserve-3d;
-    transition: border-color var(--ra-dur-fast) var(--ra-ease), box-shadow var(--ra-dur-fast) var(--ra-ease);
+    background: var(--ra-glass-strong);
+    border: 1px solid var(--ra-glass-line);
+    border-radius: var(--ra-radius-deck);
+    backdrop-filter: blur(16px);
+    transition: border-color var(--ra-dur-fast) var(--ra-ease);
 
-    /* cursor-tracking spotlight */
+    &:hover,
+    &:has(a:hover, a:focus-visible) {
+      border-color: var(--ra-ring);
+    }
+  }
+
+  /* Generated ink art: three seeded hues float over the night, cut by a
+     single metallic hairline. Hues arrive as --a1/--a2/--a3 + --aa. */
+  &__art {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background:
+      radial-gradient(65% 75% at 18% 22%, hsl(var(--a1) 70% 58% / 45%), transparent 62%),
+      radial-gradient(55% 65% at 84% 28%, hsl(var(--a2) 65% 55% / 38%), transparent 60%),
+      radial-gradient(80% 85% at 52% 98%, hsl(var(--a3) 72% 45% / 50%), transparent 66%),
+      linear-gradient(var(--aa), var(--ra-panel), var(--ra-night));
+    border-radius: calc(var(--ra-radius-deck) - 2px) calc(var(--ra-radius-deck) - 2px) 0 0;
+    transition: transform 0.6s var(--ra-ease);
+
     &::after {
       position: absolute;
       inset: 0;
       content: "";
-      background: radial-gradient(16rem at var(--mx, 50%) var(--my, 50%), rgb(194 94 58 / 12%), transparent 65%);
-      opacity: 0;
-      transition: opacity var(--ra-dur-fast) var(--ra-ease);
-      pointer-events: none;
+      background: linear-gradient(115deg, transparent 49.6%, rgb(244 231 206 / 16%) 50%, transparent 50.4%);
     }
+  }
 
-    &:hover,
-    &:focus-within {
-      border-color: rgb(194 94 58 / 35%);
-      box-shadow: 0 22px 48px rgb(23 19 16 / 14%);
+  .m-programs:not(.is-orbit) .m-programs__card:hover .m-programs__art {
+    transform: scale(1.04);
+  }
 
+  &__num {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.9rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    color: rgb(244 231 206 / 55%);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+
+  &__body {
+    display: grid;
+    gap: 0.7rem;
+    align-content: start;
+    padding: 1.15rem 1.25rem 1.4rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--ra-font-lead);
+    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+    font-weight: 400;
+    line-height: 1.02;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+
+    a {
+      color: var(--ra-cream);
+      text-decoration: none;
+
+      /* Whole card is the link; the stretched pseudo keeps focus in sync. */
       &::after {
-        opacity: 100%;
+        position: absolute;
+        inset: 0;
+        content: "";
+      }
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-accent-text);
       }
     }
   }
 
-  &__art {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-    background:
-      radial-gradient(120% 140% at 85% -20%, color-mix(in srgb, var(--ra-accent) 42%, transparent), transparent 52%),
-      var(--ra-ink);
-    transition: transform 0.6s var(--ra-ease);
-  }
-
-  &__card:hover &__art {
-    transform: scale(1.06);
-  }
-
-  &__art-waves,
-  &__art-motif {
-    position: absolute;
-    inset: 0;
-    display: block;
-    backface-visibility: hidden;
-  }
-
-  /* soft sine “sound waves” overlaying every art panel */
-  &__art-waves {
-    background:
-      repeating-linear-gradient(
-        90deg,
-        transparent 0 2.4rem,
-        color-mix(in srgb, var(--ra-sand) 10%, transparent) 2.4rem 2.6rem
-      ),
-      repeating-radial-gradient(
-        circle at 84% 120%,
-        transparent 0 1.4rem,
-        color-mix(in srgb, var(--ra-accent) 26%, transparent) 1.4rem 1.6rem
-      );
-    opacity: 60%;
-    transform: translateZ(0);
-  }
-
-  /* ----- per-track motifs (pure CSS, no images) ----- */
-
-  /* guitar: fret lines + soundhole ring */
-  .m-programs__card[data-track='guitar'] &__art-motif {
-    inset: auto 0 -22% -8%;
-    height: 80%;
-    background:
-      repeating-linear-gradient(
-        90deg,
-        transparent 0 2.75rem,
-        color-mix(in srgb, var(--ra-sand) 34%, transparent) 2.75rem 2.95rem
-      ),
-      radial-gradient(
-        circle at 62% 62%,
-        transparent 1.35rem,
-        color-mix(in srgb, var(--ra-sand) 55%, transparent) 1.45rem,
-        transparent 1.6rem
-      );
-  }
-
-  /* keyboard: bottom-keyboard strip */
-  .m-programs__card[data-track='keyboard'] &__art-motif {
-    inset: auto 0 12% 0;
-    height: 34%;
-    background: repeating-linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--ra-sand) 78%, transparent) 0 2.4rem,
-      color-mix(in srgb, var(--ra-ink) 88%, transparent) 2.4rem 2.65rem
-    );
-    border-top: 2px solid color-mix(in srgb, var(--ra-sand) 40%, transparent);
-  }
-
-  /* keyboard second motif: floating accents */
-  .m-programs__card[data-track='keyboard'] &__art-motif--b {
-    inset: 12% 70% 62% auto;
-    width: 3rem;
-    height: 3rem;
-    background: radial-gradient(
-      circle,
-      color-mix(in srgb, var(--ra-accent) 70%, transparent) 0 28%,
-      transparent 32%
-    );
-    filter: blur(1px);
-  }
-
-  /* drums: dot grid + two toms */
-  .m-programs__card[data-track='drums'] &__art-motif {
-    background:
-      radial-gradient(circle at 24% 68%, color-mix(in srgb, var(--ra-sand) 30%, transparent) 0 16%, transparent 17%),
-      radial-gradient(
-        circle at 68% 55%,
-        transparent 2.1rem,
-        color-mix(in srgb, var(--ra-accent) 45%, transparent) 2.2rem 2.5rem,
-        transparent 2.7rem
-      );
-  }
-
-  .m-programs__card[data-track='drums'] &__art-motif--b {
-    inset: 8% 8% 62% auto;
-    background: radial-gradient(
-      circle closest-side,
-      color-mix(in srgb, var(--ra-ink) 92%, transparent) 0 30%,
-      transparent 32%
-    );
-    background-size: 1.6rem 1.6rem;
-    background-repeat: repeat;
-    opacity: 45%;
-  }
-
-  /* vocals: waveform bars rising from the baseline */
-  .m-programs__card[data-track='vocals'] &__art-motif {
-    inset: auto 6% 14% 6%;
-    background: repeating-linear-gradient(
-      90deg,
-      transparent 0 0.55rem,
-      color-mix(in srgb, var(--ra-sand) 58%, transparent) 0.55rem 0.9rem
-    );
-    height: 44%;
-    -webkit-mask-image: radial-gradient(120% 130% at 50% 100%, #000 30%, transparent 78%);
-    mask-image: radial-gradient(120% 130% at 50% 100%, #000 30%, transparent 78%);
-  }
-
-  /* music theory / core: staff lines + a fifths ring */
-  .m-programs__card[data-track='music-theory'] &__art-motif,
-  .m-programs__card[data-track='method'] &__art-motif {
-    inset: 10% auto 12% 8%;
-    width: 46%;
-    background: repeating-linear-gradient(
-      180deg,
-      transparent 0 1.05rem,
-      color-mix(in srgb, var(--ra-sand) 30%, transparent) 1.05rem calc(1.05rem + 1px)
-    );
-  }
-
-  .m-programs__card[data-track='music-theory'] &__art-motif--b,
-  .m-programs__card[data-track='method'] &__art-motif--b {
-    inset: 14% 10% auto auto;
-    width: 38%;
-    aspect-ratio: 1;
-    height: auto;
-    border: 1px solid color-mix(in srgb, var(--ra-accent) 48%, transparent);
-    border-radius: 50%;
-
-    &::before {
-      position: absolute;
-      inset: 18%;
-      content: "";
-      border: 1px dashed color-mix(in srgb, var(--ra-sand) 34%, transparent);
-      border-radius: 50%;
-    }
-  }
-
-  /* ----- card body ----- */
-
-  &__card-body {
-    position: relative;
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    gap: 0.55rem;
-    padding: 1.35rem 1.5rem 1.6rem;
+  &__instruments {
+    margin: 0;
+    font-family: var(--ra-font-mono);
+    font-size: 0.625rem;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
   }
 
   &__chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-  }
+    gap: 0.35rem;
+    padding: 0;
+    margin: 0.15rem 0 0;
+    list-style: none;
 
-  &__title {
-    margin: 0;
-    font-size: var(--ra-fs-h3);
-    font-family: var(--ra-font-display);
-    font-weight: 500;
-    line-height: 1.25;
-
-    a {
-      display: inline-block;
-      color: var(--ra-ink);
-      text-decoration: none;
-      transition: color var(--ra-dur-fast) var(--ra-ease), transform 0.45s var(--ra-ease);
-    }
-  }
-
-  &__card:hover &__title a,
-  &__card:focus-within &__title a {
-    color: var(--ra-accent-text);
-    transform: translateX(0.3rem);
-  }
-
-  &__meta {
-    margin: 0;
-    font-size: 0.875rem;
-    color: var(--ra-clay-ink);
-
-    a {
+    li {
+      padding: 0.28rem 0.6rem;
+      font-family: var(--ra-font-mono);
+      font-size: 0.5rem;
       color: var(--ra-clay-ink);
-      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: rgb(244 231 206 / 5%);
+      border: 1px solid var(--ra-glass-line);
+      border-radius: 999px;
     }
   }
 
-  /* arrow pinned under the meta, slides in on hover */
-  &__go {
-    align-self: flex-end;
-    margin-top: auto;
-    padding-top: 0.75rem;
-    font-size: 1.35rem;
-    color: var(--ra-accent-text);
+  /* ----- the vinyl behind the centred sleeve (orbit only) ----- */
+  &__vinyl {
+    position: absolute;
+    bottom: 50%;
+    left: 100%;
+    z-index: -1;
+    display: none;
+    width: calc(var(--ra-card-w) * 0.82);
+    aspect-ratio: 1;
+    pointer-events: none;
     opacity: 0%;
-    transform: translateX(-0.9rem);
-    transition: opacity var(--ra-dur-fast) var(--ra-ease), transform 0.45s var(--ra-ease);
+    transform: translate(-60%, 26%);
+    transition:
+      transform 0.9s var(--ra-ease),
+      opacity 0.5s var(--ra-ease);
+
+    i {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%, var(--ra-accent) 0 15%, transparent 15.8%),
+        repeating-radial-gradient(circle at 50% 50%, rgb(244 231 206 / 5%) 0 1px, transparent 1px 4px),
+        radial-gradient(circle at 50% 50%, #16202f 0%, #070c14 100%);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 1px rgb(244 231 206 / 8%),
+        0 24px 60px rgb(0 0 0 / 60%);
+    }
   }
 
-  &__card:hover &__go,
-  &__card:focus-within &__go {
-    opacity: 100%;
-    transform: translateX(0);
+  /* ----- strings, spectrum, scrub: the stage dressing (orbit only) ----- */
+  &__strings {
+    position: absolute;
+    inset: 24% 5% 34%;
+    z-index: 1;
+    display: none;
+    pointer-events: none;
+
+    i {
+      position: absolute;
+      right: 0;
+      left: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgb(214 166 60 / 26%) 18%, rgb(214 166 60 / 26%) 82%, transparent);
+
+      &:nth-child(1) {
+        top: 34%;
+      }
+
+      &:nth-child(2) {
+        top: 62%;
+      }
+    }
+
+    &.is-strum i {
+      animation: ra-strum 0.9s var(--ra-ease) both;
+    }
+
+    &.is-strum i:nth-child(2) {
+      animation-delay: 0.07s;
+    }
   }
 
+  &__spectrum {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  &__scrub {
+    position: absolute;
+    bottom: 0.4rem;
+    left: 50%;
+    display: none;
+    width: min(72%, 26rem);
+    height: 2px;
+    pointer-events: none;
+    background: var(--ra-glass-line);
+    border-radius: 2px;
+    transform: translateX(-50%);
+  }
+
+  &__scrub-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: calc(var(--p, 0) * 100%);
+    background: linear-gradient(90deg, transparent, var(--ra-accent));
+
+    &::after {
+      position: absolute;
+      top: 50%;
+      right: -3px;
+      width: 8px;
+      height: 8px;
+      content: "";
+      background: var(--ra-accent);
+      border-radius: 50%;
+      box-shadow: 0 0 12px 2px var(--ra-glow);
+      transform: translateY(-50%);
+    }
+  }
+
+  /* ----- transport: the player row under the stage (orbit only) ----- */
+  &__transport {
+    display: none;
+    gap: 1.4rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  &__tbtn {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.8rem;
+    color: var(--ra-cream);
+    cursor: pointer;
+    background: var(--ra-glass);
+    border: 1px solid var(--ra-glass-line);
+    border-radius: 50%;
+    transition:
+      border-color var(--ra-dur-fast) var(--ra-ease),
+      color var(--ra-dur-fast) var(--ra-ease);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--ra-accent-text);
+      border-color: var(--ra-ring);
+    }
+  }
+
+  &__counter {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    margin: 0;
+    font-family: var(--ra-font-mono);
+    font-size: 0.625rem;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  &__counter-word {
+    color: var(--ra-accent-text);
+  }
+
+  &__counter-num {
+    font-family: var(--ra-font-lead);
+    font-size: 1.35rem;
+    line-height: 1;
+    color: var(--ra-cream);
+    letter-spacing: 0.04em;
+  }
+
+  &__counter-side {
+    padding: 0.25rem 0.55rem;
+    color: var(--ra-accent-text);
+    border: 1px solid var(--ra-ring);
+    border-radius: 999px;
+  }
+
+  /* ----- orbit mode: JS turns the rail into a 3D band of sleeves ----- */
+  &.is-orbit {
+    .m-programs__index {
+      display: flex;
+    }
+
+    .m-programs__stage {
+      height: calc(var(--ra-card-w) + 11.5rem);
+      touch-action: pan-y;
+      perspective: 1400px;
+    }
+
+    .m-programs__rail {
+      position: absolute;
+      inset: 0;
+      display: block;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      transform-style: preserve-3d;
+    }
+
+    .m-programs__card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--ra-card-w);
+      overflow: visible;
+      opacity: var(--op, 100%);
+      filter: blur(var(--bl, 0));
+      transform: translate(-50%, -50%) translate3d(var(--tx, 0), var(--ty, 0), var(--tz, 0)) rotateY(var(--ry, 0deg)) scale(var(--sc, 1));
+      will-change: transform;
+    }
+
+    .m-programs__art {
+      aspect-ratio: 1 / 1;
+    }
+
+    .m-programs__vinyl {
+      display: block;
+    }
+
+    .m-programs__card.is-center .m-programs__vinyl {
+      opacity: 100%;
+      transform: translate(-30%, 20%);
+    }
+
+    .m-programs__card.is-center .m-programs__vinyl i {
+      animation: ra-spin 6s linear infinite;
+    }
+
+    .m-programs__strings,
+    .m-programs__spectrum,
+    .m-programs__scrub,
+    .m-programs__transport {
+      display: block;
+    }
+
+    .m-programs__transport {
+      display: flex;
+    }
+  }
+
+  /* ----- foot ----- */
   &__foot {
-    margin-top: var(--ra-space-gap);
-    text-align: center;
+    margin-top: 1.25rem;
   }
 
   &__all {
     display: inline-flex;
-    gap: 0.5rem;
+    gap: 0.6rem;
     align-items: center;
-    padding: 0.75rem 1.6rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--ra-ink);
-    text-decoration: none;
+    font-family: var(--ra-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--ra-accent-text);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    border: 1px solid var(--ra-line);
-    border-radius: 999px;
-    transition: color var(--ra-dur-fast) var(--ra-ease), border-color var(--ra-dur-fast) var(--ra-ease), background-color var(--ra-dur-fast) var(--ra-ease);
+    letter-spacing: 0.16em;
+    text-decoration: none;
 
     span {
       transition: transform var(--ra-dur-fast) var(--ra-ease);
     }
 
-    &:hover,
-    &:focus-visible {
-      color: var(--ra-canvas);
-      background: var(--ra-ink);
-      border-color: var(--ra-ink);
-
-      span {
-        transform: translateX(0.3rem);
-      }
+    &:hover span,
+    &:focus-visible span {
+      transform: translateX(0.3rem);
     }
-  }
-
-  &__instrument {
-    color: var(--ra-clay-ink);
   }
 
   &__empty {
     display: grid;
     gap: 1rem;
     justify-items: start;
-    padding: 3rem 0;
+    padding: 2rem 0;
+    color: var(--ra-clay-ink);
+  }
 
-    p {
-      margin: 0;
-      color: var(--ra-clay-ink);
+  @media (width >= 48em) {
+    &__head {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 2.5rem;
+      align-items: end;
+      padding-bottom: 2.25rem;
+    }
+
+    &__count {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    &__scrub {
+      width: min(56%, 30rem);
     }
   }
 }
 
-.c-chip {
-  display: inline-block;
-  padding: 0.2rem 0.65rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--ra-canvas);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: var(--ra-accent);
-  border-radius: 999px;
+@keyframes ra-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-  &--soft {
-    color: var(--ra-accent-ink);
-    background: var(--ra-sand);
+@keyframes ra-strum {
+  0% {
+    filter: brightness(1);
+    transform: translateY(0);
+  }
+
+  12% {
+    filter: brightness(2.2);
+    transform: translateY(-7px);
+  }
+
+  30% {
+    transform: translateY(5px);
+  }
+
+  48% {
+    transform: translateY(-3px);
+  }
+
+  66% {
+    transform: translateY(2px);
+  }
+
+  84% {
+    transform: translateY(-1px);
+  }
+
+  100% {
+    filter: brightness(1);
+    transform: translateY(0);
   }
 }

@@ -1,28 +1,32 @@
 /**
  * Marquee ticker for `[data-ra-marquee]`.
  *
- * JS duplicates the track once (aria-hidden clone) until content fills
- * roughly two viewport widths; the loop itself is a CSS keyframe translating
- * exactly half the track, which keeps the seam invisible. Speed comes from
- * `data-ra-marquee-duration` (seconds); hover pauses via CSS.
+ * The element holds one `.c-marquee__track`. JS appends identical tracks
+ * (aria-hidden) until the row is at least twice the viewport wide. Every
+ * track animates by its own width, so at the end of a cycle the row snaps
+ * back exactly one track — visually identical, seam invisible.
  * No-op under reduced motion.
  */
 import { isReducedMotion } from './raf'
 
 const build = (el: HTMLElement): void => {
-  const original = el.innerHTML
+  const first = el.firstElementChild as HTMLElement | null
+
+  if (! first) {
+    return
+  }
+
+  const width = (): number =>
+    [...el.children].reduce((total, child) => total + (child as HTMLElement).offsetWidth, 0)
 
   let guard = 0
 
-  while (el.scrollWidth < window.innerWidth * 2 && guard < 10) {
-    el.innerHTML += original
+  while ((el.children.length < 2 || width() < window.innerWidth * 2) && guard < 12) {
+    const track = first.cloneNode(true) as HTMLElement
+    track.setAttribute('aria-hidden', 'true')
+    el.appendChild(track)
     guard += 1
   }
-
-  const clone = el.cloneNode(true) as HTMLElement
-  clone.setAttribute('aria-hidden', 'true')
-  clone.classList.add('c-marquee__track--clone')
-  el.parentElement?.appendChild(clone)
 }
 
 export const init = (): void => {

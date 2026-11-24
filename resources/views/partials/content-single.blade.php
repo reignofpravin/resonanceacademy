@@ -1,22 +1,20 @@
-<article @php(post_class('h-entry'))>
-  <header>
-    <h1 class="p-name">
+<article @php(post_class('m-entry__article h-entry'))>
+  <header class="m-entry__head">
+    <h1 class="m-entry__title p-name">
       {!! $title !!}
     </h1>
 
     @include('partials.entry-meta')
   </header>
 
-  <div class="e-content">
+  <div class="m-entry__body e-content">
     @php(the_content())
   </div>
 
   @if ($pagination())
-    <footer>
-      <nav class="page-nav" aria-label="Page">
-        {!! $pagination !!}
-      </nav>
-    </footer>
+    <nav class="m-entry__pagination" aria-label="{{ __('Page', 'ra-theme') }}">
+      {!! $pagination !!}
+    </nav>
   @endif
 
   @php(comments_template())

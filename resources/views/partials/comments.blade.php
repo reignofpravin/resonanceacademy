@@ -1,7 +1,7 @@
 @if (! post_password_required())
   <section id="comments" class="comments">
     @if ($responses())
-      <h2>
+      <h2 class="comments__title">
         {!! $title !!}
       </h2>
 
@@ -10,7 +10,7 @@
       </ol>
 
       @if ($paginated())
-        <nav aria-label="Comment">
+        <nav class="comments__pagination" aria-label="{{ __('Comments', 'ra-theme') }}">
           <ul class="pager">
             @if ($previous())
               <li class="previous">

@@ -17,18 +17,19 @@
 
   &__title {
     margin: 0.5rem 0 0;
-    font-family: var(--ra-font-display);
+    font-family: var(--ra-font-lead);
     font-size: var(--ra-fs-display);
-    font-weight: 500;
-    line-height: var(--ra-leading-tight);
+    font-weight: 400;
+    line-height: 0.95;
     color: var(--ra-ink);
-    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
   }
 
   &__standfirst {
     max-width: 40rem;
     margin: 1rem 0 0;
-    color: rgb(23 19 16 / 72%);
+    color: rgb(244 231 206 / 72%);
   }
 
   /* ----- ticker under the standfirst ----- */
@@ -94,14 +95,15 @@
     align-items: center;
     min-height: 2.375rem;
     padding: 0.4rem 0.9rem;
-    font-family: inherit;
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-family: var(--ra-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
     color: var(--ra-ink);
-    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
     cursor: pointer;
-    background: var(--ra-canvas);
-    border: 1px solid var(--ra-line);
+    background: var(--ra-glass);
+    border: 1px solid var(--ra-glass-line);
     border-radius: 999px;
     transition:
       color var(--ra-dur-fast) var(--ra-ease),
@@ -112,7 +114,7 @@
     }
 
     &:hover {
-      border-color: var(--ra-ink);
+      border-color: var(--ra-ring);
     }
 
     &:focus-visible {
@@ -130,8 +132,8 @@
     font-size: 0.7rem;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-    color: var(--ra-canvas);
-    background: var(--ra-accent-ink);
+    color: var(--ra-night);
+    background: var(--ra-accent);
     border-radius: 999px;
 
     &[hidden] {
@@ -158,7 +160,7 @@
     font-family: inherit;
     font-size: 0.875rem;
     color: var(--ra-ink);
-    background: rgb(23 19 16 / 4%);
+    background: rgb(244 231 206 / 4%);
     border: 1px solid transparent;
     border-radius: 999px;
     transition:
@@ -174,7 +176,7 @@
       outline: none;
       background: var(--ra-canvas);
       border-color: var(--ra-line);
-      box-shadow: 0 0 0 3px rgb(194 94 58 / 14%);
+      box-shadow: 0 0 0 3px rgb(214 166 60 / 14%);
     }
   }
 
@@ -188,7 +190,7 @@
   &__count {
     margin: 0;
     font-size: 0.8125rem;
-    color: rgb(23 19 16 / 62%);
+    color: rgb(244 231 206 / 62%);
     white-space: nowrap;
 
     strong {
@@ -203,7 +205,7 @@
     padding: 0.25rem 0.6rem;
     font-family: inherit;
     font-size: 0.78rem;
-    color: rgb(23 19 16 / 55%);
+    color: rgb(244 231 206 / 55%);
     cursor: pointer;
     background: none;
     border: 1px solid transparent;
@@ -252,11 +254,12 @@
   }
 
   &__group-label {
-    font-size: 0.68rem;
-    font-weight: 700;
+    font-family: var(--ra-font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
     color: var(--ra-clay-ink);
     text-transform: uppercase;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.14em;
   }
 
   &__options {
@@ -271,19 +274,22 @@
     align-items: baseline;
     min-height: 2rem;
     padding: 0.3rem 0.7rem;
-    font-family: inherit;
-    font-size: 0.8125rem;
-    color: var(--ra-ink);
+    font-family: var(--ra-font-mono);
+    font-size: 0.625rem;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     cursor: pointer;
-    background: rgb(23 19 16 / 4%);
-    border: 0;
+    background: var(--ra-glass);
+    border: 1px solid var(--ra-glass-line);
     border-radius: 999px;
     transition:
       color var(--ra-dur-fast) var(--ra-ease),
       background-color var(--ra-dur-fast) var(--ra-ease);
 
     &:hover {
-      background: rgb(23 19 16 / 9%);
+      color: var(--ra-cream);
+      background: var(--ra-glass-strong);
     }
 
     &:focus-visible {
@@ -292,8 +298,9 @@
     }
 
     &.is-active {
-      color: var(--ra-canvas);
-      background: var(--ra-ink);
+      color: var(--ra-accent-text);
+      background: var(--ra-glass-strong);
+      border-color: var(--ra-ring);
     }
   }
 
@@ -326,19 +333,21 @@
 
   &__meta {
     margin: 0 0 0.35rem;
-    font-size: 0.72rem;
-    font-weight: 600;
+    font-family: var(--ra-font-mono);
+    font-size: 0.5625rem;
     color: var(--ra-clay-ink);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
   }
 
   &__row-title {
     margin: 0;
-    font-family: var(--ra-font-display);
-    font-size: var(--ra-fs-h3);
-    font-weight: 500;
-    line-height: var(--ra-leading-tight);
+    font-family: var(--ra-font-lead);
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-weight: 400;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 
     a {
       display: inline-block;
@@ -362,13 +371,13 @@
     -webkit-line-clamp: 2;
     line-clamp: 2;
     font-size: 0.9rem;
-    color: rgb(23 19 16 / 66%);
+    color: rgb(244 231 206 / 66%);
     -webkit-box-orient: vertical;
   }
 
   &__empty {
     padding: 3.5rem 0;
-    color: rgb(23 19 16 / 60%);
+    color: rgb(244 231 206 / 60%);
     border-top: 1px solid var(--ra-line);
 
     p {

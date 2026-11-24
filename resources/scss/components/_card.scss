@@ -8,10 +8,16 @@
   display: grid;
   grid-template-columns: 1fr;
   overflow: hidden;
-  background: var(--ra-canvas);
-  border: 1px solid var(--ra-line);
-  border-radius: var(--ra-radius);
-  box-shadow: var(--ra-shadow);
+  background: var(--ra-glass-strong);
+  border: 1px solid var(--ra-glass-line);
+  border-radius: var(--ra-radius-deck);
+  backdrop-filter: blur(16px);
+  transition: border-color var(--ra-dur-fast) var(--ra-ease);
+
+  &:hover,
+  &:focus-within {
+    border-color: var(--ra-ring);
+  }
 
   &__thumb {
     display: block;
@@ -24,13 +30,37 @@
       object-fit: cover;
     }
 
+    /* No portrait: a monogram plate instead of a stock gradient — the
+       faculty pages stay typographic. */
     &--ph {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: var(--ra-accent-ink);
-      background: linear-gradient(135deg, var(--ra-sand), var(--ra-clay));
+      position: relative;
+      display: grid;
+      place-items: center;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      font-family: var(--ra-font-display);
+      font-size: clamp(4.5rem, 7vw, 7rem);
+      line-height: 1;
+      color: rgb(244 231 206 / 12%);
+      background:
+        radial-gradient(circle at 50% 118%, var(--ra-glow), transparent 62%),
+        var(--ra-panel);
+
+      &::after {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        font-family: var(--ra-font-sans);
+        font-size: 0.7rem;
+        color: var(--ra-accent-ink);
+        content: "♪";
+        border: 1px solid var(--ra-line);
+        border-radius: 50%;
+      }
     }
   }
 
@@ -53,10 +83,15 @@
 
   &__title {
     margin: 0;
-    font-size: var(--ra-fs-h3);
+    font-family: var(--ra-font-lead);
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-weight: 400;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 
     a {
-      color: var(--ra-ink);
+      color: var(--ra-cream);
       text-decoration: none;
 
       &:hover,
@@ -68,17 +103,19 @@
 
   &__excerpt {
     margin: 0;
-    color: rgb(23 19 16 / 72%);
+    color: rgb(244 231 206 / 72%);
   }
 
   &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.9rem;
     margin: 0;
-    font-size: 0.9rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.625rem;
     color: var(--ra-clay-ink);
-
-    span + span {
-      margin-left: 0.6rem;
-    }
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
   }
 
   &__actions {
@@ -97,5 +134,25 @@
     &:focus-visible {
       color: var(--ra-accent-text);
     }
+  }
+}
+
+/* Micro pills used on course cards and the single-course header. */
+.c-chip {
+  display: inline-block;
+  padding: 0.28rem 0.6rem;
+  font-family: var(--ra-font-mono);
+  font-size: 0.5rem;
+  color: var(--ra-accent-text);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: rgb(214 166 60 / 8%);
+  border: 1px solid var(--ra-ring);
+  border-radius: 999px;
+
+  &--soft {
+    color: var(--ra-clay-ink);
+    background: rgb(244 231 206 / 5%);
+    border-color: var(--ra-glass-line);
   }
 }

@@ -1,13 +1,21 @@
 /* =========================================================
-   Module: m-contact — contact split panel with CF7 embed
+   Module: m-contact — the lit "stage door" inversion.
+   A lifted ink panel closing a night site: cream type,
+   brass CTAs, and a CF7 embed that reads like a frosted form.
    ========================================================= */
 
 .m-contact {
+  --ra-canvas: var(--ra-panel);
+
   position: relative;
   z-index: 1;
   padding: calc(var(--ra-space-section) * 1.25) 0 var(--ra-space-section);
   margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
-  background: var(--ra-sand);
+  color: var(--ra-ink);
+  background:
+    radial-gradient(60% 46% at 78% 0%, var(--ra-cloud), transparent 72%),
+    var(--ra-panel);
+  border-top: 1px solid var(--ra-glass-line);
   border-radius: 2rem 2rem 0 0;
 
   &__inner {
@@ -28,17 +36,63 @@
 
   &__heading {
     margin: 0;
+    color: var(--ra-ink);
   }
 
   &__text {
     max-width: 32rem;
     margin: 0;
-    color: rgb(23 19 16 / 78%);
+    color: rgb(244 231 206 / 72%);
+  }
+
+  .c-kicker {
+    color: var(--ra-accent-text);
   }
 
   /* no panel chrome: the form lives directly on the band */
   &__form {
     padding-top: 0.5rem;
+  }
+
+  /* The desk details: hairline rows that fill the copy column. */
+  &__details {
+    display: grid;
+    max-width: 32rem;
+    margin: 0.35rem 0 0;
+    border-top: 1px solid var(--ra-line);
+
+    > div {
+      display: grid;
+      grid-template-columns: 5.5rem minmax(0, 1fr);
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--ra-line);
+    }
+
+    dt {
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--ra-clay-ink);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    dd {
+      margin: 0;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    a {
+      color: var(--ra-ink);
+      text-decoration-color: rgb(244 231 206 / 35%);
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-accent-text);
+      }
+    }
   }
 
   &__fallback {
@@ -55,7 +109,7 @@
 
   &__fallback-text {
     margin: 0;
-    color: var(--ra-clay-ink);
+    color: rgb(244 231 206 / 70%);
   }
 }
 
@@ -63,46 +117,82 @@
 .m-contact__form .wpcf7 {
   form {
     display: grid;
-    gap: 1rem;
+    gap: 1.15rem;
+  }
+
+  /* CF7 wraps every field in a <p>; bootstrap gives those paragraphs
+     margins that open a gap between label and field. */
+  p {
+    margin: 0;
+  }
+
+  /* Microlabel above a boxed field, the way the reference forms read. */
+  label {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  .wpcf7-form-control-wrap {
+    display: block;
+    margin-top: 0.45rem;
   }
 
   .wpcf7-form-control:not([type='submit']) {
     width: 100%;
     max-width: 100%;
-    padding: 0.85rem 0 0.7rem;
+    padding: 0.8rem 1rem;
     font-family: var(--ra-font-sans);
-    background: transparent;
-    border: 0;
-    border-bottom: 1px solid rgb(23 19 16 / 25%);
-    border-radius: 0;
-    transition: border-color var(--ra-dur-fast) var(--ra-ease);
+    color: var(--ra-ink);
+    background: var(--ra-glass);
+    border: 1px solid var(--ra-glass-line);
+    border-radius: 0.75rem;
+    transition:
+      border-color var(--ra-dur-fast) var(--ra-ease),
+      background-color var(--ra-dur-fast) var(--ra-ease);
+
+    &::placeholder {
+      color: rgb(244 231 206 / 40%);
+    }
 
     &:focus {
       outline: none;
-      border-bottom-color: var(--ra-accent);
+      background: var(--ra-glass-strong);
+      border-color: var(--ra-ring);
     }
+  }
+
+  textarea.wpcf7-form-control {
+    height: 6.5rem;
+    resize: vertical;
   }
 
   .wpcf7-form .submit,
   [type='submit'] {
-    padding: 0.75rem 2rem;
-    font-family: var(--ra-font-sans);
-    font-weight: 600;
-    color: var(--ra-canvas);
+    padding: 0.85rem 2rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ra-night);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
     cursor: pointer;
     background: var(--ra-accent);
     border: 0;
     border-radius: 999px;
-    transition: background var(--ra-dur-fast) var(--ra-ease);
+    transition: background-color var(--ra-dur-fast) var(--ra-ease);
 
     &:hover {
-      background: var(--ra-accent-ink);
+      background: var(--ra-accent-text);
     }
   }
 
   .wpcf7-not-valid-tip {
     font-size: 0.85rem;
-    color: var(--ra-accent-ink);
+    color: #e08c6d;
   }
 
   .wpcf7-response-output {

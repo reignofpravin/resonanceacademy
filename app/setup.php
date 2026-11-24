@@ -16,6 +16,25 @@ use App\PostTypes\PostTypes;
 add_action('init', [PostTypes::class, 'register'], 5);
 
 /**
+ * Resolve bare in-page anchors in menus against the home page.
+ *
+ * Menus render on every page, but a custom link like "Contact" → "#contact"
+ * can only work on the page that owns that section. Rewriting it on output
+ * keeps the stored menu item portable and stops dead anchors on every other
+ * page without touching content.
+ *
+ * @param  object  $item  Nav menu item.
+ * @return object
+ */
+add_filter('wp_setup_nav_menu_item', function ($item) {
+    if (isset($item->url) && str_starts_with((string) $item->url, '#')) {
+        $item->url = home_url('/'.$item->url);
+    }
+
+    return $item;
+});
+
+/**
  * Inject styles into the block editor.
  *
  * @return array

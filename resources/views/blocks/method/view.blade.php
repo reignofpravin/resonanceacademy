@@ -1,4 +1,4 @@
-<section {!! get_block_wrapper_attributes(['class' => 'm-method', 'data-ra-block' => 'method']) !!}>
+<section {!! get_block_wrapper_attributes(['class' => 'm-method', 'id' => 'method', 'data-ra-block' => 'method']) !!}>
     <div class="container">
         <div class="m-method__inner">
             <div class="m-method__sticky">

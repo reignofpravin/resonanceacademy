@@ -1,7 +1,6 @@
 /* =========================================================
-   Module: m-method — ink band, call-and-response
-   Sticky statement on the left, numbered movements flowing
-   past on the right. Rounded top overlaps the section above.
+   Module: m-method — three movements on a raised panel
+   Sticky statement left, numbered movements flowing right.
    ========================================================= */
 
 .m-method {
@@ -9,8 +8,8 @@
   z-index: 1;
   padding: var(--ra-space-section) 0;
   margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
-  color: var(--ra-canvas);
-  background: var(--ra-ink);
+  background: var(--ra-panel);
+  border-top: 1px solid var(--ra-line);
   border-radius: 2rem 2rem 0 0;
 
   &__inner {
@@ -34,31 +33,30 @@
   &__heading {
     max-width: 26rem;
     margin: 0;
-    color: var(--ra-canvas);
   }
 
   &__media {
     position: relative;
-    min-height: 12rem;
 
     img {
       display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--ra-line);
+      border-radius: var(--ra-radius);
     }
   }
 
+  /* No photo in the block: the clef becomes a large faint watermark. */
   &__clef {
-    position: absolute;
-    top: 1.5rem;
-    right: 0;
-    width: 1.75rem;
-    opacity: 40%;
-  }
+    width: 2.5rem;
+    color: var(--ra-accent);
+    opacity: 30%;
 
-  .c-kicker {
-    color: rgb(247 243 236 / 55%);
-
-    &::before {
-      background: var(--ra-accent);
+    .c-icon {
+      display: block;
+      width: 100%;
+      height: auto;
     }
   }
 
@@ -76,20 +74,29 @@
     grid-template-columns: 4.5rem 1fr;
     gap: 1.25rem;
     padding: 2rem 0 2rem 1.5rem;
-    border-top: 1px solid rgb(247 243 236 / 16%);
+    border-top: 1px solid var(--ra-line);
 
     &:first-child {
       border-top-color: var(--ra-accent);
     }
   }
 
+  /* Outlined serif numerals as watermarks, cream when the row is entered. */
   &__num {
-    padding-top: 0.4rem;
+    padding-top: 0.2rem;
     font-family: var(--ra-font-display);
-    font-size: 1.35rem;
+    font-size: clamp(2.5rem, 4.5vw, 3.5rem);
     font-weight: 500;
     line-height: 1;
-    color: var(--ra-accent-text);
+    color: transparent;
+    letter-spacing: -0.02em;
+    -webkit-text-stroke: 1px rgb(244 231 206 / 32%);
+    transition: color var(--ra-dur-med) var(--ra-ease);
+  }
+
+  &__step:hover &__num {
+    color: var(--ra-accent);
+    -webkit-text-stroke-color: var(--ra-accent);
   }
 
   &__step-title {
@@ -99,10 +106,18 @@
 
   &__step-text {
     margin: 0;
-    color: rgb(247 243 236 / 72%);
+    color: rgb(244 231 206 / 70%);
   }
 
   &__empty p {
-    color: rgb(247 243 236 / 55%);
+    color: var(--ra-clay-ink);
+  }
+
+  @media (width <= 47.99em) {
+    &__step {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      padding-left: 0;
+    }
   }
 }

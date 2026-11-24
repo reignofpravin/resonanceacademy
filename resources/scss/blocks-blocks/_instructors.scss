@@ -18,12 +18,17 @@
   }
 
   &__track {
+    /* First card lines up with the container above it; the strip still bleeds
+       to the right edge. scroll-padding keeps snapping on that same line. */
+    --ra-track-pad: max(var(--ra-container-pad), calc((100vw - var(--ra-container)) / 2));
+
     display: flex;
     gap: var(--ra-space-gap);
-    padding: 0.25rem var(--ra-container-pad);
+    padding: 0.25rem var(--ra-track-pad);
     overflow-x: auto;
     scroll-behavior: smooth;
     scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--ra-track-pad);
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
@@ -35,14 +40,29 @@
     display: grid;
     flex: 0 0 min(21rem, 78vw);
     grid-template-columns: 1fr;
+    padding: 0.8rem;
     scroll-snap-align: start;
+    background: var(--ra-glass);
+    border: 1px solid var(--ra-glass-line);
+    border-radius: var(--ra-radius-deck);
+    backdrop-filter: blur(16px);
+    transition: border-color var(--ra-dur-fast) var(--ra-ease);
+
+    &:hover,
+    &:focus-within {
+      border-color: var(--ra-ring);
+
+      .m-instructors__photo img {
+        transform: scale(1.04);
+      }
+    }
   }
 
   &__photo {
     position: relative;
     height: 15rem;
     overflow: hidden;
-    border-radius: 1rem;
+    border-radius: 1.1rem;
 
     img {
       height: 100%;
@@ -50,38 +70,56 @@
       transition: transform var(--ra-dur-med) var(--ra-ease);
     }
 
-    &--ph::after {
-      position: absolute;
-      inset: 0;
+    &--ph {
       display: grid;
       place-items: center;
-      font-size: 2.5rem;
+      font-family: var(--ra-font-display);
+      font-size: clamp(4.5rem, 8vw, 6.5rem);
+      line-height: 1;
+      color: rgb(244 231 206 / 12%);
+      background:
+        radial-gradient(circle at 50% 120%, var(--ra-glow), transparent 62%),
+        var(--ra-panel);
+      border: 1px solid var(--ra-line);
+    }
+
+    &--ph::after {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 2rem;
+      font-family: var(--ra-font-sans);
+      font-size: 0.7rem;
       color: var(--ra-accent-ink);
       content: "♪";
-      background: linear-gradient(150deg, var(--ra-sand) 20%, var(--ra-clay));
-    }
-  }
-
-  &__card:hover,
-  &__card:focus-within {
-    .m-instructors__photo img {
-      transform: scale(1.04);
+      border: 1px solid var(--ra-line);
+      border-radius: 50%;
     }
   }
 
   &__body {
     display: grid;
     gap: 0.35rem;
-    padding: 1.1rem 0.25rem 0;
+    padding: 1.1rem 0.4rem 0.4rem;
   }
 
   &__role {
-    font-size: 0.7rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
   }
 
   &__name {
     margin: 0;
-    font-size: 1.5rem;
+    font-family: var(--ra-font-lead);
+    font-size: 1.4rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 
     a {
       color: var(--ra-ink);
@@ -97,9 +135,12 @@
 
   &__instruments {
     margin: 0;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--ra-accent-ink);
+    font-family: var(--ra-font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    color: var(--ra-accent-text);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
   }
 
   &__excerpt {
@@ -133,9 +174,10 @@
     height: 2.75rem;
     color: var(--ra-ink);
     cursor: pointer;
-    background: transparent;
-    border: 1px solid var(--ra-line);
+    background: var(--ra-glass);
+    border: 1px solid var(--ra-glass-line);
     border-radius: 50%;
+    backdrop-filter: blur(12px);
     transition: background var(--ra-dur-fast) var(--ra-ease), color var(--ra-dur-fast) var(--ra-ease);
 
     &:hover,

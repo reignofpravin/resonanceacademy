@@ -1,4 +1,4 @@
-<section {!! get_block_wrapper_attributes(['class' => 'm-instructors', 'data-ra-block' => 'instructors']) !!}>
+<section {!! get_block_wrapper_attributes(['class' => 'm-instructors', 'id' => 'faculty', 'data-ra-block' => 'instructors']) !!}>
     <div class="container">
         <header class="m-instructors__header">
             <p class="c-kicker" data-ra-reveal>{{ $kicker }}</p>
@@ -14,7 +14,7 @@
                     <div class="m-instructors__photo">{!! $instructor['thumbnail'] !!}</div>
                 @else
                     <div class="m-instructors__photo m-instructors__photo--ph" aria-hidden="true">
-                        <span>♪</span>
+                        <span>{{ Str::substr($instructor['title'], 0, 1) }}</span>
                     </div>
                 @endif
 

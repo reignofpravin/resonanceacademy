@@ -1,36 +1,51 @@
 /* =========================================================
    Resonance Academy — global design tokens
-   Defined once here; consumed everywhere via var(--ra-…)
+   "After Hours, on ink": blue-black stage, cream type, brass light, frosted glass.
    ========================================================= */
 
 :root {
-  /* Colour */
-  --ra-canvas: #f7f3ec;
-  --ra-ink: #171310;
-  --ra-accent: #c25e3a;
-  --ra-accent-ink: #7c3520;
-  --ra-sand: #efe7da;
-  --ra-clay: #b9a894;
+  /* Colour — the house lights are down over a cold ink stage */
+  --ra-night: #050910;
+  --ra-canvas: var(--ra-night);
+  --ra-panel: #0b1220;
+  --ra-sand: var(--ra-panel); /* legacy alias: alternate bands become panels */
+  --ra-ink: #f4e7ce;
+  --ra-cream: #f4e7ce;
+  --ra-accent: #d6a63c;
+  --ra-accent-ink: #b8892a;
+  --ra-accent-text: #e7c266;
+  --ra-ember: #c25e3a;
+  --ra-clay: #8a7457;
+  --ra-clay-ink: #b7a78e; /* muted cream, 4.6:1 on night */
+  --ra-line: rgb(244 231 206 / 14%);
+  --ra-line-strong: rgb(244 231 206 / 28%);
+  --ra-glow: rgb(214 166 60 / 16%);
 
-  /* Text-safe variants: --ra-clay and --ra-accent are decorative
-     (hairlines, dots, gradients) and too light for body copy.
-     These clear WCAG AA 4.5:1 on both canvas and sand. */
-  --ra-clay-ink: #6f5f50;
-  --ra-accent-text: #a04a2a;
-  --ra-line: rgb(23 19 16 / 12%);
+  /* Glass & atmosphere — the frosted cards and the darkened corners */
+  --ra-glass: rgb(210 226 255 / 5%);
+  --ra-glass-strong: rgb(210 226 255 / 9%);
+  --ra-glass-line: rgb(210 226 255 / 14%);
+  --ra-veil: rgb(5 9 16 / 92%); /* scrolled-header band, matched to night */
+  --ra-vignette: rgb(1 4 9 / 62%);
+  --ra-ring: rgb(214 166 60 / 30%);
+  --ra-cloud: rgb(56 108 190 / 14%); /* cold ink-cloud glow behind sections */
 
   /* Shape & depth */
   --ra-radius: 1.25rem;
   --ra-radius-sm: 0.5rem;
-  --ra-shadow: 0 12px 40px rgb(23 19 16 / 8%);
+  --ra-radius-deck: 1.75rem; /* frosted deck cards: the reel's softer corner */
+  --ra-shadow: 0 24px 80px rgb(0 0 0 / 55%);
 
   /* Type */
   --ra-font-display: "Fraunces", georgia, "Times New Roman", serif;
+  --ra-font-lead: "Anton", "Instrument Sans", "Arial Narrow", arial, sans-serif;
   --ra-font-sans: "Instrument Sans", "Helvetica Neue", arial, sans-serif;
+  --ra-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", menlo, consolas, monospace;
 
-  --ra-fs-display: clamp(3rem, 8vw, 7rem);
-  --ra-fs-h2: clamp(2rem, 4.5vw, 3.5rem);
-  --ra-fs-h3: clamp(1.25rem, 2.2vw, 1.75rem);
+  --ra-fs-mega: clamp(4.25rem, 15vw, 16rem);
+  --ra-fs-display: clamp(2.75rem, 7.5vw, 6.5rem);
+  --ra-fs-h2: clamp(1.9rem, 4vw, 3.25rem);
+  --ra-fs-h3: clamp(1.2rem, 2vw, 1.6rem);
   --ra-fs-body: 1.0625rem;
 
   --ra-leading-tight: 1.05;

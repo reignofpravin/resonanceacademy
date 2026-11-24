@@ -22,6 +22,45 @@
   }
 }
 
+/* ---- Reveal motion (all of it off under reduced motion) ---- */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---- Word-through-mask reveals ([data-ra-split], set up by text-reveal.ts) ---- */
+
+    .has-js [data-ra-split].is-split .c-word {
+      display: inline-block;
+      padding-bottom: 0.14em;
+      margin-bottom: -0.14em;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+
+    .has-js [data-ra-split].is-split .c-word__inner {
+      display: inline-block;
+      transform: translate3d(0, 108%, 0);
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: calc(var(--ra-word-index, 0) * 0.055s);
+    }
+
+    .has-js [data-ra-split].is-split.is-revealed .c-word__inner {
+      transform: none;
+    }
+
+  /* ---- Photographs unmask from the top as their block reveals ---- */
+
+    .has-js [data-ra-reveal] .c-card__thumb img,
+    .has-js [data-ra-reveal] .m-instructors__photo img {
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 0.95s cubic-bezier(0.22, 1, 0.36, 1) var(--ra-reveal-delay, 0s);
+    }
+
+    .has-js [data-ra-reveal].is-revealed .c-card__thumb img,
+    .has-js [data-ra-reveal].is-revealed .m-instructors__photo img {
+      clip-path: inset(0 0 0 0);
+    }
+
+}
+
 /* ---- Anchor jumps: measure against the collapsed header ---- */
 
 .is-anchor-jump .m-header,

@@ -1,6 +1,6 @@
-<article @php(post_class())>
-  <header>
-    <h2 class="entry-title">
+<article @php(post_class('m-entry__result'))>
+  <header class="m-entry__result-head">
+    <h2 class="m-entry__result-title entry-title">
       <a href="{{ get_permalink() }}">
         {!! $title !!}
       </a>
@@ -9,7 +9,7 @@
     @includeWhen(get_post_type() === 'post', 'partials.entry-meta')
   </header>
 
-  <div class="entry-summary">
+  <div class="m-entry__result-summary entry-summary">
     @php(the_excerpt())
   </div>
 </article>

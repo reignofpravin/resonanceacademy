@@ -27,10 +27,10 @@ final class HeaderFooter
             'ra_cta_text' => 'Enquire',
             'ra_cta_url' => '#contact',
             'ra_footer_tagline' => 'Musicians made here.',
-            'ra_footer_email' => 'hello@resonance-academy.local',
-            'ra_footer_phone' => '+1 (555) 010-8240',
-            'ra_footer_address' => "Resonance Hall\n42B Harding Mews\nLondon E2 0HA",
-            'ra_footer_hours' => "Mon–Fri · 9am–7pm\nSat · 10am–4pm\nSun · Closed",
+            'ra_footer_email' => 'hello@resonanceacademy.com',
+            'ra_footer_phone' => '+977 1 555 0123',
+            'ra_footer_address' => "Resonance Hall\nJhamsikhel, Lalitpur\nNepal",
+            'ra_footer_hours' => "Sun–Fri · 9am–7pm\nSat · Closed",
             'ra_social_instagram' => '',
             'ra_social_youtube' => '',
             'ra_social_spotify' => '',
@@ -74,6 +74,20 @@ final class HeaderFooter
     public static function value(string $key): string
     {
         return (string) get_theme_mod($key, self::defaults()[$key] ?? '');
+    }
+
+    /**
+     * Configured link, resolved for use outside the page that owns its target.
+     *
+     * A bare in-page anchor ("#contact") only works on the page that contains
+     * that section, but the header CTA renders on every page — so point it at
+     * the home page fragment instead of a dead anchor.
+     */
+    public static function link(string $key): string
+    {
+        $url = trim(self::value($key));
+
+        return str_starts_with($url, '#') ? home_url('/'.$url) : $url;
     }
 
     /**

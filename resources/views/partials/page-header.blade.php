@@ -1,3 +1,3 @@
-<div class="page-header">
-  <h1>{!! $title !!}</h1>
-</div>
+<header class="m-entry__head">
+  <h1 class="m-entry__title">{!! $title !!}</h1>
+</header>

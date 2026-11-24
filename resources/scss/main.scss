@@ -36,6 +36,7 @@
 @import "base";
 @import "typography";
 @import "archive-single";
+@import "entry";
 @import "catalog";
 
 /* ---- 4. Components (c-*) ---- */
@@ -47,6 +48,7 @@
 @import "components/skip-link";
 @import "components/card";
 @import "components/icon";
+@import "components/entry-meta";
 @import "components/marquee";
 
 /* ---- 5. Site frame modules (m-*) ---- */

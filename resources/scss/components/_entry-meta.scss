@@ -1,0 +1,25 @@
+/* =============================================
+   Component: c-entry-meta
+   Description: date + author line under entry titles
+   ============================================= */
+
+.c-entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  align-items: baseline;
+  margin-top: 0.85rem;
+  font-size: 0.875rem;
+  color: var(--ra-clay-ink);
+
+  &__author {
+    color: var(--ra-accent-text);
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+}

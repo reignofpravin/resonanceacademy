@@ -1,76 +1,137 @@
-<section {!! get_block_wrapper_attributes(['class' => 'm-programs', 'data-ra-block' => 'programs']) !!}>
+@php
+    $total = max(1, count($courses));
+    $side = static fn (int $position): string => $position < (int) ceil($total / 2) ? 'SIDE A' : 'SIDE B';
+@endphp
+<section {!! get_block_wrapper_attributes(['class' => 'm-programs', 'id' => 'programmes']) !!}>
     <div class="container">
-        <header class="m-programs__header">
-            <p class="c-kicker" data-ra-reveal>{{ $kicker }}</p>
-            <h2 class="m-programs__heading" data-ra-reveal>{!! $heading !!}</h2>
+        <header class="m-programs__head">
+            <div class="m-programs__head-copy">
+                <p class="m-programs__eyebrow">
+                    <span class="m-programs__eyebrow-num">02</span>
+                    {{ $kicker }}
+                </p>
+                <h2 class="m-programs__heading">{!! $heading !!}</h2>
+            </div>
 
-            <nav class="m-programs__filters" aria-label="{{ __('Program categories', 'ra-theme') }}">
-                <a href="{{ $archiveUrl }}"
-                   class="m-programs__filter {{ is_tax('course_category') ? '' : 'is-active' }}">
-                    {{ __('All', 'ra-theme') }}
-                </a>
-
-                @foreach ($categories as $category)
-                    <a href="{{ esc_url(get_term_link($category)) }}"
-                       class="m-programs__filter {{ is_tax('course_category', $category->term_id) ? 'is-active' : '' }}">
-                        {{ $category->name }}
-                    </a>
-                @endforeach
-            </nav>
+            <p class="m-programs__count">
+                <span class="m-programs__count-num">{{ str_pad((string) count($courses), 2, '0', STR_PAD_LEFT) }}</span>
+                <span>{{ __('programmes running now', 'ra-theme') }}</span>
+            </p>
         </header>
 
-        <div class="m-programs__list" data-ra-block-programs>
-            @forelse ($courses as $course)
-                @php($track = $course['track'] !== '' ? $course['track'] : 'method')
-                <article
-                    class="m-programs__card"
-                    data-ra-reveal
-                    data-ra-reveal-delay="{{ number_format($loop->iteration * 0.06, 2) }}"
-                    data-track="{{ $track }}"
-                >
-                    <div class="m-programs__art" aria-hidden="true">
-                        <i class="m-programs__art-waves"></i>
-                        <i class="m-programs__art-motif"></i>
-                        <i class="m-programs__art-motif m-programs__art-motif--b"></i>
-                    </div>
+        <nav class="m-programs__filters" aria-label="{{ __('Program categories', 'ra-theme') }}">
+            <a href="{{ $archiveUrl }}"
+               class="m-programs__filter {{ is_tax('course_category') ? '' : 'is-active' }}">
+                {{ __('All', 'ra-theme') }}
+            </a>
 
-                    <div class="m-programs__card-body">
-                        <div class="m-programs__chips">
-                            <span class="c-chip">{{ $course['level'] }}</span>
-                            @if ($course['format'] !== 'group')
-                                <span class="c-chip c-chip--soft">{{ ucfirst($course['format']) }}</span>
-                            @endif
+            @foreach ($categories as $category)
+                <a href="{{ esc_url(get_term_link($category)) }}"
+                   class="m-programs__filter {{ is_tax('course_category', $category->term_id) ? 'is-active' : '' }}">
+                    {{ $category->name }}
+                </a>
+            @endforeach
+        </nav>
+
+        @if ($deckIndex !== [])
+            <nav class="m-programs__index" aria-label="{{ __('Jump to an instrument in the deck', 'ra-theme') }}">
+                @foreach ($deckIndex as $entry)
+                    <button type="button"
+                            class="m-programs__idx"
+                            data-ra-jump="{{ $entry['position'] }}"
+                            data-ra-track="{{ $entry['slug'] }}">
+                        <span class="m-programs__idx-arrow" aria-hidden="true">→</span>
+                        {{ $entry['name'] }}
+                    </button>
+                @endforeach
+            </nav>
+        @endif
+
+        <div class="m-programs__stage"
+             data-ra-deck
+             role="region"
+             aria-roledescription="carousel"
+             aria-label="{{ __('Course deck — drag, or use the arrow keys', 'ra-theme') }}"
+             tabindex="0">
+            <canvas class="m-programs__spectrum" data-ra-spectrum aria-hidden="true"></canvas>
+
+            <div class="m-programs__strings" data-ra-strings aria-hidden="true">
+                <i></i><i></i>
+            </div>
+
+            <div class="m-programs__rail" data-ra-rail>
+                @forelse ($courses as $course)
+                    @php
+                        $chips = array_values(array_filter([
+                            $course['level'] ?? '',
+                            $course['format'] ?? '',
+                            $course['duration'] ?? '',
+                        ]));
+                    @endphp
+
+                    <article class="m-programs__card" data-ra-card
+                             style="--a1: {{ $course['art']['a'] }}; --a2: {{ $course['art']['b'] }}; --a3: {{ $course['art']['c'] }}; --aa: {{ $course['art']['angle'] }}deg;">
+                        <span class="m-programs__vinyl" aria-hidden="true"><i></i></span>
+
+                        <div class="m-programs__art" aria-hidden="true">
+                            <span class="m-programs__num">
+                                {{ __('Track', 'ra-theme') }} {{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}
+                            </span>
                         </div>
 
-                        <h3 class="m-programs__title">
-                            <a href="{{ $course['url'] }}">{{ $course['title'] }}</a>
-                        </h3>
-
-                        <p class="m-programs__meta">
-                            @if ($course['duration'])
-                                <span>{{ $course['duration'] }}</span>
-                            @endif
+                        <div class="m-programs__body">
+                            <h3 class="m-programs__title">
+                                <a href="{{ $course['url'] }}">{{ $course['title'] }}</a>
+                            </h3>
 
                             @if ($course['instruments'])
-                                <span> · {!! $course['instruments'] !!}</span>
+                                <p class="m-programs__instruments">{{ $course['instruments'] }}</p>
                             @endif
-                        </p>
 
-                        <span class="m-programs__go" aria-hidden="true">→</span>
+                            @if ($chips !== [])
+                                <ul class="m-programs__chips">
+                                    @foreach ($chips as $chip)
+                                        <li>{{ $chip }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
+                    </article>
+                @empty
+                    <div class="m-programs__empty">
+                        <p>{{ __('New programs are being tuned up — check back soon.', 'ra-theme') }}</p>
+                        <a class="btn btn-outline-primary" href="{{ $archiveUrl }}">{{ __('Browse all courses', 'ra-theme') }}</a>
                     </div>
-                </article>
-            @empty
-                <div class="m-programs__empty" data-ra-reveal>
-                    <p>{{ __('New programs are being tuned up — check back soon.', 'ra-theme') }}</p>
-                    <a class="btn btn-outline-primary" href="{{ $archiveUrl }}">{{ __('Browse all courses', 'ra-theme') }}</a>
-                </div>
-            @endforelse
+                @endforelse
+            </div>
+
+            <div class="m-programs__scrub" aria-hidden="true">
+                <span class="m-programs__scrub-fill" data-ra-scrub></span>
+            </div>
+        </div>
+
+        <div class="m-programs__transport">
+            <button type="button" class="m-programs__tbtn" data-ra-prev aria-label="{{ __('Previous programme', 'ra-theme') }}">
+                <span aria-hidden="true">←</span>
+            </button>
+
+            <p class="m-programs__counter">
+                <span class="m-programs__counter-word">{{ __('Now playing', 'ra-theme') }}</span>
+                <span class="m-programs__counter-num" data-ra-counter>01</span>
+                <span class="m-programs__counter-total">/ {{ str_pad((string) $total, 2, '0', STR_PAD_LEFT) }}</span>
+                <span class="m-programs__counter-side" data-ra-side>{{ $side(0) }}</span>
+            </p>
+
+            <button type="button" class="m-programs__tbtn" data-ra-next aria-label="{{ __('Next programme', 'ra-theme') }}">
+                <span aria-hidden="true">→</span>
+            </button>
         </div>
 
         @if ($courses !== [])
-            <div class="m-programs__foot" data-ra-reveal>
+            <div class="m-programs__foot">
                 <a class="m-programs__all" href="{{ $archiveUrl }}">
-                    {{ __('Full course catalog', 'ra-theme') }} <span aria-hidden="true">→</span>
+                    {{ __('Full course catalogue', 'ra-theme') }}
+                    <span aria-hidden="true">→</span>
                 </a>
             </div>
         @endif

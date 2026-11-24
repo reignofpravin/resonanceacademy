@@ -2,6 +2,10 @@
    Base — page-level defaults beyond bootstrap reboot
    ========================================================= */
 
+:root {
+  color-scheme: dark;
+}
+
 html {
   scroll-padding-top: 7.5rem; /* sticky header offset for #anchors and :target */
 
@@ -17,8 +21,32 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Ink vignette — the reels letterbox their dark scenes toward the corners.
+   Static, pointer-transparent, sits under the grain and every overlay. */
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  content: "";
+  background: radial-gradient(ellipse 120% 90% at 50% 42%, transparent 52%, var(--ra-vignette) 100%);
+}
+
+/* Film grain over the whole stage. Static (no animation), pointer-transparent,
+   and low enough that type stays crisp. */
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 3.5%;
+}
+
 ::selection {
-  color: var(--ra-canvas);
+  color: var(--ra-night);
   background: var(--ra-accent);
 }
 
@@ -27,7 +55,52 @@ body {
   outline-offset: 3px;
 }
 
+a {
+  color: var(--ra-accent-text);
+  text-decoration-color: rgb(214 166 60 / 45%);
+  text-underline-offset: 0.18em;
+  transition: color var(--ra-dur-fast) var(--ra-ease);
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--ra-cream);
+  text-decoration-color: currentcolor;
+}
+
 img {
   max-width: 100%;
   height: auto;
+}
+
+hr {
+  border-color: var(--ra-line);
+}
+
+/* Hairline rule used between sections and inside lists. */
+.u-rule {
+  height: 1px;
+  background: var(--ra-line);
+}
+
+/* ---- Cursor glow (cursor.ts; pointer devices, no reduced motion) ---- */
+
+.ra-cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 26rem;
+  height: 26rem;
+  margin: -13rem 0 0 -13rem;
+  pointer-events: none;
+  background: radial-gradient(circle, rgb(214 166 60 / 6%), transparent 62%);
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  opacity: 0%;
+  transition: opacity 0.5s var(--ra-ease);
+}
+
+.ra-cursor-glow.is-on {
+  opacity: 100%;
 }

@@ -1,74 +1,614 @@
 /* =========================================================
-   Module: m-hero — editorial hero with canvas waves
+   Module: m-stage — full-height night-stage hero
+   Grid: head / media / copy / mega wordmark / scroll rail
    ========================================================= */
 
-.m-hero {
+.m-stage {
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 82vh;
-  padding: calc(var(--ra-space-section) * 0.75) 0 var(--ra-space-section);
-  overflow: hidden;
-}
+  min-height: 100svh;
+  overflow: clip;
+  background: var(--ra-night);
+  isolation: isolate;
 
-.m-hero__canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  /* A framed stage at desktop widths: the hero reads as a card floating on
+     the page, the way the reference shots inset their hero panel. */
+  --ra-stage-inset: clamp(0.75rem, 1.4vw, 1.5rem);
 
-  &--static {
+  @media (width >= 48em) {
+    min-height: calc(100svh - 6rem - var(--ra-stage-inset) - 2.25rem);
+    margin: var(--ra-stage-inset) var(--ra-stage-inset) 0;
     background:
-      radial-gradient(ellipse at 30% 60%, rgb(194 94 58 / 8%), transparent 60%),
-      radial-gradient(ellipse at 70% 40%, rgb(23 19 16 / 5%), transparent 55%);
+      radial-gradient(ellipse 90% 70% at 60% 0%, rgb(28 52 100 / 34%) 0%, transparent 60%),
+      var(--ra-night);
+    border: 1px solid var(--ra-line);
+    border-radius: clamp(1rem, 1.8vw, 1.75rem);
+    box-shadow:
+      0 40px 120px rgb(0 0 0 / 55%),
+      inset 0 1px 0 rgb(244 231 206 / 6%);
+  }
+
+  /* ----- light ----- */
+  &__glow {
+    position: absolute;
+    inset: -20% -10% auto;
+    z-index: 0;
+    height: 120%;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 40% 38% at 68% 44%, rgb(214 166 60 / 18%), transparent 70%),
+      radial-gradient(ellipse 34% 34% at 30% 60%, rgb(56 108 190 / 16%), transparent 72%),
+      radial-gradient(ellipse 70% 60% at 50% 0%, rgb(244 231 206 / 6%), transparent 70%);
+  }
+
+  /* ----- record grooves behind the medallion ----- */
+  &__grooves {
+    position: absolute;
+    top: 46%;
+    right: -6%;
+    z-index: 0;
+    width: min(64vw, 50rem);
+    aspect-ratio: 1;
+    pointer-events: none;
+    background: repeating-radial-gradient(
+      circle at 50% 50%,
+      rgb(244 231 206 / 7%) 0 1px,
+      transparent 1px 14px
+    );
+    border-radius: 50%;
+    opacity: 55%;
+    mask-image: radial-gradient(circle at 50% 50%, #000 38%, transparent 72%);
+    transform: translateY(-50%);
+  }
+
+  /* ----- layout ----- */
+  &__inner {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-areas:
+      "head"
+      "media"
+      "copy"
+      "word"
+      "rail";
+    grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    min-height: inherit;
+    padding-block: 0.5rem 1.1rem;
+  }
+
+  &__head {
+    display: flex;
+    grid-area: head;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  /* Right-hand stack under the chapter number — the reels carry a column of
+     tiny mono notes beside the headline. */
+  &__aside {
+    display: grid;
+    gap: 0.85rem;
+    justify-items: end;
+    text-align: right;
+  }
+
+  &__notes {
+    display: none;
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+    padding-top: 0.7rem;
+    font-family: var(--ra-font-mono);
+    font-size: 0.5625rem;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    border-top: 1px solid var(--ra-line);
+
+    @media (width >= 62em) {
+      display: grid;
+    }
+
+    span::before {
+      margin-right: 0.6em;
+      color: var(--ra-accent);
+      content: "—";
+    }
+  }
+
+  &__kicker,
+  &__chapter {
+    margin: 0;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+  }
+
+  &__kicker {
+    display: inline-flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  &__pulse {
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--ra-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgb(214 166 60 / 18%);
+  }
+
+  &__chapter em {
+    font-family: var(--ra-font-lead);
+    font-size: 1.35rem;
+    font-style: normal;
+    color: var(--ra-accent);
+    letter-spacing: 0.02em;
+  }
+
+  /* ----- medallion ----- */
+  &__media {
+    position: relative;
+    display: grid;
+    grid-area: media;
+    place-items: center;
+    min-height: 0;
+    padding-block: 1rem;
+  }
+
+  &__media::before {
+    position: absolute;
+    width: 88%;
+    aspect-ratio: 1;
+    pointer-events: none;
+    content: "";
+    background:
+      radial-gradient(circle at 50% 46%, var(--ra-glow), transparent 62%),
+      radial-gradient(circle at 32% 68%, var(--ra-cloud), transparent 70%);
+    border-radius: 50%;
+    filter: blur(22px);
+  }
+
+  &__object::before,
+  &__object::after {
+    position: absolute;
+    pointer-events: none;
+    content: "";
+    border-radius: 50%;
+  }
+
+  /* Two hairline rings halo the medallion — the reel's gilded target. */
+  &__object::before {
+    inset: -1.1rem;
+    border: 1px solid var(--ra-ring);
+  }
+
+  &__object::after {
+    inset: -2.4rem;
+    border: 1px solid rgb(214 166 60 / 10%);
+  }
+
+  &__object {
+    position: relative;
+    z-index: 1;
+    width: min(64vw, 24rem);
+
+    /* Pointer parallax is lerped in JS; the exit transforms are written per
+       scroll frame. Either way no CSS transition — it would smear both. */
+    transform:
+      translate3d(var(--ra-px, 0), calc(var(--ra-py, 0px) + var(--ra-exit-obj, 0px)), 0)
+      rotate(var(--ra-pr, 0deg))
+      scale(var(--ra-exit-scale, 1));
+    will-change: transform;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      mix-blend-mode: screen; /* the JPEG's black plate disappears into the night */
+      mask-image: radial-gradient(circle at 50% 50%, #000 50%, rgb(0 0 0 / 70%) 62%, transparent 72%);
+    }
+  }
+
+  /* ----- rotating badge, pinned to the medallion's rim ----- */
+  &__stamp {
+    position: absolute;
+    right: -9%;
+    bottom: -4%;
+    width: clamp(4.75rem, 7vw, 6.75rem);
+    color: var(--ra-cream);
+    pointer-events: none;
+  }
+
+  &__stamp svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__stamp-text {
+    font-family: var(--ra-font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    fill: currentcolor;
+  }
+
+  &__stamp-ring {
+    stroke: rgb(244 231 206 / 30%);
+    stroke-width: 1;
+  }
+
+  &__stamp-note {
+    stroke: var(--ra-accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  &__stamp-dot {
+    fill: var(--ra-accent);
+  }
+
+  /* ----- copy ----- */
+  &__copy {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-area: copy;
+    gap: 1.1rem;
+    align-content: center;
+    padding-top: 1.5rem;
+    opacity: var(--ra-exit-fade, 100%);
+    transform: translate3d(0, var(--ra-exit-copy, 0), 0);
+    will-change: transform, opacity;
+  }
+
+  &__title {
+    max-width: 15ch;
+    margin: 0;
+    font-size: clamp(2.35rem, 10.5vw, 3.25rem);
+    font-weight: 400; /* Anton is single-weight */
+    line-height: 0.92;
+    letter-spacing: 0.015em;
+  }
+
+  &__lead {
+    max-width: 34rem;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgb(244 231 206 / 72%);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+    margin-top: 0.35rem;
+  }
+
+  /* Trust row under the buttons — hairline chips with a brass pip. */
+  &__dust {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  /* Metallic figure-8 hairlines behind everything (ribbons.ts). */
+  &__ribbons {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 80%;
+  }
+
+  /* Falling light line — the reels' "there is more below" cue. */
+  &__cue {
+    position: relative;
+    display: none;
+    width: 1px;
+    height: 3.4rem;
+    margin-block: 0.5rem 0;
+    overflow: hidden;
+    background: var(--ra-line);
+
+    @media (width >= 48em) {
+      display: block;
+    }
+
+    span {
+      position: absolute;
+      inset: 0 auto auto;
+      width: 1px;
+      height: 55%;
+      background: linear-gradient(rgb(214 166 60 / 0%), var(--ra-accent));
+      animation: ra-cue-fall 2.4s var(--ra-ease) infinite;
+    }
+  }
+
+  @keyframes ra-cue-fall {
+    0% {
+      opacity: 0%;
+      transform: translate3d(0, -110%, 0);
+    }
+
+    25% {
+      opacity: 100%;
+    }
+
+    100% {
+      opacity: 0%;
+      transform: translate3d(0, 210%, 0);
+    }
+  }
+
+  &__medallion img,
+  &__object img {
+    animation: ra-medallion-in 1.3s var(--ra-ease) 0.15s both;
+  }
+
+  @keyframes ra-medallion-in {
+    from {
+      opacity: 0%;
+      filter: blur(10px);
+      transform: scale(0.92);
+    }
+
+    to {
+      opacity: 100%;
+      filter: blur(0);
+      transform: scale(1);
+    }
+  }
+
+  &__facts {
+    display: none;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    padding: 0;
+    margin: 0.4rem 0 0;
+    list-style: none;
+
+    @media (width >= 48em) {
+      display: flex;
+    }
+
+    li {
+      display: inline-flex;
+      gap: 0.45rem;
+      align-items: center;
+      padding: 0.4rem 0.8rem;
+      font-family: var(--ra-font-mono);
+      font-size: 0.5625rem;
+      font-weight: 500;
+      color: var(--ra-clay-ink);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      background: var(--ra-glass);
+      border: 1px solid var(--ra-glass-line);
+      border-radius: 999px;
+    }
+
+    li::before {
+      width: 0.28rem;
+      height: 0.28rem;
+      content: "";
+      background: var(--ra-accent);
+      border-radius: 50%;
+    }
+  }
+
+  /* ----- mega wordmark ----- */
+  &__wordmark {
+    grid-area: word;
+    margin: 1.25rem calc(var(--ra-container-pad) * -1) 0;
+    font-family: var(--ra-font-display);
+    font-size: clamp(3rem, 13.4vw, 13rem);
+    font-weight: 500;
+    line-height: 0.72;
+    color: var(--ra-cream);
+    text-align: center;
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+    user-select: none;
+
+    span {
+      display: inline-block;
+    }
+  }
+
+  /* ----- bottom rail ----- */
+  &__rail {
+    display: grid;
+    grid-area: rail;
+    grid-template-columns: auto minmax(3rem, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding-top: 0.75rem;
+  }
+
+  &__rail-label,
+  &__rail-meta {
+    font-family: var(--ra-font-mono);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    color: var(--ra-clay-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+  }
+
+  &__rail-line {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      var(--ra-accent) var(--ra-progress, 0%),
+      var(--ra-line) var(--ra-progress, 0%)
+    );
+  }
+
+  /* ----- desktop: medallion right, copy left, wordmark across the foot ----- */
+  @media (width >= 48em) {
+    &__inner {
+      grid-template-areas:
+        "head media"
+        "copy media"
+        "word word"
+        "rail rail";
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      padding-block: 0.75rem 1.25rem;
+    }
+
+    &__media {
+      padding-block: 0;
+    }
+
+    &__object {
+      width: min(38vw, 27rem);
+    }
+
+    &__stamp {
+      width: clamp(5.5rem, 8vw, 7.5rem);
+    }
+
+    &__copy {
+      padding: 0 2rem 0 0;
+    }
+
+    &__title {
+      font-size: clamp(2.75rem, 5.4vw, 4.5rem);
+    }
+
+    &__lead {
+      font-size: clamp(1rem, 1.2vw, 1.125rem);
+    }
+
+    &__wordmark {
+      margin-top: 1.5rem;
+    }
+  }
+
+  @media (width >= 62em) {
+    &__copy {
+      padding-right: 4rem;
+    }
+
+    &__title {
+      font-size: clamp(3.25rem, 5.6vw, 4.9rem);
+    }
+  }
+
+  @media (width <= 29.99em) {
+    &__rail-meta {
+      display: none;
+    }
+
+    &__title {
+      font-size: clamp(2rem, 11vw, 2.6rem);
+    }
   }
 }
 
-.m-hero__inner {
-  position: relative;
-  display: grid;
-  gap: var(--ra-space-gap);
+/* ----- motion: one entrance, then drift; all off under reduced motion ----- */
+@media (prefers-reduced-motion: no-preference) {
+  .m-stage__head,
+  .m-stage__copy,
+  .m-stage__rail {
+    animation: ra-stage-rise 0.9s var(--ra-ease) both;
+  }
+
+  .m-stage__head {
+    animation-delay: 0.05s;
+  }
+
+  .m-stage__copy {
+    animation-delay: 0.18s;
+  }
+
+  .m-stage__rail {
+    animation-delay: 0.45s;
+  }
+
+  .m-stage__object {
+    animation: ra-stage-enter 1.4s var(--ra-ease) both;
+  }
+
+  .m-stage__stamp {
+    animation:
+      ra-stage-stamp-in 1.1s var(--ra-ease) 0.2s both,
+      ra-stage-spin 70s linear 1.3s infinite;
+  }
+
+  .m-stage__wordmark span {
+    animation: ra-stage-letter 0.8s var(--ra-ease) both;
+    animation-delay: calc(0.3s + var(--i) * 55ms);
+  }
 }
 
-.m-hero__copy {
-  display: grid;
-  gap: 1.75rem;
-  max-width: 60rem;
+@keyframes ra-stage-rise {
+  from {
+    opacity: 0%;
+    transform: translateY(1.25rem);
+  }
+
+  to {
+    opacity: 100%;
+    transform: translateY(0);
+  }
 }
 
-.m-hero__kicker {
-  margin: 0;
+@keyframes ra-stage-enter {
+  from {
+    opacity: 0%;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 100%;
+    transform: scale(1);
+  }
 }
 
-.m-hero__heading {
-  margin: 0;
+@keyframes ra-stage-stamp-in {
+  from {
+    opacity: 0%;
+    transform: rotate(-40deg) scale(0.7);
+  }
+
+  to {
+    opacity: 100%;
+    transform: rotate(0deg) scale(1);
+  }
 }
 
-.m-hero__lead {
-  max-width: 42rem;
-  margin: 0;
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
-  line-height: var(--ra-leading-body);
+@keyframes ra-stage-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.m-hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.875rem;
-  align-items: center;
-}
+@keyframes ra-stage-letter {
+  from {
+    opacity: 0%;
+    transform: translateY(0.6em);
+  }
 
-.m-hero__scroll-cue {
-  position: absolute;
-  bottom: 1.5rem;
-  left: var(--ra-container-pad);
-  display: inline-flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  align-items: center;
-  font-size: 0.75rem;
-  color: var(--ra-ink);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  to {
+    opacity: 100%;
+    transform: translateY(0);
+  }
 }

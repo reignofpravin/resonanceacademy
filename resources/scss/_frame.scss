@@ -25,8 +25,9 @@
   /* Scrolled: an opaque band, so page content never shows through the gaps
      between the floating plates on its way up. */
   &.is-scrolled {
-    background: var(--ra-canvas);
+    background: var(--ra-veil);
     box-shadow: 0 1px 0 var(--ra-line);
+    backdrop-filter: blur(10px);
   }
 
   &__inner {
@@ -44,33 +45,41 @@
     }
   }
 
-  /* tern floating furniture: one brand box (wordmark + toggle) and one
-     accent-contact box hovering over whatever the page shows beneath. */
+  /* Floating furniture is gone: the header is one transparent band over the
+     stage, then a solid strip once content scrolls beneath it. */
   &__plate {
     position: relative;
     z-index: 50;
     display: flex;
     gap: 1.25rem;
     align-items: center;
-    padding: 0.6rem 1rem;
-    background: var(--ra-canvas);
-    border-radius: 0.375rem;
-    box-shadow: 0 1px 0 rgb(23 19 16 / 6%);
-    transition: box-shadow var(--ra-dur-fast) var(--ra-ease);
+    padding: 0.35rem 0;
+    background: transparent;
   }
 
   &__plate--cta {
-    font-size: 0.8125rem;
-    font-weight: 700;
-    color: var(--ra-canvas);
+    gap: 0.5rem;
+    padding: 0.65rem 1.15rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--ra-night);
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.18em;
     text-decoration: none;
     background: var(--ra-accent);
+    border: 1px solid var(--ra-accent);
+    border-radius: 999px;
+    box-shadow: 0 8px 28px rgb(214 166 60 / 22%);
+    transition:
+      color var(--ra-dur-fast) var(--ra-ease),
+      background-color var(--ra-dur-fast) var(--ra-ease),
+      border-color var(--ra-dur-fast) var(--ra-ease);
 
     &:hover,
     &:focus-visible {
-      background: var(--ra-accent-ink);
+      color: var(--ra-night);
+      background: var(--ra-accent-text);
+      border-color: var(--ra-accent-text);
     }
 
     /* Ultra-narrow screens (Galaxy Fold cover, 280px): the CTA plate
@@ -86,6 +95,59 @@
     gap: 0.6rem;
     align-items: center;
     cursor: pointer;
+  }
+
+  /* Inline navigation replaces the hamburger on desktop. The reel's nav is a
+     frosted pill cluster floating top-right — glass shell, links as sub-pills. */
+  &__nav {
+    display: none;
+
+    @media (width >= 62em) {
+      display: flex;
+      gap: 0.15rem;
+      align-items: center;
+      padding: 0.3rem;
+      background: var(--ra-glass);
+      border: 1px solid var(--ra-glass-line);
+      border-radius: 999px;
+      backdrop-filter: blur(14px);
+    }
+  }
+
+  @media (width >= 62em) {
+    &__toggle {
+      display: none;
+    }
+  }
+
+  &__nav-list {
+    display: flex;
+    gap: 0.15rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    a {
+      display: inline-block;
+      padding: 0.5rem 0.95rem;
+      font-family: var(--ra-font-mono);
+      font-size: 0.625rem;
+      font-weight: 500;
+      color: var(--ra-clay-ink);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      text-decoration: none;
+      border-radius: 999px;
+      transition:
+        color var(--ra-dur-fast) var(--ra-ease),
+        background-color var(--ra-dur-fast) var(--ra-ease);
+
+      &:hover,
+      &:focus-visible {
+        color: var(--ra-cream);
+        background: var(--ra-glass-strong);
+      }
+    }
   }
 
   &__toggle-label {
@@ -123,16 +185,35 @@
     content: "Close";
   }
 
-  /* scrolled: plates lift on a soft shadow while content slides beneath —
-     and the brand plate tucks down to header height so it never hangs
-     over sticky content bars */
-  &.is-scrolled .m-header__plate {
-    box-shadow: 0 10px 30px rgb(23 19 16 / 10%);
+  /* scrolled: the mark shrinks and the brand tucks to header height so it
+     never hangs over pinned content bars */
+  &.is-scrolled .c-logo__mark {
+    width: 2.1rem;
   }
+}
 
-  &.is-scrolled .c-site-logo__img {
-    width: 4.75rem;
+/* Chrome catch of light sweeping the emblem, on hover — like the reference
+   logos under a moving stage light. */
+.c-logo__mark {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    content: "";
+    background: linear-gradient(105deg, transparent 40%, rgb(244 231 206 / 35%) 50%, transparent 60%);
+    mix-blend-mode: screen;
+    transform: translate3d(-120%, 0, 0);
+    transition: transform 0s;
   }
+}
+
+.c-logo:hover .c-logo__mark::after,
+.m-header__brand:hover .c-logo__mark::after {
+  transform: translate3d(120%, 0, 0);
+  transition: transform 0.9s var(--ra-ease);
 }
 
 .c-menu-links {
@@ -173,8 +254,8 @@
   align-content: start;
   justify-content: center;
   padding: calc(var(--ra-header-height, 6rem) + 3rem) var(--ra-container-pad, 1.25rem) 3rem;
-  background: color-mix(in srgb, var(--ra-ink) 78%, transparent);
-  backdrop-filter: blur(6px);
+  background: rgb(5 9 16 / 92%);
+  backdrop-filter: blur(14px);
   animation: ra-menu-backdrop-in 0.35s var(--ra-ease) both;
 
   @media (width <= 47.99em) {
@@ -193,10 +274,10 @@
     width: 2.75rem;
     height: 2.75rem;
     font-size: 1.05rem;
-    color: var(--ra-canvas);
+    color: var(--ra-cream);
     cursor: pointer;
-    background: rgb(255 255 255 / 8%);
-    border: 1px solid rgb(255 255 255 / 22%);
+    background: rgb(244 231 206 / 8%);
+    border: 1px solid var(--ra-line-strong);
     border-radius: 999px;
     backdrop-filter: blur(4px);
     transition: background-color var(--ra-dur-fast) var(--ra-ease), transform var(--ra-dur-fast) var(--ra-ease);
@@ -213,9 +294,10 @@
     gap: 1.4rem;
     align-content: start;
     padding: 2rem 2.25rem 2.5rem;
-    background: var(--ra-canvas);
+    background: var(--ra-panel);
+    border: 1px solid var(--ra-line);
     border-radius: 1rem;
-    box-shadow: 0 24px 60px rgb(23 19 16 / 35%);
+    box-shadow: var(--ra-shadow);
     animation: ra-menu-card-in 0.45s var(--ra-ease) both;
   }
 
@@ -386,8 +468,10 @@ body:has(.c-nav-toggle__checkbox:checked) {
    ============================================= */
 
 .m-site-footer {
+  position: relative;
   padding: clamp(3.5rem, 7vw, 5.5rem) 0 2rem;
   margin-top: var(--ra-space-section);
+  overflow: clip;
   border-top: 1px solid var(--ra-line);
 
   &__inner {
@@ -510,6 +594,23 @@ body:has(.c-nav-toggle__checkbox:checked) {
     margin: 0;
     font-size: 0.875rem;
     color: var(--ra-clay-ink);
+  }
+
+  /* Oversized outlined wordmark as the closing colophon. Decorative only —
+     the real brand lives in the brand block above. */
+  &__colophon {
+    grid-column: 1 / -1;
+    margin: clamp(2.5rem, 6vw, 4.5rem) 0 0;
+    font-family: var(--ra-font-display);
+    font-size: clamp(3.5rem, 15.5vw, 14rem);
+    font-weight: 500;
+    line-height: 0.8;
+    color: transparent;
+    text-align: center;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-text-stroke: 1px rgb(244 231 206 / 26%);
   }
 }
 
