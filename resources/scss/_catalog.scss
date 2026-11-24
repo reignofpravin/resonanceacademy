@@ -348,6 +348,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    cursor: pointer;
     background: var(--ra-panel);
     border: 1px solid var(--ra-line);
     border-radius: var(--ra-radius);
@@ -356,20 +357,24 @@
       border-color 0.45s var(--ra-ease),
       box-shadow 0.45s var(--ra-ease);
 
-    /* coral top-edge that wakes on hover, tinted per track */
+    /* coral top-edge that wakes on hover, tinted per track. Above the
+       stretched title link, but it never eats a click. */
     &::after {
       position: absolute;
       top: 0;
       right: 0;
       left: 0;
+      z-index: 2;
       height: 2px;
+      pointer-events: none;
       content: "";
       background: var(--art);
       opacity: 0%;
       transition: opacity 0.4s var(--ra-ease);
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       border-color: var(--ra-line-strong);
       box-shadow: 0 20px 50px rgb(0 0 0 / 35%);
       transform: translateY(-4px);
@@ -402,6 +407,7 @@
 
   &__card-media {
     position: relative;
+    z-index: 1;
     display: block;
     height: 8.5rem;
     overflow: hidden;
@@ -474,6 +480,16 @@
       color: var(--ra-ink);
       text-decoration: none;
       transition: color var(--ra-dur-fast) var(--ra-ease);
+
+      /* Stretched link: the whole card is the title link's hit area, so the
+         hand cursor and the navigation follow the pointer anywhere on the
+         sleeve, not just over the words. */
+      &::after {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        content: "";
+      }
     }
 
     a:hover,
@@ -496,6 +512,8 @@
   }
 
   &__card-cta {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     gap: 0.45rem;
     align-items: center;
